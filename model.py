@@ -1,9 +1,13 @@
-from flask import Flask
+"""db model for sunsets/user account"""
+
 from flask_sqlalchemy import SQLAlchemy
 
 
 db = SQLAlchemy()
 
+#QUESTION:
+#how is the best way to organize the information in the db.Columns?
+#also with the return .format in __repr__ functions
 
 class User(db.model):
     """A user class"""
@@ -21,10 +25,17 @@ class User(db.model):
     user_pass = db.Column(db.String(30),
                         nullable=False)
 
-    #PUT RELATIONSHIPS HERE
+    #QUESTION:
+    #do i want to order by user_id?
+    photo = db.relationships('Photo',
+                              backref=db.backref('users'))
+
+    favorite = db.relationships('UserFavorite',
+                              backref=db.backref('users'))
+
 
     def __repr__(self):
-        """Shows this information when object is printed"""
+        """Shows this information when user object is printed"""
 
         return '<User id={} name={} email={}'.format(
                                               self.user_id,
@@ -35,6 +46,9 @@ class Airport(db.model):
     """Airports and their information"""
 
     __tablename__ = 'airports'
+
+    #QUESTION:
+    #would it make more sense to use icao code as airport ID?
 
     airport_id = db.Column(db.Integer,
                            primary_key=True,
@@ -50,17 +64,20 @@ class Airport(db.model):
     city = db.Column(db.String(30))
     state = db.Column(db.String(20))
 
-    #PUT RELATIONSHIPS HERE
+
+    #QUESTION:
+    #can this be named photo if the photo in Users is also named photo?
+    photo = db.relationships('Photo',
+                              backref=db.backref('airports'))
+
 
     def __repr__(self):
-        """Shows this information when object is printed"""
+        """Shows this information when airport object is printed"""
 
         return '<Airport id={} code={} city={}'.format(
                                                 self.airport_id,
                                                 self.icao_code,
                                                 self.city)
-
-
 
 
 class UserFavorite(db.model):
@@ -77,25 +94,77 @@ class UserFavorite(db.model):
                             db.ForeignKey('airports.airport_id'))
 
 
-    #PUT RELATIONSHIPS HERE
+    airport = db.relationships('Airport',
+                                backref=db.backref('user_favorites'))
 
 
     def __repr__(self):
+        """Prints information for the user favorite object"""
+
         return '<User id={} user id={} airport={}'.format(
                                                    self.favorite_id,
                                                    self.user_id,
                                                    self.airport_id)
 
 
-
 class Photo(db.model):
     """User's uploaded photo"""
 
+    __tablename__ = 'photos'
+
+    photo_id = db.Column(db.Integer,
+                         primary_key=True,
+                         autoincrement=True)
+    user_id = db.Column(db.Integer,
+                         db.ForeignKey('users.user_id'))
+    airport_id = db.Column(db.Integer,
+                         db.ForeignKey('airports.airport_id'))
+    datetime = db.Column(db.DateTime)
+
+    #QUESTION:
+    #how many characters should i alot for a file name?
+    filename = db.Column(db.String(100))
+
+    #ratings subject to change depending on 2.0/3.0
+    accuracy_rating = db.Column(db.Integer)
+    sunset_rating = db.Column(db.Integer)
+
+    description = db.Column(db.String(150))
 
 
+    user = db.relationships('Photo',
+                              backref=db.backref('users'))
 
-def connect_to_db(app):
-    """"""
 
-    pass
+    def __repr__(self):
+        """shows this when the photo object is printed"""
+
+        return '<Photo id={} user={} date={} airport={}'.format(
+                                                         self.photo_id,
+                                                         self.user_id)
+                                                         self.datetime,
+                                                         self.airport_id)
+
+
+def connect_to_db(app, db_uri='postgresql:///sunsets'):
+    """Connects databse to Flask app"""
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    #prints SQL translation:
+    app.config['SQLALCHEMY_ECHO'] = True
+    #stops the yelling
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    #flask app
+    db.app = app
+    db.init_app(app)
+
+
+if __name__ == '__main__':
+
+    from server import app
+    connect_to_db(app)
+
+    print "CONNECTED TO DB!"
+
+
 
