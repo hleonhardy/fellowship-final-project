@@ -1,6 +1,7 @@
 """Sunsets"""
 
 from model import User, Airport, UserFavorite, Photo
+from model import connect_to_db, db
 #So that we can make jinja not yell at us
 from jinja2 import StrictUndefined
 
@@ -10,8 +11,7 @@ from flask import (Flask,
                    flash,
                    session,
                    jsonify)
-
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 
 
 
@@ -33,7 +33,7 @@ app.jinja_env.undefined = StrictUndefined
 
 
 
-if __name == '__main__':
+if __name__ == '__main__':
 
     app.debug = True
     #doesn't cache templates, etc in debug mode:

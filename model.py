@@ -1,5 +1,6 @@
 """db model for sunsets/user account"""
 
+
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -9,7 +10,7 @@ db = SQLAlchemy()
 #how is the best way to organize the information in the db.Columns?
 #also with the return .format in __repr__ functions
 
-class User(db.model):
+class User(db.Model):
     """A user class"""
 
     __tablename__ = 'users'
@@ -27,10 +28,10 @@ class User(db.model):
 
     #QUESTION:
     #do i want to order by user_id?
-    photo = db.relationships('Photo',
+    photo = db.relationship('Photo',
                               backref=db.backref('users'))
 
-    favorite = db.relationships('UserFavorite',
+    favorite = db.relationship('UserFavorite',
                               backref=db.backref('users'))
 
 
@@ -42,7 +43,7 @@ class User(db.model):
                                               self.user_name,
                                               self.user_email)
 
-class Airport(db.model):
+class Airport(db.Model):
     """Airports and their information"""
 
     __tablename__ = 'airports'
@@ -67,7 +68,7 @@ class Airport(db.model):
 
     #QUESTION:
     #can this be named photo if the photo in Users is also named photo?
-    photo = db.relationships('Photo',
+    photo = db.relationship('Photo',
                               backref=db.backref('airports'))
 
 
@@ -80,7 +81,7 @@ class Airport(db.model):
                                                 self.city)
 
 
-class UserFavorite(db.model):
+class UserFavorite(db.Model):
     """User's favorite airports"""
 
     __tablename__ = 'user_favorites'
@@ -94,7 +95,7 @@ class UserFavorite(db.model):
                             db.ForeignKey('airports.airport_id'))
 
 
-    airport = db.relationships('Airport',
+    airport = db.relationship('Airport',
                                 backref=db.backref('user_favorites'))
 
 
@@ -107,7 +108,7 @@ class UserFavorite(db.model):
                                                    self.airport_id)
 
 
-class Photo(db.model):
+class Photo(db.Model):
     """User's uploaded photo"""
 
     __tablename__ = 'photos'
@@ -132,7 +133,7 @@ class Photo(db.model):
     description = db.Column(db.String(150))
 
 
-    user = db.relationships('Photo',
+    user = db.relationship('Photo',
                               backref=db.backref('users'))
 
 
@@ -149,6 +150,9 @@ class Photo(db.model):
 def connect_to_db(app, db_uri='postgresql:///sunsets'):
     """Connects databse to Flask app"""
 
+    #sunsets is the name of the db when doing createdb
+    #set sunsets to default so that we can have the option
+    #of using a test database :)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     #prints SQL translation:
     app.config['SQLALCHEMY_ECHO'] = True
@@ -158,11 +162,14 @@ def connect_to_db(app, db_uri='postgresql:///sunsets'):
     db.app = app
     db.init_app(app)
 
+    db.create_all()
+
 
 if __name__ == '__main__':
 
     from server import app
     connect_to_db(app)
+
 
     print "CONNECTED TO DB!"
 
