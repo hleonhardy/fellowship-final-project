@@ -11,7 +11,7 @@ from flask import (Flask,
                    flash,
                    session,
                    jsonify)
-# from flask_debugtoolbar import DebugToolbarExtension
+from flask_debugtoolbar import DebugToolbarExtension
 
 
 
@@ -24,12 +24,12 @@ app.jinja_env.undefined = StrictUndefined
 
 
 
-# @app.route('/')
-# def index():
-#     """homepage"""
+@app.route('/')
+def index():
+    """homepage"""
 
 
-#     return render_template(homepage.html)
+    return render_template('homepage.html')
 
 
 
