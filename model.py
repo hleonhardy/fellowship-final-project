@@ -28,11 +28,11 @@ class User(db.Model):
 
     #QUESTION:
     #do i want to order by user_id?
-    photo = db.relationship('Photo',
-                              backref=db.backref('users'))
+    photos = db.relationship('Photo',
+                              backref=db.backref('user'))
 
-    favorite = db.relationship('UserFavorite',
-                              backref=db.backref('users'))
+    favorites = db.relationship('UserFavorite',
+                              backref=db.backref('user'))
 
 
     def __repr__(self):
@@ -68,8 +68,8 @@ class Airport(db.Model):
 
     #QUESTION:
     #can this be named photo if the photo in Users is also named photo?
-    photo = db.relationship('Photo',
-                              backref=db.backref('airports'))
+    photos = db.relationship('Photo',
+                              backref=db.backref('airport'))
 
 
     def __repr__(self):
@@ -94,9 +94,12 @@ class UserFavorite(db.Model):
     airport_id = db.Column(db.Integer,
                             db.ForeignKey('airports.airport_id'))
 
+    #I couldn't find a reason to use a backref here because why would you want
+    #to reference who favorited the airport.
+    #Actually, I guess thats something you could want.
+    #I'll leave this note in incase I decide to do that in the future.
 
-    airport = db.relationship('Airport',
-                                backref=db.backref('user_favorites'))
+    airports = db.relationship('Airport')
 
 
     def __repr__(self):
@@ -133,8 +136,8 @@ class Photo(db.Model):
     description = db.Column(db.String(150))
 
 
-    user = db.relationship('Photo',
-                              backref=db.backref('users'))
+    user = db.relationship('User',
+                              backref=db.backref('photos'))
 
 
     def __repr__(self):
