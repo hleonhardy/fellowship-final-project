@@ -141,7 +141,7 @@ class Photo(db.model):
 
         return '<Photo id={} user={} date={} airport={}'.format(
                                                          self.photo_id,
-                                                         self.user_id)
+                                                         self.user_id,
                                                          self.datetime,
                                                          self.airport_id)
 
