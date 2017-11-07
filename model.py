@@ -29,10 +29,10 @@ class User(db.Model):
     #QUESTION:
     #do i want to order by user_id?
     photos = db.relationship('Photo',
-                              backref=db.backref('user'))
+                              backref=db.backref('user_of_photo'))
 
     favorites = db.relationship('UserFavorite',
-                              backref=db.backref('user'))
+                              backref=db.backref('user_of_favorite'))
 
 
     def __repr__(self):
@@ -54,16 +54,22 @@ class Airport(db.Model):
     airport_id = db.Column(db.Integer,
                            primary_key=True,
                            autoincrement=True)
+
     icao_code = db.Column(db.String(10),
                            nullable=False,
                            unique=True)
-    lattitude = db.Column(db.Integer,
-                           nullable=False)
-    longitude = db.Column(db.Integer,
-                           nullable=False)
+
+    lattitude = db.Column(db.Float, nullable=False)
+
+    longitude = db.Column(db.Float, nullable=False)
+
     airport_name = db.Column(db.String(50))
+
     city = db.Column(db.String(30))
+
     state = db.Column(db.String(20))
+
+    # country = db.Column(db.String(20), nullable=True)
 
 
     #QUESTION:
@@ -137,7 +143,7 @@ class Photo(db.Model):
 
 
     user = db.relationship('User',
-                              backref=db.backref('photos'))
+                              backref=db.backref('user_photos'))
 
 
     def __repr__(self):
