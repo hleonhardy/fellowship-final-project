@@ -28,8 +28,28 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """homepage"""
 
-
     return render_template('homepage.html')
+
+
+@app.route('/location')
+def get_prediction():
+  """Form for entering location (for now)"""
+
+  return render_template('location.html')
+
+
+@app.route('/prediction')
+def show_prediction():
+    """Displays prediction (information for now)"""
+
+    code = str(request.args.get('icao'))
+
+    # airport_obj = Airport.query.filter(Airport.icao_code == code)
+    airport_obj = Airport.query.filter(Airport.icao_code == code).one()
+
+
+    return render_template('prediction.html', icao_code=code, airport_obj=airport_obj)
+
 
 
 

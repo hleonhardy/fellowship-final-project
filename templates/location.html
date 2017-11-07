@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Location {% endblock %}
+
+{% block content %}
+
+<h1> Location </h1>
+
+<form action='/prediction'>
+    Enter 4 letter airport icao code:<br>
+    <input type="text" name="icao"> 
+
+</form>
+
+{% endblock %}

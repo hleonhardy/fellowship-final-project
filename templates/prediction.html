@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} Sunset Prediction {% endblock %}
+
+{% block content %}
+
+<h1> Here is my prediction. </h1>
+
+<p> {{ icao_code }} </p>
+<p>
+{{ airport_obj.icao_code }}<br>
+{{ airport_obj.airport_name }}<br>
+</p>
+{% endblock %}
