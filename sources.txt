@@ -1,0 +1,6 @@
+SOURCES:
+
+Sunset API: https://sunrise-sunset.org/api
+METAR/TAF API: https://api.checkwx.com
+AIRPORT DATA: http://ourairports.com/data/
+
