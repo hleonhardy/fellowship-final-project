@@ -1,5 +1,6 @@
 import os
 import requests
+from errors import NoForecastDataError
 
 
 API_KEY = os.environ['CHECKWXAPIKEY']
@@ -21,9 +22,13 @@ def return_forecast_dict(icao):
     #So now it is a dictionary:
     data = data[0]
 
-    #Getting a list of all forecasts
-    #Each index in the list is the forecast(dictionary)
-    forecasts = data['forecast']
+    #An airport with no forecast data will not have a forecast key.
+    try:
+        #Getting a list of all forecasts
+        #Each index in the list is the forecast(dictionary)
+        forecasts = data['forecast']
+    except:
+        raise NoForecastDataError('No forecast available')
 
     return forecasts
 

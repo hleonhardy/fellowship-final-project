@@ -148,7 +148,7 @@ def connect_to_db(app, db_uri='postgresql:///sunsets'):
     #of using a test database
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     #prints SQL translation:
-    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_ECHO'] = False
     #stops the yelling
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #flask app

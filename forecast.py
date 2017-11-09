@@ -1,6 +1,7 @@
 import datetime
 from checkwx import return_forecast_dict
 from sunset_time import return_sunset_time
+from errors import NoForecastDataError
 
 
 def today_or_tomorrow_sunset(lat, lon):
@@ -43,11 +44,13 @@ def find_forecast(code, sunset_time_obj):
     """Given icao code and sunset_time_obj: returns correct forecast in JSON"""
 
 
-
-    #Airport class requires upper case icao,
-    #CheckWX API requires lowercase
-    #Getting the dictionary which contains multiple forecasts:
-    forecast_dict = return_forecast_dict(code.lower())
+    try:
+        #Airport class requires upper case icao,
+        #CheckWX API requires lowercase
+        #Getting the dictionary which contains multiple forecasts:
+        forecast_dict = return_forecast_dict(code.lower())
+    except:
+        raise NoForecastDataError("No forecast available")
 
     #Going through the dictionary and picking the forecast that matches
     #The sunset time
