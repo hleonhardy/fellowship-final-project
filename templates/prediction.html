@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% block title %} Sunset Prediction {% endblock %}
 
+<style type="text/css">
+
+    #map {
+    height:800px;
+    }
+
+</style>
+
 {% block content %}
 
 <h1> Here is my prediction. </h1>
@@ -14,15 +22,29 @@
 </p>
 
 <p>
-{% for item in forecast_dict %}
-    
-    {{item['timestamp']['forecast_from']}}<br>
-    {{item['timestamp']['forecast_to']}}<br>
-    {{item['clouds']}}<br><br>
 
-{% endfor %}
+    
+    {{forecast['timestamp']['forecast_from']}}<br>
+    {{forecast['timestamp']['forecast_to']}}<br>
+    {{forecast['clouds']}}<br><br>
+
+
 </p>
 
+<!-- Trying to get the map to work: -->
 
+<!-- <div id='map'></div>
+
+<script type="text/javascript">
+    let yourPosition = {lat: airport_obj.lattitude, lng: airport_obj.longitude;
+
+    let map = new google.maps.Map(document.querySelector('#map'), {
+        center: yourPosition,
+        zoom: 8,
+    });
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="https://code.jquery.com/jquery.js"></script> -->
 
 {% endblock %}

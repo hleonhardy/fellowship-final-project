@@ -25,25 +25,6 @@ def return_forecast_dict(icao):
     #Each index in the list is the forecast(dictionary)
     forecasts = data['forecast']
 
-    # for forecast_dict in forecasts:
-
-    #     timestamp = forecast_dict['timestamp']
-    #     forecast_to = timestamp['forecast_to']
-    #     forecast_from = timestamp['forecast_from']
-
-    #     clouds_list = forecast_dict['clouds']
-
-    #     print "Forecast FROM: {}\nForecast TO: {}".format(forecast_from, forecast_to)
-
-    #     for item in clouds_list:
-    #         cloud_type = item['code']
-    #         cloud_height = item['base_feet_agl']
-
-    #         print "{} @ {} ft.".format(cloud_type, cloud_height)
-    #     print
-
     return forecasts
 
 
-
-# print_response('cyvr')

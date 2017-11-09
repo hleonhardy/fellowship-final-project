@@ -1,5 +1,7 @@
 """Sunsets"""
 
+import os
+
 from model import User, Airport, UserFavorite, Photo
 from model import connect_to_db, db
 #So that we can make jinja not yell at us
@@ -15,7 +17,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from checkwx import return_forecast_dict
 from sunset_time import return_sunset_time
-
+from forecast import today_or_tomorrow_sunset, find_forecast
 import datetime
 
 
@@ -46,30 +48,36 @@ def get_prediction():
 def show_prediction():
     """Displays prediction (information for now)"""
 
-    code = str(request.args.get('icao'))
+    # GOOGLE_MAPS_API_KEY = os.environ['GOOGLEMAPSAPIKEY']
+    # maps_src_url = "https://maps.googleapis.com/maps/api/js?key={}&callback=initMap".format(GOOGLE_MAPS_API_KEY)
+
+    code = request.args.get('icao')
     #ICAO codes are 4 uppercase letters:
     code = code.upper()
 
-    # airport_obj = Airport.query.filter(Airport.icao_code == code)
+    #Getting the airport object for the given code
     airport_obj = Airport.query.filter(Airport.icao_code == code).one()
 
     lat = airport_obj.lattitude
     lon = airport_obj.longitude
 
-    sunset_time = return_sunset_time(lat, lon)
-
-    #Airport class requires upper case icao,
-    #CheckWX API requires lowercase
-    forecast_dict = return_forecast_dict(code.lower())
-
-    #getting current UTC time
+    #For now, just having this here to display in the html
     current_utc = datetime.datetime.utcnow()
+
+    #From forecast.py:
+    #Determine whether or not to use today or tomorrow's sunset
+    #based on if the sunset has already passed
+    sunset_datetime_obj = today_or_tomorrow_sunset(lat, lon)
+    #Getting the forecast for that specific time
+    forecast_json = find_forecast(code, sunset_datetime_obj)
+
+
 
     return render_template('prediction.html',
                            icao_code=code,
                            airport_obj=airport_obj,
-                           sunset_time=sunset_time,
-                           forecast_dict=forecast_dict,
+                           sunset_time=sunset_datetime_obj,
+                           forecast=forecast_json,
                            current_utc=current_utc)
 
 
@@ -89,6 +97,5 @@ if __name__ == '__main__':
 
     #host with 0's so we can run with vagrant
     app.run(port=5000, host='0.0.0.0')
-
 
 
