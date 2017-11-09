@@ -81,7 +81,6 @@ def show_prediction():
                            current_utc=current_utc)
 
 
-
 if __name__ == '__main__':
 
     app.debug = True

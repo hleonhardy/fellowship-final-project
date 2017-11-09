@@ -2,6 +2,7 @@
 
 
 from flask_sqlalchemy import SQLAlchemy
+from geoalchemy2.types import Geography
 
 
 db = SQLAlchemy()
@@ -39,6 +40,11 @@ class User(db.Model):
 class Airport(db.Model):
     """Airports and their information"""
 
+    #******************** NOTE **********************#
+    # In order to use geoalchemy2 you have to go into
+    # sunsets db and type: 'CREATE EXTENSION postgis'
+    #************************************************#
+
     __tablename__ = 'airports'
 
     #QUESTION:
@@ -55,6 +61,10 @@ class Airport(db.Model):
     # city = db.Column(db.String(30))
     # state = db.Column(db.String(20))
     country = db.Column(db.String(20), nullable=True)
+
+    #This is going to be the location
+    #srid=4326 is default using negative values for lat/lon
+    location = db.Column(Geography(geometry_type='POINT', srid=4326), nullable=True)
 
     #QUESTION:
     #can this be named photo if the photo in Users is also named photo?

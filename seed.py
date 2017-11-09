@@ -41,6 +41,12 @@ def load_airports():
             except:
                 continue
 
+            #adding to the location column:
+            #(This is just the required format)
+            #NOTE the order is lon, lat!!!
+            location = 'POINT({} {})'.format(lon, lat)
+
+
             #instantiate airport object with given information
             #commenting out city and state for now because they aren't always
             #exactly city and state depending on the country
@@ -50,7 +56,8 @@ def load_airports():
                               airport_name=name,
                               # city=city,
                               # state=state,
-                              country=country)
+                              country=country,
+                              location=location)
 
             db.session.add(airport)
 
