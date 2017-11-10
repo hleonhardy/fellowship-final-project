@@ -20,6 +20,7 @@ from forecast import today_or_tomorrow_sunset, find_forecast
 import datetime
 from geoalchemy2.functions import ST_DWithin
 from errors import NoForecastDataError
+from maps import get_coordinates_from_address
 
 
 app = Flask(__name__)
@@ -55,6 +56,11 @@ def show_prediction():
     # code = request.args.get('icao')
     # #ICAO codes are 4 uppercase letters:
     # code = code.upper()
+
+    if 'address' in request.args:
+        print "hello address"
+    elif 'lat' in request.args:
+        print "hello laTitude!"
 
     user_lat = request.args.get('lat')
     user_lon = request.args.get('lon')
