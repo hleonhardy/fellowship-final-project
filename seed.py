@@ -3,6 +3,8 @@
 from model import Airport, User, Photo, UserFavorite
 from model import connect_to_db, db
 from server import app
+from errors import NoForecastDataError
+from checkwx import return_forecast_dict
 
 def load_airports():
     """load airport information into the airports table"""
@@ -40,6 +42,19 @@ def load_airports():
                 lon = float(lon)
             except:
                 continue
+
+            #trying to see if the airport has available forecast
+            #(a lot of airports are too small/remote and don't provide TAFS/METARS)
+
+            #I tried the try except below and it took forever and crashed eventually
+            #I just wanted to keep it commented out here for future reference.
+
+            # print "Before trying to return forecast dictionary"
+            # try:
+            #     return_forecast_dict(icao)
+            # except NoForecastDataError:
+            #     continue
+            # print "After trying to return forecast dictionary"
 
             #adding to the location column:
             #(This is just the required format)

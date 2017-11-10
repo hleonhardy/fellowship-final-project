@@ -86,7 +86,7 @@ def show_prediction():
         #That way if we do fetchone again, it will grab the next one
         airport_id = cursor.fetchone()
         print type(airport_id)
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
 
         # import pdb; pdb.set_trace()
         airport_obj = Airport.query.get(airport_id)

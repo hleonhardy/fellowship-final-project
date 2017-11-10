@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% block title %} Sunset Prediction {% endblock %}
-
+{% block style %}
 <style type="text/css">
 
     #map {
-    height:800px;
+        height:800px;
     }
 
 </style>
+{% endblock %}
 
 {% block content %}
 
@@ -33,10 +34,13 @@
 
 <!-- Trying to get the map to work: -->
 
-<!-- <div id='map'></div>
+<div id='map'></div>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
 
 <script type="text/javascript">
-    let yourPosition = {lat: airport_obj.lattitude, lng: airport_obj.longitude;
+    let yourPosition = {lat: 38, lng: -122};
+        console.log(yourPosition)
 
     let map = new google.maps.Map(document.querySelector('#map'), {
         center: yourPosition,
@@ -44,7 +48,5 @@
     });
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js"></script>
-<script src="https://code.jquery.com/jquery.js"></script> -->
 
 {% endblock %}
