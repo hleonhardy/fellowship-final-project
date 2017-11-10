@@ -27,7 +27,7 @@ def get_coordinates_from_address(address):
     lat = location['lat']
     lng = location['lng']
 
-    return [lat, lng]
+    return {'lat': lat, 'lng': lng}
 
 
 
