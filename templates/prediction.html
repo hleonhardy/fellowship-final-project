@@ -4,7 +4,8 @@
 <style type="text/css">
 
     #map {
-        height:800px;
+        height:600px;
+        width:600px;
     }
 
 </style>
@@ -12,7 +13,9 @@
 
 {% block content %}
 
-<h1> Here is my prediction. </h1>
+<h1> Here is my prediction: </h1>
+
+<h2> {{ description }} </h2>
 
 <p> SUNSET TIME: {{sunset_time}} UTC </p>
 <p> CURRENT TIME: {{ current_utc.time()}} UTC
@@ -39,12 +42,12 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 
 <script type="text/javascript">
-    let yourPosition = {lat: 38, lng: -122};
+    let yourPosition = {lat: 37.6189994812012, lng: -122.375};
         console.log(yourPosition)
 
     let map = new google.maps.Map(document.querySelector('#map'), {
         center: yourPosition,
-        zoom: 8,
+        zoom: 10,
     });
 </script>
 

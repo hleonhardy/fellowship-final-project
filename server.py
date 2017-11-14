@@ -154,10 +154,9 @@ def show_prediction():
 
     current_utc = datetime.datetime.utcnow()
 
-    # !!!!!! I HAVEN'T TESTED THIS YET !!!!!!!
-    # cat_cloud_dict = make_cloud_dict(forecast_json)
-    # rate_desc_dict = return_rating(cat_cloud_dict)
-    # print rate_desc_dict['description']
+    cat_cloud_dict = make_cloud_dict(forecast_json)
+    rate_desc_dict = return_rating(cat_cloud_dict)
+    description =  rate_desc_dict['description']
 
 
 
@@ -166,7 +165,8 @@ def show_prediction():
                            airport_obj=airport_obj,
                            sunset_time=sunset_datetime_obj,
                            forecast=forecast_json,
-                           current_utc=current_utc)
+                           current_utc=current_utc,
+                           description=description)
 
 
 if __name__ == '__main__':

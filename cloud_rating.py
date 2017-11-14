@@ -59,8 +59,8 @@ def make_cloud_dict(forecast_json):
     for cloud_dict in lst_of_cloud_dicts:
 
         #Getting the right values
-        cloud_code = cloud_dict['cloud_code']
-        alt = cloud_dict['cloud_base_ft_agl']
+        cloud_code = cloud_dict['code']
+        alt = cloud_dict['base_feet_agl']
 
         #instantiate cloud object:
         one_cloud = Cloud(cloud_code, alt)
@@ -113,7 +113,7 @@ def return_rating(cat_cloud_dict):
 
 
 
-print return_rating(sample_dict_7)
+# print return_rating(sample_dict_7)
 
 
 
