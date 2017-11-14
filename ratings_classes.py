@@ -166,7 +166,7 @@ class MidFewRating(Rating):
         #higher number so that fewer is not as good as scattered
         rating_num = int(rating_num)
 
-        return rating_num 
+        return rating_num
 
 
 class MidSctRating(Rating):
@@ -194,4 +194,3 @@ class MidSctRating(Rating):
         rating_num = int('2{}'.format(rating_num[1:]))
 
         return rating_num
-

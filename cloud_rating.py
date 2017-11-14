@@ -108,7 +108,7 @@ def return_rating(cat_cloud_dict):
 
 
     rating_num = rating_obj.get_number(cat_cloud_dict)
-    return [rating_num, rating_obj.description]
+    return {'value': rating_num, 'description': rating_obj.description}
 
 
 

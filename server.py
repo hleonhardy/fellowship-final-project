@@ -1,10 +1,10 @@
 """Sunsets"""
 
 import os
-from model import User, Airport, UserFavorite, Photo
-from model import connect_to_db, db
 #So that we can make jinja not yell at us
 from jinja2 import StrictUndefined
+import datetime
+from geoalchemy2.functions import ST_DWithin
 
 from flask import (Flask,
                    render_template,
@@ -14,13 +14,16 @@ from flask import (Flask,
                    jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 
+from model import User, Airport, UserFavorite, Photo
+from model import connect_to_db, db
+
 from checkwx import return_forecast_dict
 from sunset_time import return_sunset_time
 from forecast import today_or_tomorrow_sunset, find_forecast
-import datetime
-from geoalchemy2.functions import ST_DWithin
-from errors import NoForecastDataError
+from cloud_ratings import make_cloud_dict, return_rating
 from maps import get_coordinates_from_address
+
+from errors import NoForecastDataError
 
 
 app = Flask(__name__)
@@ -119,6 +122,12 @@ def show_prediction():
             break
         except:
             i += 1
+
+    # !!!!!! I HAVEN'T TESTED THIS YET !!!!!!!
+    # cat_cloud_dict = make_cloud_dict(forecast_json)
+    # rate_desc_dict = return_rating(cat_cloud_dict)
+    # print rate_desc_dict['description']
+
 
 
     return render_template('prediction.html',

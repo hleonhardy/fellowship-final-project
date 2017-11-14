@@ -32,6 +32,8 @@ def return_forecast_dict(icao):
     except:
         raise NoForecastDataError('No forecast available')
 
+    # print forecasts
+
     return forecasts
 
 

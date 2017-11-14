@@ -2,6 +2,7 @@ import datetime
 from checkwx import return_forecast_dict
 from sunset_time import return_sunset_time
 from errors import NoForecastDataError
+import pprint
 
 
 def today_or_tomorrow_sunset(lat, lon):
@@ -72,16 +73,17 @@ def find_forecast(code, sunset_time_obj):
             break
 
 
-    return sunset_forecast_json
+    return pprint.pprint(sunset_forecast_json)
 
 
 
-# sfo_lat = 37.6189994812012
-# sfo_lon = -122.375
-# sfo_code = 'KSFO'
+sfo_lat = 37.721298
+sfo_lon = -122.221001
+sfo_code = 'KOAK'
 
-# sunset_date_obj = today_or_tomorrow_sunset(sfo_lat, sfo_lon)
-# forecast_json = find_forecast(sfo_code, sunset_date_obj)
+sunset_date_obj = today_or_tomorrow_sunset(sfo_lat, sfo_lon)
+print sunset_date_obj
+forecast_json = find_forecast(sfo_code, sunset_date_obj)
 
-# print forecast_json
+print forecast_json
 
