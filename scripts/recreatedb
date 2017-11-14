@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Dropping db"
+dropdb sunsets
+echo "Creating db"
+createdb sunsets
+echo "Adding extension"
+psql -d sunsets -c "CREATE EXTENSION postgis;"
+echo "Seeding data"
+python seed.py
