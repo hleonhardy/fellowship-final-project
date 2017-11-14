@@ -67,9 +67,9 @@ def show_prediction():
     user_point = 'POINT({} {})'.format(user_lon, user_lat)
 
     #distance in meters
-    distance = 50000
+    distance = 10000
     #limit on number of rows we get back from the query
-    lim = 10
+    lim = 50
 
     sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
 
@@ -87,14 +87,14 @@ def show_prediction():
     #Until we get to one that has available forecast data
     i = 0
     while i < lim:
+
         #fetchone will grab the first airport id tuple and
         #take it out of the cursor.
         #That way if we do fetchone again, it will grab the next one
         airport_id = cursor.fetchone()
-        print type(airport_id)
-        # import pdb; pdb.set_trace()
 
         # import pdb; pdb.set_trace()
+
         airport_obj = Airport.query.get(airport_id)
         # airport_obj = Airport.query.filter(ST_DWithin(Airport.location, user_point, distance)).all()
         # #Getting the airport object for the given code
@@ -105,19 +105,20 @@ def show_prediction():
         lon = airport_obj.longitude
 
         code = airport_obj.icao_code
-        print code
+
         #From forecast.py:
         #Determine whether or not to use today or tomorrow's sunset
         #based on if the sunset has already passed
         sunset_datetime_obj = today_or_tomorrow_sunset(lat, lon)
+
         #Getting the forecast for that specific time
         # import pdb; pdb.set_trace()
         try:
             forecast_json = find_forecast(code, sunset_datetime_obj)
+            print forecast_json
             break
         except:
             i += 1
-
 
 
     return render_template('prediction.html',

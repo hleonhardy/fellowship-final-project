@@ -16,6 +16,8 @@ def return_forecast_dict(icao):
     response = requests.get(url, headers=headers)
     json_response = response.json()
 
+    print json_response
+
     data = json_response['data']
 
     #I guess data was a list with only one item (dictionary)

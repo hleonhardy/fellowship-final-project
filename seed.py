@@ -28,6 +28,10 @@ def load_airports():
 
             country = information[8][1:-1]
 
+            # print information[11]
+            # if information[11] == '"no"':
+            #     print "skipping"
+            #     continue
 
             #information[9] gives 'US-CA' format.
             # state = information[9][3:]
