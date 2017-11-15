@@ -13,6 +13,9 @@
 
 {% block content %}
 
+<input type='hidden' id='user_lat' value="{{ userLat }}">
+<input type='hidden' id='user_lon' value="{{ userLon }}">
+
 <h1> Here is my prediction: </h1>
 
 <h2> {{ description }} </h2>
@@ -38,18 +41,26 @@
 <!-- Trying to get the map to work: -->
 
 <div id='map'></div>
-<script src="https://maps.googleapis.com/maps/api/js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
 
+
+
 <script type="text/javascript">
-    let yourPosition = {lat: 37.6189994812012, lng: -122.375};
+function initMap() {
+    let user_lat = parseFloat($('#user_lat').val())
+    let user_lon = parseFloat($('#user_lon').val())
+
+    let yourPosition = {lat: user_lat, lng: user_lon};
         console.log(yourPosition)
 
     let map = new google.maps.Map(document.querySelector('#map'), {
         center: yourPosition,
-        zoom: 10,
+        zoom: 11,
     });
+}
 </script>
+<script src="{{ mapsapiurl }}"
+async defer></script>
 
 
 {% endblock %}

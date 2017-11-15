@@ -33,6 +33,9 @@ app.secret_key = 'kiloechoyankee'
 #this makes jijnja yell at you for undefined variables
 app.jinja_env.undefined = StrictUndefined
 
+GOOGLE_MAPS_API_KEY = os.environ['GOOGLEMAPSAPIKEY']
+maps_src_url = "https://maps.googleapis.com/maps/api/js?key={}&callback=initMap".format(GOOGLE_MAPS_API_KEY)
+places_map_url = "https://maps.googleapis.com/maps/api/js?key={}&libraries=places&callback=initAutocomplete".format(GOOGLE_MAPS_API_KEY)
 
 
 @app.route('/')
@@ -46,27 +49,29 @@ def index():
 def get_prediction():
     """Form for entering location (for now)"""
 
-    return render_template('location.html')
+    return render_template('location.html',
+                           mapsapiurl=places_map_url,
+                           placesmapurl=places_map_url)
 
 
 @app.route('/prediction')
 def show_prediction():
     """Displays prediction (information for now)"""
 
-    # GOOGLE_MAPS_API_KEY = os.environ['GOOGLEMAPSAPIKEY']
-    # maps_src_url = "https://maps.googleapis.com/maps/api/js?key={}&callback=initMap".format(GOOGLE_MAPS_API_KEY)
-
     # code = request.args.get('icao')
     # #ICAO codes are 4 uppercase letters:
     # code = code.upper()
 
-    if 'address' in request.args:
-        print "hello address"
-    elif 'lat' in request.args:
-        print "hello laTitude!"
+    if 'lat' in request.args:
+        user_lat = request.args.get('lat')
+        user_lon = request.args.get('lon')
 
-    user_lat = request.args.get('lat')
-    user_lon = request.args.get('lon')
+    elif 'address' in request.args:
+        address = request.args.get('address')
+        coordinates = get_coordinates_from_address(address)
+        user_lat = coordinates['lat']
+        user_lon = coordinates['lng']
+
     user_point = 'POINT({} {})'.format(user_lon, user_lat)
 
 # *****************************************************************************#
@@ -141,7 +146,7 @@ def show_prediction():
 
     forecast_json = {
                     u'clouds': 
-                        [{u'base_feet_agl': 3000,
+                        [{u'base_feet_agl': 5000,
                         u'code': u'FEW',
                         u'text': u'Few'},
                         {u'base_feet_agl': 25000,
@@ -154,6 +159,8 @@ def show_prediction():
 
     current_utc = datetime.datetime.utcnow()
 
+    #Making a specifcally formated cloud dictionary to use
+    #in return rating (which returns a dictionary with rating and description)
     cat_cloud_dict = make_cloud_dict(forecast_json)
     rate_desc_dict = return_rating(cat_cloud_dict)
     description =  rate_desc_dict['description']
@@ -166,7 +173,10 @@ def show_prediction():
                            sunset_time=sunset_datetime_obj,
                            forecast=forecast_json,
                            current_utc=current_utc,
-                           description=description)
+                           description=description,
+                           userLat=user_lat,
+                           userLon=user_lon,
+                           mapsapiurl=maps_src_url)
 
 
 if __name__ == '__main__':
