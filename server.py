@@ -195,15 +195,75 @@ def show_register_form():
 def process_form():
     """Process registration information"""
 
+    user_name = request.form.get('name')
+    user_email = request.form.get('email')
+    user_pass = request.form.get('password')
+
+
+    user_object = User.query.filter(User.user_email == user_email).first()
+
+    if user_object:
+
+        flash("You already have an account. Please log in!")
+        return redirect('/login')
+    #If user object with email address provided doens't exist, add to db...
+    else:        
+        new_user = User(user_name=user_name,
+                        user_email=user_email,
+                        user_pass=user_pass)
+
+        db.session.add(new_user)
+        db.session.commit()
+
     return redirect('/login')
 
 
 @app.route('/login')
 def login_page():
-    """Page for logging in user"""
+    """Page form for logging in user"""
 
+    if 'current_user' in session:
+        flash('You\'re already logged in...silly goose')
+        return redirect('/')
     return render_template('login.html')
 
+
+@app.route('/login', methods=['POST'])
+def login_user():
+    """process login form, redirect to user's page when it works"""
+
+    user_email = request.form.get('email')
+    user_pass = request.form.get('password')
+
+    user_object = User.query.filter(User.user_email == user_email).first()
+
+    if user_object:
+
+        if user_object.user_pass == user_pass:
+            flash("You're logged in. Welcome!")
+            specific_user_id = user_object.user_id
+            session['current_user'] = specific_user_id
+
+        else:
+            flash("That is an incorrect password")
+            return redirect('/login')
+
+    else:
+        flash('You need to register first!')
+
+        return redirect('/register')
+
+
+    return redirect('/')
+
+
+@app.route('/logout')
+def logout_user():
+    """logs out user by deleting the current user from the session"""
+
+    del session['current_user']
+    flash('successfully logged out')
+    return redirect ('/')
 
 #******************************************************************************#
 #******************************************************************************#

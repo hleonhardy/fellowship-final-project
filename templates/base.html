@@ -5,6 +5,24 @@
     {% block style %} {% endblock %}
 </head>
 <body>
+
+    <!-- This is the nav bar -->
+    <a href='/'> Home | </a> 
+    <a href='/location'> Sunset Predictor | </a> 
+    {% if 'current_user' not in session %}
+        <a href='/register'>Register | </a> 
+        <a href='/login'>Log In  </a> 
+    {% else %}
+        <a href='/logout'>Log Out | </a> 
+    {% endif %}
+
+  <hr>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+  <hr>
+
     {% block content %} INSERT CONTENT HERE {% endblock %}
+
 </body>
 </html>
