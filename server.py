@@ -179,6 +179,39 @@ def show_prediction():
                            mapsapiurl=maps_src_url)
 
 
+#******************************************************************************#
+#******************************** User Routes *********************************#
+#******************************************************************************#
+
+
+@app.route('/register')
+def show_register_form():
+    """Registration form"""
+
+    return render_template('register.html')
+
+
+@app.route('/register', methods=['POST'])
+def process_form():
+    """Process registration information"""
+
+    return redirect('/login')
+
+
+@app.route('/login')
+def login_page():
+    """Page for logging in user"""
+
+    return render_template('login.html')
+
+
+#******************************************************************************#
+#******************************************************************************#
+#******************************************************************************#
+
+
+
+
 if __name__ == '__main__':
 
     app.debug = True
