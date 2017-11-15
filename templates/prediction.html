@@ -16,6 +16,9 @@
 <input type='hidden' id='user_lat' value="{{ userLat }}">
 <input type='hidden' id='user_lon' value="{{ userLon }}">
 
+<input type='hidden' id='airport_lat' value="{{ airport_obj.lattitude }}">
+<input type='hidden' id='airport_lng' value="{{ airport_obj.longitude }}">
+
 <h1> Here is my prediction: </h1>
 
 <h2> {{ description }} </h2>
@@ -50,12 +53,29 @@ function initMap() {
     let user_lat = parseFloat($('#user_lat').val())
     let user_lon = parseFloat($('#user_lon').val())
 
+    let airportLat = parseFloat($('#airport_lat').val())
+    let airportLng = parseFloat($('#airport_lng').val())
+
     let yourPosition = {lat: user_lat, lng: user_lon};
         console.log(yourPosition)
 
     let map = new google.maps.Map(document.querySelector('#map'), {
         center: yourPosition,
         zoom: 11,
+    });
+    let marker = new google.maps.Marker({
+        position: yourPosition,
+        map: map,
+        title: 'Chosen Location'
+    });
+
+    let airportPosition = {lat: airportLat, lng: airportLng}
+        console.log(airportPosition)
+
+    let airportMarker = new google.maps.Marker({
+        position: airportPosition,
+        map: map,
+        title: 'Forecast Location'
     });
 }
 </script>
