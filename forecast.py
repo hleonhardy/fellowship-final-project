@@ -111,7 +111,7 @@ def find_nearest_airport_forecast(user_point):
 
     sql = """SELECT airport_id FROM airports
             WHERE ST_DWithin(location, :user_point, :dist)
-            ORDER BY location
+            ORDER BY ST_Distance(location, :user_point)
             LIMIT :lim"""
 
     cursor = db.session.execute(sql, sql_args)
