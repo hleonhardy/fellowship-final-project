@@ -4,7 +4,9 @@ import os
 #So that we can make jinja not yell at us
 from jinja2 import StrictUndefined
 import datetime
-from geoalchemy2.functions import ST_DWithin
+
+from sqlalchemy import func
+from geoalchemy2 import Geography
 
 from flask import (Flask,
                    render_template,
@@ -19,11 +21,14 @@ from model import connect_to_db, db
 
 from checkwx import return_forecast_dict
 from sunset_time import return_sunset_time
-# from forecast import today_or_tomorrow_sunset, find_forecast
+from forecast import today_or_tomorrow_sunset, find_nearest_airport_forecast
+# from forecast import find_forecast
 from cloud_rating import make_cloud_dict, return_rating
 from maps import get_coordinates_from_address
 
 from errors import NoForecastDataError
+
+UPLOAD_FOLDER = '/static/user_images/'
 
 
 app = Flask(__name__)
@@ -32,6 +37,8 @@ app.secret_key = 'kiloechoyankee'
 
 #this makes jijnja yell at you for undefined variables
 app.jinja_env.undefined = StrictUndefined
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 GOOGLE_MAPS_API_KEY = os.environ['GOOGLEMAPSAPIKEY']
 maps_src_url = "https://maps.googleapis.com/maps/api/js?key={}&callback=initMap".format(GOOGLE_MAPS_API_KEY)
@@ -49,9 +56,16 @@ def index():
 def get_prediction():
     """Form for entering location (for now)"""
 
+    if 'current_user' in session:
+        user_obj = User.query.get(session['current_user'])
+    else:
+        user_obj = None
+
+
     return render_template('location.html',
                            mapsapiurl=places_map_url,
-                           placesmapurl=places_map_url)
+                           placesmapurl=places_map_url,
+                           user_obj=user_obj)
 
 
 @app.route('/prediction')
@@ -72,103 +86,44 @@ def show_prediction():
         user_lat = coordinates['lat']
         user_lon = coordinates['lng']
 
+    elif 'favoritelocation' in request.args:
+        favlocation = request.args.get('favoritelocation')
+        #has to match user ID AND location title
+        fav_location = UserFavorite.query.filter(UserFavorite.favorite_title == favlocation, UserFavorite.user_id == session['current_user']).one()
+        user_lat = fav_location.favorite_lat
+        user_lon = fav_location.favorite_lng
+
+    else:
+        print "something didn't work"
+
     user_point = 'POINT({} {})'.format(user_lon, user_lat)
-
-# *****************************************************************************#
-# COMMENTING THIS OUT TO USE TEST DATA (so that I dont make too many api reqs.)#
-# *****************************************************************************#
-
-    # #distance in meters
-    # distance = 10000
-    # #limit on number of rows we get back from the query
-    # lim = 50
-
-    # sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
-
-    # sql = """SELECT airport_id FROM airports
-    #         WHERE ST_DWithin(location, :user_point, :dist)
-    #         ORDER BY location
-    #         LIMIT :lim"""
-
-    # cursor = db.session.execute(sql, sql_args)
-    # # import pdb; pdb.set_trace()
-    # #For now, just having this here to display in the html
-
-    #looping through all the airports in the SQL query
-    #Until we get to one that has available forecast data
-    # i = 0
-    # while i < lim:
-
-    #     #fetchone will grab the first airport id tuple and
-    #     #take it out of the cursor.
-    #     #That way if we do fetchone again, it will grab the next one
-    #     airport_id = cursor.fetchone()
-
-    #     # import pdb; pdb.set_trace()
-
-    #     airport_obj = Airport.query.get(airport_id)
-    #     # airport_obj = Airport.query.filter(ST_DWithin(Airport.location, user_point, distance)).all()
-    #     # #Getting the airport object for the given code
-    #     # # airport_obj = Airport.query.filter(Airport.icao_code == code).one()
-    #     # airport_obj = airport_obj[0]
-
-    #     lat = airport_obj.lattitude
-    #     lon = airport_obj.longitude
-
-    #     code = airport_obj.icao_code
-
-    #     #From forecast.py:
-    #     #Determine whether or not to use today or tomorrow's sunset
-    #     #based on if the sunset has already passed
-    #     sunset_datetime_obj = today_or_tomorrow_sunset(lat, lon)
-
-    #     #Getting the forecast for that specific time
-    #     # import pdb; pdb.set_trace()
-    #     try:
-    #         forecast_json = find_forecast(code, sunset_datetime_obj)
-    #         print forecast_json
-    #         break
-    #     except:
-    #         i += 1
 
 #******************************************************************************#
 # TESTING FOR KSFO:
 #******************************************************************************#
-    sunset_datetime = '2017-11-15 00:58:48'
 
-    code = 'KSFO'
+    #Time of today or tomorrow's sunset
+    #For display purposes:
+    sunset_datetime_obj = today_or_tomorrow_sunset(user_lat, user_lon)
 
-    sunset_datetime_obj = datetime.datetime.strptime(sunset_datetime,
-                                                       '%Y-%m-%d %H:%M:%S')
+    #forecast containing weather information AND icao code (new and imporoved)
+    forecast_json = find_nearest_airport_forecast(user_point)
+    icao_code = forecast_json['icao_code']
+    #Querying for the airport with the code from the forecast
+    airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()
 
-    airport_obj = Airport.query.get(6532)
-    print airport_obj
-
-    forecast_json = {
-                    u'clouds': 
-                        [{u'base_feet_agl': 5000,
-                        u'code': u'FEW',
-                        u'text': u'Few'},
-                        {u'base_feet_agl': 25000,
-                        u'code': u'FEW',
-                        u'text': u'Few'}],
-                    u'timestamp':
-                        {u'forecast_from': u'14-11-2017 @ 21:00Z',
-                        u'forecast_to': u'15-11-2017 @ 08:00Z'}
-                    }
-
+    #for display purposes only
     current_utc = datetime.datetime.utcnow()
 
     #Making a specifcally formated cloud dictionary to use
     #in return rating (which returns a dictionary with rating and description)
     cat_cloud_dict = make_cloud_dict(forecast_json)
     rate_desc_dict = return_rating(cat_cloud_dict)
-    description =  rate_desc_dict['description']
-
+    description = rate_desc_dict['description']
 
 
     return render_template('prediction.html',
-                           icao_code=code,
+                           icao_code=icao_code,
                            airport_obj=airport_obj,
                            sunset_time=sunset_datetime_obj,
                            forecast=forecast_json,
@@ -180,7 +135,7 @@ def show_prediction():
 
 
 #******************************************************************************#
-#******************************** User Routes *********************************#
+#***************************** Login/Registration *****************************#
 #******************************************************************************#
 
 
@@ -264,6 +219,146 @@ def logout_user():
     del session['current_user']
     flash('successfully logged out')
     return redirect ('/')
+
+#******************************************************************************#
+#******************************** User Routes *********************************#
+#******************************************************************************#
+
+@app.route('/mypage')
+def users_page():
+    """Displays user's favorites and photos"""
+
+    if 'current_user' not in session:
+        flash('Please log in to see your page!')
+        return redirect('/')
+    else:
+        user_id = session['current_user']
+        user_obj = User.query.get(user_id)
+        print user_obj.favorites
+
+        return render_template('mypage.html', user_obj=user_obj)
+
+
+# ******************************* FAVORITES ***********************************#
+
+@app.route('/addfavorite')
+def get_favorite():
+    """Form for adding a favorite location"""
+
+    return render_template('addfavorite.html', placesmapurl=places_map_url)
+
+
+@app.route('/addfavorite', methods=['POST'])
+def add_favorite():
+    """process login form, redirect to user's page when it works"""
+
+    # NEED TO PUT API CHECK IN HERE FOR ADDRESS ASSOCIATION
+    # ^^ what?? ^^
+
+    #Getting the information the user has entered for favorite location
+    favorite_location = request.form.get('address')
+    favorite_title = request.form.get('title')
+
+    #Getting lat and lng from the user's desired favorite location
+    coordinates = get_coordinates_from_address(favorite_location)
+    fav_lat = coordinates['lat']
+    fav_lng = coordinates['lng']
+
+    #making this into a point so we can compare distances
+    fav_point = 'POINT({} {})'.format(fav_lng, fav_lat)
+
+    #finding the nearest airport that has an available forecast:
+    nearest_airport_forecast = find_nearest_airport_forecast(fav_point)
+    nearest_icao_code = nearest_airport_forecast['icao_code']
+
+    #Getting airport object for airport ID (to add to db)
+    nearest_airport = Airport.query.filter(Airport.icao_code == nearest_icao_code).one()
+
+    airport_id = nearest_airport.airport_id
+
+    #instantiating new favorite object:
+    new_favorite = UserFavorite(favorite_title=favorite_title,
+                                favorite_lat=fav_lat,
+                                favorite_lng=fav_lng,
+                                favorite_location=fav_point,
+                                airport_id=airport_id,
+                                user_id=session['current_user'])
+
+    db.session.add(new_favorite)
+    db.session.commit()
+
+    flash('{} added to your favorites!'.format(favorite_title))
+
+
+    return redirect('/mypage')
+
+
+# ********************************** PHOTOS ***********************************#
+
+@app.route('/uploadphoto')
+def upload_photo_form():
+    """Form to upload a photo"""
+
+    return render_template('uploadphoto.html', placesmapurl=places_map_url)
+
+
+@app.route('/uploadphoto', methods=['POST'])
+def upload_photo():
+    """Uploads photo"""
+
+    #getting information about the photo from the form:
+    location = request.form.get('location')
+    date = request.form.get('date')
+    image = request.form.get('img')
+    description = request.form.get('description')
+    title = request.form.get('title')
+
+    #making date into object so we can add to DB:
+    date_obj = datetime.datetime.strptime(date, '%Y-%m-%d')
+
+    #Turning the location into a point for DB:
+    coordinates = get_coordinates_from_address(location)
+    photo_lat = coordinates['lat']
+    photo_lng = coordinates['lng']
+    photo_pt = 'POINT({} {})'.format(photo_lng, photo_lat)
+
+    #finding nearest available airport so we can store that in db:
+    nearest_airport_forecast = find_nearest_airport_forecast(photo_pt)
+    nearest_icao_code = nearest_airport_forecast['icao_code']
+
+    #Getting airport object for airport ID (to add to db)
+    nearest_airport = Airport.query.filter(Airport.icao_code == nearest_icao_code).one()
+
+    airport_id = nearest_airport.airport_id
+
+    distance = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(photo_pt, 4326), 
+                                                 nearest_airport.location)).one()[0]
+
+    print photo_lat, photo_lng
+    print nearest_airport.lattitude, nearest_airport.longitude
+    print '**************'
+    print distance
+    print '**************'
+    print type(distance)
+
+    #STILL NEEDED: file path(from image) and distance from closest airport
+
+
+    # new_photo = Photo(user_id=session['current_user'],
+    #                   airport_id=airport_id,
+    #                   photo_title=title,
+    #                   photo_lat=photo_lat,
+    #                   photo_lng=photo_lng,
+    #                   photo_location=photo_pt,
+    #                   datetime=date_obj,
+
+
+
+
+
+
+
+
 
 #******************************************************************************#
 #******************************************************************************#

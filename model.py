@@ -7,10 +7,6 @@ from geoalchemy2.types import Geography
 
 db = SQLAlchemy()
 
-#QUESTION:
-#how is the best way to organize the information in the db.Columns?
-#also with the return .format in __repr__ functions
-
 
 class User(db.Model):
     """A user class"""
@@ -25,9 +21,6 @@ class User(db.Model):
     #QUESTION:
     #do i want to order by user_id?
 
-    #Relationships:
-    photos = db.relationship('Photo', backref=db.backref('user_of_photo'))
-    favorites = db.relationship('UserFavorite', backref=db.backref('get_user'))
 
     def __repr__(self):
         """Shows this information when user object is printed"""
@@ -43,6 +36,7 @@ class Airport(db.Model):
     #******************** NOTE **********************#
     # In order to use geoalchemy2 you have to go into
     # sunsets db and type: 'CREATE EXTENSION postgis'
+    # I did this with a source script in /scripts.
     #************************************************#
 
     __tablename__ = 'airports'
@@ -66,9 +60,6 @@ class Airport(db.Model):
     #srid=4326 is default using negative values for lat/lon
     location = db.Column(Geography(geometry_type='POINT', srid=4326), nullable=True)
 
-    #QUESTION:
-    #can this be named photo if the photo in Users is also named photo?
-    photos = db.relationship('Photo', backref=db.backref('airport'))
 
     def __repr__(self):
         """Shows this information when airport object is printed"""
@@ -85,6 +76,12 @@ class UserFavorite(db.Model):
 
     favorite_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
+    favorite_title = db.Column(db.String(25))
+
+    favorite_lat = db.Column(db.Float)
+    favorite_lng = db.Column(db.Float)
+    favorite_location = db.Column(Geography(geometry_type='POINT', srid=4326), nullable=True)
+
     #Foreign keys:
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     airport_id = db.Column(db.Integer, db.ForeignKey('airports.airport_id'))
@@ -95,12 +92,13 @@ class UserFavorite(db.Model):
     #I'll leave this note in incase I decide to do that in the future.
 
     #Relationships:
+    user = db.relationship('User', backref=db.backref('favorites'))
     airports = db.relationship('Airport')
 
     def __repr__(self):
         """Prints information for the user favorite object"""
 
-        return '<User id={} user id={} airport={}'.format(self.favorite_id,
+        return '<UserFavorite id={} user id={} airport={}>'.format(self.favorite_id,
                                                           self.user_id,
                                                           self.airport_id)
 
@@ -116,19 +114,24 @@ class Photo(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     airport_id = db.Column(db.Integer, db.ForeignKey('airports.airport_id'))
 
+    photo_title = db.Column(db.String(25))
+
+    photo_lat = db.Column(db.Float)
+    photo_lng = db.Column(db.Float)
+    photo_location = db.Column(Geography(geometry_type='POINT', srid=4326), nullable=True)
+    airport_dist = db.Column(db.Float)
+
     datetime = db.Column(db.DateTime)
 
-    #QUESTION:
-    #how many characters should i alot for a file name?
-    filename = db.Column(db.String(100))
+    filepath = db.Column(db.String(100))
 
-    #ratings subject to change depending on 2.0/3.0
-    accuracy_rating = db.Column(db.Integer)
     sunset_rating = db.Column(db.Integer)
+
     description = db.Column(db.String(150))
 
     #Relationships:
     user = db.relationship('User', backref=db.backref('user_photos'))
+    airport = db.relationship('Airport', backref=db.backref('airport_photos'))
 
 
     def __repr__(self):
@@ -138,6 +141,24 @@ class Photo(db.Model):
                                                                 self.user_id,
                                                                 self.datetime,
                                                                 self.airport_id)
+
+
+class UserFavoritePhoto(db.Model):
+    """Links a photo to a user's favorited location."""
+
+    __tablename__ = 'user_favorite_photos'
+
+    favorite_photo_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    photo_id = db.Column(db.Integer, db.ForeignKey('photos.photo_id'))
+    favorite_id = db.Column(db.Integer, db.ForeignKey('user_favorites.favorite_id'))
+
+
+    def __repr__(self):
+        """shows this when the photo object is printed"""
+
+        return '<Photo id={} favorite_id={}'.format(self.photo_id, self.favorite_id)
+
 
 
 def connect_to_db(app, db_uri='postgresql:///sunsets'):

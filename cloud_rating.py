@@ -43,7 +43,7 @@ sample_dict_3 = {'high': 'SKC', 'low': 'SKC', 'mid': 'SCT'}
 sample_dict_4 = {'high': 'SCT', 'low': 'SCT', 'mid':'SKC'}
 sample_dict_5 = {'high': 'SCT', 'low': 'SKC', 'mid': 'SKC'}
 sample_dict_6 = {'low': 'SKC', 'mid': 'FEW', 'high': 'FEW'}
-sample_dict_7 = {'low': 'SKC', 'mid': 'SCT', 'high': 'FEW'}
+sample_dict_7 = {'low': 'SKC', 'mid': 'OVO', 'high': 'FEW'}
 
 ################################################################################
 

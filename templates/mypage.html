@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} Your Page {% endblock %}
+
+{% block content %}
+
+<h1> Hi {{ user_obj.user_name }}! </h1>
+
+<h3> Favorite Locations: </h3>
+
+<ul>
+{% if user_obj.favorites %}
+        {% for fav in user_obj.favorites %}
+        <li>
+            {{ fav.favorite_title }}
+        </li>
+        {% endfor %}
+        <li> <a href="/addfavorite">Click Here</a> to add another favorite location!</li>
+{% else %}
+    <li>You haven't favorited anything yet!<br>
+        <a href="/addfavorite">Click Here</a> to add a favorite location!</li>
+{% endif %}
+</ul>
+
+<h3> Your Photos: </h3>
+
+<ul>
+{% if user_obj.user_photos %}
+        {% for photo in user_obj.user_photos %}
+        <li>
+            {{ photo }}
+        </li>
+        {% endfor %}
+{% else %}
+    <li>You haven't uploaded any photos yet!<br>
+        <a href="/uploadphoto">Click Here</a> to upload a sunset photo!</li>
+
+</ul>
+{% endif %}
+
+
+
+
+{% endblock %}

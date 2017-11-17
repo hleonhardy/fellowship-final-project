@@ -14,6 +14,7 @@ def today_or_tomorrow_sunset(lat, lon):
     # import pdb; pdb.set_trace()
     sunset_time_today = return_sunset_time(lat, lon, current_date)
 
+    # import pdb; pdb.set_trace()
 
     #getting current UTC time datetime object to compare to sunset datetime
     current_utc = datetime.datetime.utcnow()
@@ -25,6 +26,7 @@ def today_or_tomorrow_sunset(lat, lon):
                                                        '%Y-%m-%dT%H:%M:%S+00:00')
 
     #If Sunset has already passed, we want to give you tomorrow's time.
+    #sunset_time greater means the sunset has NOT happened already, so use today.
     if sunset_time_today_obj > current_utc:
         sunset_time_obj = sunset_time_today_obj
 
@@ -77,13 +79,92 @@ def find_forecast(code, sunset_time_obj):
 
 
 
-sfo_lat = 37.721298
-sfo_lon = -122.221001
-sfo_code = 'KOAK'
+# sfo_lat = 37.721298
+# sfo_lon = -122.221001
+# sfo_code = 'KOAK'
 
-sunset_date_obj = today_or_tomorrow_sunset(sfo_lat, sfo_lon)
-print sunset_date_obj
-forecast_json = find_forecast(sfo_code, sunset_date_obj)
+# sunset_date_obj = today_or_tomorrow_sunset(sfo_lat, sfo_lon)
+# print sunset_date_obj
+# forecast_json = find_forecast(sfo_code, sunset_date_obj)
 
-print forecast_json
+# print forecast_json
+
+
+def find_nearest_airport_forecast(user_point):
+    """Finds closest airport where the weather forecast is available and returns json response"""
+
+#   #distance in meters
+#     distance = 10000
+#     #limit on number of rows we get back from the query
+#     lim = 50
+
+#     sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
+
+#     sql = """SELECT airport_id FROM airports
+#             WHERE ST_DWithin(location, :user_point, :dist)
+#             ORDER BY location
+#             LIMIT :lim"""
+
+#     cursor = db.session.execute(sql, sql_args)
+#     # import pdb; pdb.set_trace()
+#     #For now, just having this here to display in the html
+
+#     # looping through all the airports in the SQL query
+#     # Until we get to one that has available forecast data
+#     i = 0
+#     while i < lim:
+
+#         #fetchone will grab the first airport id tuple and
+#         #take it out of the cursor.
+#         #That way if we do fetchone again, it will grab the next one
+#         airport_id = cursor.fetchone()
+
+#         # import pdb; pdb.set_trace()
+
+#         airport_obj = Airport.query.get(airport_id)
+#         # airport_obj = Airport.query.filter(ST_DWithin(Airport.location, user_point, distance)).all()
+#         # #Getting the airport object for the given code
+#         # # airport_obj = Airport.query.filter(Airport.icao_code == code).one()
+#         # airport_obj = airport_obj[0]
+
+#         lat = airport_obj.lattitude
+#         lon = airport_obj.longitude
+
+#         code = airport_obj.icao_code
+
+#         #From forecast.py:
+#         #Determine whether or not to use today or tomorrow's sunset
+#         #based on if the sunset has already passed
+#         sunset_datetime_obj = today_or_tomorrow_sunset(lat, lon)
+
+#         #Getting the forecast for that specific time
+#         # import pdb; pdb.set_trace()
+#         try:
+#             forecast_json = find_forecast(code, sunset_datetime_obj)
+#             print forecast_json
+#             break
+#         except:
+#             i += 1
+
+#     return forecast_json
+
+    #THIS IS HERE SO THAT I DON"T MAKE API REQUESTS!
+    test_json = {
+                    u'clouds':
+                        [{u'base_feet_agl': 7000,
+                        u'code': u'SCT',
+                        u'text': u'Few'},
+                        {u'base_feet_agl': 25000,
+                        u'code': u'FEW',
+                        u'text': u'Few'}],
+                    u'timestamp':
+                        {u'forecast_from': u'14-11-2017 @ 21:00Z',
+                        u'forecast_to': u'15-11-2017 @ 08:00Z'},
+                    u'icao_code': u'KSFO'
+                    }
+
+    return test_json
+
+
+
 

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block title %} Location {% endblock %}
+{% block title %} Add Favorite Location {% endblock %}
+
 {% block style %}
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -23,38 +24,20 @@
 
 {% endblock %}
 
+
 {% block content %}
 
-<h1> Location </h1>
-
-    {% if 'current_user' in session %}
-      <form action='/prediction'>
-        {{ user_obj.user_name }}, choose from your favorites!<br>
-        <select name="favoritelocation">
-        {% for favorite in user_obj.favorites %}
-          <option name='option'>{{favorite.favorite_title}}</option>
-        {% endfor %}
-        </select>
-        <input type='submit'>
-
-      </form>
-    {%  endif %}
-
-    <form action='/prediction'>
-        Please enter the following information: <br>
-        Latitude: <input type="text" name="lat"><br>
-        Longitude: <input type="text" name="lon"><br>
-        <input type="submit"> 
-    </form>
     <div id="locationField">
-    <form action='/prediction'>
-        Or, enter an address:<br>
+    <form action='/addfavorite' method='POST'>
+        Please Enter an address:<br>
         Address: <input type="text" id="autocomplete" name="address"
                         placeholder="Enter your address" onFocus="geolocate()"><br>
+
+        What would you like to name your location?:<br>
+        Title: <input type="text" id='title' name='title'>
         <input type="submit">
     </form>
     </div>
-    
 
       
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

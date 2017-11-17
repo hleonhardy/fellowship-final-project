@@ -32,7 +32,9 @@ def return_forecast_dict(icao):
     except:
         raise NoForecastDataError('No forecast available')
 
-    # print forecasts
+    #adding the icao code to this dictionary so that we can reference it later
+    forecasts['icao_code'] = icao
+
 
     return forecasts
 
