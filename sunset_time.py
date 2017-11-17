@@ -11,7 +11,9 @@ def return_sunset_time(lat, lon, date):
             lat, lon, date)
 
     response = urlopen(url)
+
     json_obj = load(response)
+    
     sunset_utc = json_obj['results']['sunset']
 
     return sunset_utc

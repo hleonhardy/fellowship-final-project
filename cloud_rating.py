@@ -83,7 +83,7 @@ def return_rating(cat_cloud_dict):
     """Takes in cloud dict and returns a new dict with a rating and description"""
 
     #Broken or Overcast (These get the worst ratings)
-    if  'BRK' in cat_cloud_dict.values() or 'OVO' in cat_cloud_dict.values():
+    if 'BRK' in cat_cloud_dict.values() or 'OVO' in cat_cloud_dict.values():
         rating_obj = BadRating()
 
     #Low clouds present (no brk or ovo)

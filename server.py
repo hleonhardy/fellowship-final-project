@@ -98,17 +98,16 @@ def show_prediction():
 
     user_point = 'POINT({} {})'.format(user_lon, user_lat)
 
-#******************************************************************************#
-# TESTING FOR KSFO:
-#******************************************************************************#
-
     #Time of today or tomorrow's sunset
     #For display purposes:
     sunset_datetime_obj = today_or_tomorrow_sunset(user_lat, user_lon)
 
     #forecast containing weather information AND icao code (new and imporoved)
     forecast_json = find_nearest_airport_forecast(user_point)
-    icao_code = forecast_json['icao_code']
+
+    print forecast_json
+
+    icao_code = forecast_json['icao']
     #Querying for the airport with the code from the forecast
     airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()
 
@@ -331,6 +330,7 @@ def upload_photo():
 
     airport_id = nearest_airport.airport_id
 
+    #using ST_Distance_Sphere gives units in meters instead of other weird something.
     distance = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(photo_pt, 4326), 
                                                  nearest_airport.location)).one()[0]
 

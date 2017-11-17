@@ -16,7 +16,7 @@ def return_forecast_dict(icao):
     response = requests.get(url, headers=headers)
     json_response = response.json()
 
-    print json_response
+    # print json_response
 
     data = json_response['data']
 
@@ -33,9 +33,33 @@ def return_forecast_dict(icao):
         raise NoForecastDataError('No forecast available')
 
     #adding the icao code to this dictionary so that we can reference it later
-    forecasts['icao_code'] = icao
+    # forecasts['icao_code'] = icao
 
 
     return forecasts
+
+
+# def return_multiple_forecasts(lst_of_icao_codes):
+#     """Takes in list of icao codes and returns multiple forecast dictionaries"""
+
+#     code_str = ','.join(lst_of_icao_codes)
+
+#     url = 'https://api.checkwx.com/taf/{}/decoded'.format(code_str)
+#     headers = { 'X-API-Key': API_KEY }
+
+#     response = requests.get(url, headers=headers)
+#     json_response = response.json()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
