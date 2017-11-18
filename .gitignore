@@ -3,3 +3,4 @@ env
 journal/
 avwxapipractice.py
 secrets.sh
+*user_images*
