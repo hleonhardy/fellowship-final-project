@@ -47,23 +47,24 @@ def today_or_tomorrow_sunset(lat, lon):
 
 
 
-def find_forecast(code, sunset_time_obj):
+
+def find_forecast(lst_of_forecast_dicts, sunset_time_obj):
     """Given icao code and sunset_time_obj: returns correct forecast in JSON"""
 
 
-    try:
-        #Airport class requires upper case icao,
-        #CheckWX API requires lowercase
-        #Getting the dictionary which contains multiple forecasts:
-        forecast_dict = return_forecast_dict(code.lower())
-        print "FORECAST DICTIONARY:"
-        print forecast_dict
-    except:
-        raise NoForecastDataError("No forecast available")
+    # try:
+    #     #Airport class requires upper case icao,
+    #     #CheckWX API requires lowercase
+    #     #Getting the dictionary which contains multiple forecasts:
+    #     forecast_dict = return_forecast_dict(code.lower())
+    #     print "FORECAST DICTIONARY:"
+    #     print forecast_dict
+    # except:
+    #     raise NoForecastDataError("No forecast available")
 
     #Going through the dictionary and picking the forecast that matches
     #The sunset time
-    for forecast in forecast_dict:
+    for forecast in lst_of_forecast_dicts:
         #Starting Time:
         forecast_from = forecast['timestamp']['forecast_from']
         #Ending Time:
@@ -81,7 +82,8 @@ def find_forecast(code, sunset_time_obj):
             break
 
     #adding icao code to the dictionary so that we can reference it later on
-    sunset_forecast_json['icao'] = code
+    #commented out becuase of change in return_forecast_dict
+    # sunset_forecast_json['icao'] = code
 
 
     return sunset_forecast_json
@@ -97,6 +99,17 @@ def find_forecast(code, sunset_time_obj):
 # forecast_json = find_forecast(sfo_code, sunset_date_obj)
 
 # print forecast_json
+
+from flask import (Flask,
+                   render_template,
+                   redirect, request,
+                   flash,
+                   session,
+                   jsonify)
+
+app = Flask(__name__)
+#in order to use the debugging toolbar:
+app.secret_key = 'kiloechoyankee'
 
 
 def find_nearest_airport_forecast(user_point):
@@ -122,47 +135,80 @@ def find_nearest_airport_forecast(user_point):
 
     # looping through all the airports in the SQL query
     # Until we get to one that has available forecast data
-    i = 0
-    while i < lim:
+    # i = 0
+    # while i < lim:
 
-        #fetchone will grab the first airport id tuple and
-        #take it out of the cursor.
-        #That way if we do fetchone again, it will grab the next one
-        airport_id = cursor.fetchone()
+    #     #fetchone will grab the first airport id tuple and
+    #     #take it out of the cursor.
+    #     #That way if we do fetchone again, it will grab the next one
+    #     airport_id = cursor.fetchone()
 
-        # import pdb; pdb.set_trace()
+    #     # import pdb; pdb.set_trace()
 
+    #     airport_obj = Airport.query.get(airport_id)
+    #     # airport_obj = Airport.query.filter(ST_DWithin(Airport.location, user_point, distance)).all()
+    #     # #Getting the airport object for the given code
+    #     # # airport_obj = Airport.query.filter(Airport.icao_code == code).one()
+    #     # airport_obj = airport_obj[0]
+
+    #     lat = airport_obj.lattitude
+    #     lon = airport_obj.longitude
+
+    #     code = airport_obj.icao_code
+
+    #     print code
+
+    #     #From forecast.py:
+    #     #Determine whether or not to use today or tomorrow's sunset
+    #     #based on if the sunset has already passed
+    #     sunset_datetime_obj = today_or_tomorrow_sunset(lat, lon)
+    #     print '**************'
+    #     print i
+    #     print '**************'
+
+    #     #Getting the forecast for that specific time
+    #     # import pdb; pdb.set_trace()
+    #     try:
+    #         forecast_json = find_forecast(code, sunset_datetime_obj)
+    #         break
+    #     except:
+    #         i += 1
+
+
+    all_ids = cursor.fetchall()
+    icao_code_lst = []
+    for airport_id in all_ids:
         airport_obj = Airport.query.get(airport_id)
-        # airport_obj = Airport.query.filter(ST_DWithin(Airport.location, user_point, distance)).all()
-        # #Getting the airport object for the given code
-        # # airport_obj = Airport.query.filter(Airport.icao_code == code).one()
-        # airport_obj = airport_obj[0]
+        icao_code = airport_obj.icao_code
+        icao_code = icao_code.lower()
+        icao_code_lst.append(icao_code)
+
+
+    #one giant list containing lists of all forecasts for one airport
+    all_icao_forecasts = return_forecast_dict(icao_code_lst)
+
+    sunset_forecasts = []
+
+    #for list of all forecasts for one airport in giant list:
+    for lst_of_forecast_dicts in all_icao_forecasts:
+
+        icao_code = lst_of_forecast_dicts[0]['icao']
+        airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()
 
         lat = airport_obj.lattitude
-        lon = airport_obj.longitude
+        lng = airport_obj.longitude
 
-        code = airport_obj.icao_code
+        sunset_datetime_obj = today_or_tomorrow_sunset(lat, lng)
 
-        print code 
+        sunset_forecast = find_forecast(lst_of_forecast_dicts, sunset_datetime_obj)
 
-        #From forecast.py:
-        #Determine whether or not to use today or tomorrow's sunset
-        #based on if the sunset has already passed
-        sunset_datetime_obj = today_or_tomorrow_sunset(lat, lon)
-        print '**************'
-        print i
-        print '**************'
-
-        #Getting the forecast for that specific time
-        # import pdb; pdb.set_trace()
-        try:
-            forecast_json = find_forecast(code, sunset_datetime_obj)
-            break
-        except:
-            i += 1
+        sunset_forecasts.append(sunset_forecast)
 
 
-    return forecast_json
+    closest_forecast = sunset_forecasts[0]
+
+
+    return closest_forecast
 
     #THIS IS HERE SO THAT I DON"T MAKE API REQUESTS!
     # test_json = {
@@ -183,4 +229,22 @@ def find_nearest_airport_forecast(user_point):
 
 
 
+#******************************************************************************#
+#******************************************************************************#
+#******************************************************************************#
 
+
+
+
+if __name__ == '__main__':
+
+    # app.debug = True
+    # #doesn't cache templates, etc in debug mode:
+    # app.jinja_env.auto_reload = app.debug
+
+    #connect to database
+    connect_to_db(app)
+
+
+    # #host with 0's so we can run with vagrant
+    # app.run(port=5000, host='0.0.0.0')

@@ -7,49 +7,59 @@ API_KEY = os.environ['CHECKWXAPIKEY']
 
 #Zulu time is 24hr UTC
 
-def return_forecast_dict(icao):
+def return_forecast_dict(icao_list):
     """prints forecast times and clouds"""
 
-    url = 'https://api.checkwx.com/taf/{}/decoded'.format(icao)
+    #format string of icao_codes
+    icao_string = ','.join(icao_list)
+    print icao_string
+
+    url = 'https://api.checkwx.com/taf/{}/decoded'.format(icao_string)
     headers = { 'X-API-Key': API_KEY }
 
     response = requests.get(url, headers=headers)
     json_response = response.json()
 
-    # print json_response
-
+    #List of separate icao forecasts:
+    #Each item in the data list corresponds to different icao code.
+    #This comes in order of icao_string
     data = json_response['data']
 
-    #I guess data was a list with only one item (dictionary)
-    #So now it is a dictionary:
-    data = data[0]
+    working_icao_forecasts = []
 
-    #An airport with no forecast data will not have a forecast key.
-    try:
-        #Getting a list of all forecasts
-        #Each index in the list is the forecast(dictionary)
-        forecasts = data['forecast']
+    for icao_data in data:
+        print "THE DATA"
+        print icao_data
+        print "END OF DATA"
 
-    except:
-        raise NoForecastDataError('No forecast available')
+        #An airport with no forecast data will not have a forecast key.
+        try:
+            #Getting a list of all forecasts
+            #Each index in the list is the forecast:
+            #(list of individual forecast dictionaries)
+            forecasts = icao_data['forecast']
+            print "FORECAST EXISTS!"
 
-    #adding the icao code to this dictionary so that we can reference it later
-    # forecasts['icao_code'] = icao
+        except:
+            # raise NoForecastDataError('No forecast available')
+            continue
 
 
-    return forecasts
+        #Adding the icao to each forecast because it makes it easier
+        #in the future to find the code if we do this now.
+        #note: it seems unnecesary to be adding this to every forecast even
+        #though we're going to throw out all but one of the forecasts
+        #but we won't be able to add it to an individual one later on.
+        for individual_forecast_dict in forecasts:
+            individual_forecast_dict['icao'] = icao_data['icao']
+
+        #If there is forecast data, we want to append it to our list to return
+        working_icao_forecasts.append(forecasts)
 
 
-# def return_multiple_forecasts(lst_of_icao_codes):
-#     """Takes in list of icao codes and returns multiple forecast dictionaries"""
+    return working_icao_forecasts
 
-#     code_str = ','.join(lst_of_icao_codes)
 
-#     url = 'https://api.checkwx.com/taf/{}/decoded'.format(code_str)
-#     headers = { 'X-API-Key': API_KEY }
-
-#     response = requests.get(url, headers=headers)
-#     json_response = response.json()
 
 
 

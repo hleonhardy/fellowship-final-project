@@ -103,9 +103,9 @@ def show_prediction():
     sunset_datetime_obj = today_or_tomorrow_sunset(user_lat, user_lon)
 
     #forecast containing weather information AND icao code (new and imporoved)
-    forecast_json = find_nearest_airport_forecast(user_point)
+    closest_forecast_json = find_nearest_airport_forecast(user_point)
 
-    icao_code = forecast_json['icao']
+    icao_code = closest_forecast_json['icao']
     #Querying for the airport with the code from the forecast
     airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()
 
@@ -114,7 +114,7 @@ def show_prediction():
 
     #Making a specifcally formated cloud dictionary to use
     #in return rating (which returns a dictionary with rating and description)
-    cat_cloud_dict = make_cloud_dict(forecast_json)
+    cat_cloud_dict = make_cloud_dict(closest_forecast_json)
     rate_desc_dict = return_rating(cat_cloud_dict)
     description = rate_desc_dict['description']
 
@@ -123,7 +123,7 @@ def show_prediction():
                            icao_code=icao_code,
                            airport_obj=airport_obj,
                            sunset_time=sunset_datetime_obj,
-                           forecast=forecast_json,
+                           forecast=closest_forecast_json,
                            current_utc=current_utc,
                            description=description,
                            userLat=user_lat,
