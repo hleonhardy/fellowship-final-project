@@ -10,7 +10,7 @@
 
 This is where you upload a photo:
 
-<form action='/uploadphoto' method='POST'>
+<form action='/uploadphoto' enctype="multipart/form-data" method='POST'>
 
     <input type='file' name='img' accept='image/*'><br>
     Photo Title: <input type='text' name='title'>
@@ -19,6 +19,13 @@ This is where you upload a photo:
     Where was this picture taken? 
     <input type="text" id="autocomplete" name="location"
                         placeholder="Where was the photo taken?" onFocus="geolocate()"><br>
+    Sunset Rating: <select name='rating'>
+                        <option value='1'> 1 </option>
+                        <option value='2'> 2 </option>
+                        <option value='3'> 3 </option>
+                        <option value='4'> 4 </option>
+                        <option value='5'> 5 </option>
+                    </select>
 
 
 

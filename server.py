@@ -28,7 +28,7 @@ from maps import get_coordinates_from_address
 
 from errors import NoForecastDataError
 
-UPLOAD_FOLDER = '/static/user_images/'
+UPLOAD_FOLDER = 'static/user_images/'
 
 
 app = Flask(__name__)
@@ -268,7 +268,7 @@ def add_favorite():
 
     #finding the nearest airport that has an available forecast:
     nearest_airport_forecast = find_nearest_airport_forecast(fav_point)
-    nearest_icao_code = nearest_airport_forecast['icao_code']
+    nearest_icao_code = nearest_airport_forecast['icao']
 
     #Getting airport object for airport ID (to add to db)
     nearest_airport = Airport.query.filter(Airport.icao_code == nearest_icao_code).one()
@@ -308,9 +308,16 @@ def upload_photo():
     #getting information about the photo from the form:
     location = request.form.get('location')
     date = request.form.get('date')
-    image = request.form.get('img')
     description = request.form.get('description')
     title = request.form.get('title')
+    rating = request.form.get('rating')
+
+    image = request.files['img']
+    path_name = "usrid={}-{}-{}".format(session['current_user'], date, image.filename)
+    image.save(os.path.join(app.config['UPLOAD_FOLDER'], path_name))
+    ###### COME UP WITH BETTER FILE NAME #######
+    image_path = app.config['UPLOAD_FOLDER'] + path_name
+ 
 
     #making date into object so we can add to DB:
     date_obj = datetime.datetime.strptime(date, '%Y-%m-%d')
@@ -323,7 +330,7 @@ def upload_photo():
 
     #finding nearest available airport so we can store that in db:
     nearest_airport_forecast = find_nearest_airport_forecast(photo_pt)
-    nearest_icao_code = nearest_airport_forecast['icao_code']
+    nearest_icao_code = nearest_airport_forecast['icao']
 
     #Getting airport object for airport ID (to add to db)
     nearest_airport = Airport.query.filter(Airport.icao_code == nearest_icao_code).one()
@@ -331,6 +338,7 @@ def upload_photo():
     airport_id = nearest_airport.airport_id
 
     #using ST_Distance_Sphere gives units in meters instead of other weird something.
+    #Distance is in METERS
     distance = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(photo_pt, 4326), 
                                                  nearest_airport.location)).one()[0]
 
@@ -341,19 +349,26 @@ def upload_photo():
     print '**************'
     print type(distance)
 
-    #STILL NEEDED: file path(from image) and distance from closest airport
 
 
-    # new_photo = Photo(user_id=session['current_user'],
-    #                   airport_id=airport_id,
-    #                   photo_title=title,
-    #                   photo_lat=photo_lat,
-    #                   photo_lng=photo_lng,
-    #                   photo_location=photo_pt,
-    #                   datetime=date_obj,
+    new_photo = Photo(user_id=session['current_user'],
+                      airport_id=airport_id,
+                      photo_title=title,
+                      photo_lat=photo_lat,
+                      photo_lng=photo_lng,
+                      photo_location=photo_pt,
+                      datetime=date_obj,
+                      filepath=image_path,
+                      airport_dist=distance,
+                      sunset_rating=rating,
+                      description=description)
+
+    db.session.add(new_photo)
+    db.session.commit()
 
 
 
+    return redirect('/mypage')
 
 
 
