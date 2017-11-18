@@ -18,7 +18,7 @@ class Cloud(object):
             self.amount = 1
         elif cloud_code == 'SCT':
             self.amount = 2
-        elif cloud_code == 'BRK':
+        elif cloud_code == 'BKN':
             self.amount = 3
         else: #cloud_code = 'OVO':
             self.amount = 4

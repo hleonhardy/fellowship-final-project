@@ -29,6 +29,7 @@ def return_forecast_dict(icao):
         #Getting a list of all forecasts
         #Each index in the list is the forecast(dictionary)
         forecasts = data['forecast']
+
     except:
         raise NoForecastDataError('No forecast available')
 

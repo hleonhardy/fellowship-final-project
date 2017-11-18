@@ -56,6 +56,8 @@ def find_forecast(code, sunset_time_obj):
         #CheckWX API requires lowercase
         #Getting the dictionary which contains multiple forecasts:
         forecast_dict = return_forecast_dict(code.lower())
+        print "FORECAST DICTIONARY:"
+        print forecast_dict
     except:
         raise NoForecastDataError("No forecast available")
 
@@ -101,9 +103,9 @@ def find_nearest_airport_forecast(user_point):
     """Finds closest airport where the weather forecast is available and returns json response"""
 
 #   #distance in meters
-    distance = 100000
+    distance = 1000000
     #limit on number of rows we get back from the query
-    lim = 10
+    lim = 5
 
 
 

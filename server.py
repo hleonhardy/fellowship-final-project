@@ -105,8 +105,6 @@ def show_prediction():
     #forecast containing weather information AND icao code (new and imporoved)
     forecast_json = find_nearest_airport_forecast(user_point)
 
-    print forecast_json
-
     icao_code = forecast_json['icao']
     #Querying for the airport with the code from the forecast
     airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()

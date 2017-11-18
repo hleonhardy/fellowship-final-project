@@ -27,7 +27,7 @@ cloud_dict_1 = {"clouds": [
 cloud_dict_2 = {"clouds": [
                         {
                             "cloud_base_ft_agl": 7000,
-                            "cloud_code": "BRK"
+                            "cloud_code": "BKN"
                         },
                         {
                             "cloud_base_ft_agl": 500,
@@ -37,7 +37,7 @@ cloud_dict_2 = {"clouds": [
                 }
 
 
-sample_dict_1 = {'high': 'SKC', 'low': 'SCT', 'mid': 'BRK'}
+sample_dict_1 = {'high': 'SKC', 'low': 'SCT', 'mid': 'BKN'}
 sample_dict_2 = {'high': 'SKC', 'low': 'SKC', 'mid': 'SKC'}
 sample_dict_3 = {'high': 'SKC', 'low': 'SKC', 'mid': 'SCT'}
 sample_dict_4 = {'high': 'SCT', 'low': 'SCT', 'mid':'SKC'}
@@ -83,28 +83,34 @@ def return_rating(cat_cloud_dict):
     """Takes in cloud dict and returns a new dict with a rating and description"""
 
     #Broken or Overcast (These get the worst ratings)
-    if 'BRK' in cat_cloud_dict.values() or 'OVO' in cat_cloud_dict.values():
+    if 'BKN' in cat_cloud_dict.values() or 'OVO' in cat_cloud_dict.values():
         rating_obj = BadRating()
+        print "bad rating"
 
-    #Low clouds present (no brk or ovo)
+    #Low clouds present (no bkn or ovo)
     elif  cat_cloud_dict['low'] != 'SKC':
         rating_obj = LowCloudRating()
+        print "low cloud rating"
 
     #Only clear skies/neutral rating
     elif cat_cloud_dict['low'] == 'SKC' and cat_cloud_dict['mid'] == 'SKC' and cat_cloud_dict['high'] == 'SKC':
         rating_obj = ClearSkyRating()
+        print "clear sky"
 
     #If there is nothing in mid (only high):
     elif cat_cloud_dict['mid'] == 'SKC':
         rating_obj = OnlyHighCloudRating()
+        print "high cloud, no bkn or ovo"
 
     #If mid clouds are few:
     elif cat_cloud_dict['mid'] == 'FEW':
         rating_obj = MidFewRating()
+        print "mid few"
 
     #If mid clouds are scattered (best rating):
     else:
         rating_obj = MidSctRating()
+        print "mid scattered"
 
 
     rating_num = rating_obj.get_number(cat_cloud_dict)
