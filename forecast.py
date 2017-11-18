@@ -120,69 +120,27 @@ def find_nearest_airport_forecast(user_point):
     #limit on number of rows we get back from the query
     lim = 5
 
-
-
     sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
 
-    sql = """SELECT airport_id FROM airports
+    sql = """SELECT icao_code FROM airports
             WHERE ST_DWithin(location, :user_point, :dist)
             ORDER BY ST_Distance(location, :user_point)
             LIMIT :lim"""
 
     cursor = db.session.execute(sql, sql_args)
-    # import pdb; pdb.set_trace()
-    #For now, just having this here to display in the html
 
-    # looping through all the airports in the SQL query
-    # Until we get to one that has available forecast data
-    # i = 0
-    # while i < lim:
+    #Getting all of the icao_codes from our database query:
+    all_codes = cursor.fetchall()
 
-    #     #fetchone will grab the first airport id tuple and
-    #     #take it out of the cursor.
-    #     #That way if we do fetchone again, it will grab the next one
-    #     airport_id = cursor.fetchone()
-
-    #     # import pdb; pdb.set_trace()
-
-    #     airport_obj = Airport.query.get(airport_id)
-    #     # airport_obj = Airport.query.filter(ST_DWithin(Airport.location, user_point, distance)).all()
-    #     # #Getting the airport object for the given code
-    #     # # airport_obj = Airport.query.filter(Airport.icao_code == code).one()
-    #     # airport_obj = airport_obj[0]
-
-    #     lat = airport_obj.lattitude
-    #     lon = airport_obj.longitude
-
-    #     code = airport_obj.icao_code
-
-    #     print code
-
-    #     #From forecast.py:
-    #     #Determine whether or not to use today or tomorrow's sunset
-    #     #based on if the sunset has already passed
-    #     sunset_datetime_obj = today_or_tomorrow_sunset(lat, lon)
-    #     print '**************'
-    #     print i
-    #     print '**************'
-
-    #     #Getting the forecast for that specific time
-    #     # import pdb; pdb.set_trace()
-    #     try:
-    #         forecast_json = find_forecast(code, sunset_datetime_obj)
-    #         break
-    #     except:
-    #         i += 1
-
-
-    all_ids = cursor.fetchall()
     icao_code_lst = []
-    for airport_id in all_ids:
-        airport_obj = Airport.query.get(airport_id)
-        icao_code = airport_obj.icao_code
-        icao_code = icao_code.lower()
-        icao_code_lst.append(icao_code)
 
+    #Putting all the codes in a list to send off to get forecasts for
+    for icao_code in all_codes:
+        #icao_code is (u'XXXX', )
+        #so we need to get the 0th item out of there to get the code
+        icao_code = icao_code[0]
+        print icao_code
+        icao_code_lst.append(icao_code.lower())
 
     #one giant list containing lists of all forecasts for one airport
     all_icao_forecasts = return_forecast_dict(icao_code_lst)
@@ -195,16 +153,21 @@ def find_nearest_airport_forecast(user_point):
         icao_code = lst_of_forecast_dicts[0]['icao']
         airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()
 
+        #getting coordinates in order to find sunset time:
         lat = airport_obj.lattitude
         lng = airport_obj.longitude
 
+        #Finding time of sunset
         sunset_datetime_obj = today_or_tomorrow_sunset(lat, lng)
 
+        #finding appropriate forecast given sunset time
+        #(we want the sunset time to be within the range of the forecast time)
         sunset_forecast = find_forecast(lst_of_forecast_dicts, sunset_datetime_obj)
 
+        #adding the correctly ranged forecast to the final list
         sunset_forecasts.append(sunset_forecast)
 
-
+    #closest airport's forecast is the first one in the list!
     closest_forecast = sunset_forecasts[0]
 
 
