@@ -6,6 +6,9 @@ import pprint
 
 from model import connect_to_db, db, Airport
 
+from flask import (Flask,
+                   session,
+                   jsonify)
 
 
 def today_or_tomorrow_sunset(lat, lon):
@@ -64,6 +67,11 @@ def find_forecast(lst_of_forecast_dicts, sunset_time_obj):
 
     #Going through the dictionary and picking the forecast that matches
     #The sunset time
+
+    print "sunset time: {}".format(sunset_time_obj)
+
+    sunset_forecast_json = None
+
     for forecast in lst_of_forecast_dicts:
         #Starting Time:
         forecast_from = forecast['timestamp']['forecast_from']
@@ -73,13 +81,25 @@ def find_forecast(lst_of_forecast_dicts, sunset_time_obj):
         #In order to compare to the sunset time:
         forecast_from_obj = datetime.datetime.strptime(forecast_from,
                                                        '%d-%m-%Y @ %H:%MZ')
+
         forecast_to_obj = datetime.datetime.strptime(forecast_to,
                                                        '%d-%m-%Y @ %H:%MZ')
+
+        print "forecast from: {} \n forecast to: {}".format(forecast_from_obj, forecast_to_obj)
+
+
         #We want the sunset time that is within the forecast range:
         if sunset_time_obj >= forecast_from_obj and sunset_time_obj < forecast_to_obj:
             #The correct forecast
             sunset_forecast_json = forecast
             break
+        else:
+            print "no forecasts in the available range?"
+
+    if sunset_forecast_json is None:
+        #using the last forecast available (latest)
+        print "using latest possible forecast, although not in range."
+        sunset_forecast_json = forecast
 
     #adding icao code to the dictionary so that we can reference it later on
     #commented out becuase of change in return_forecast_dict
@@ -100,16 +120,7 @@ def find_forecast(lst_of_forecast_dicts, sunset_time_obj):
 
 # print forecast_json
 
-from flask import (Flask,
-                   render_template,
-                   redirect, request,
-                   flash,
-                   session,
-                   jsonify)
 
-app = Flask(__name__)
-#in order to use the debugging toolbar:
-app.secret_key = 'kiloechoyankee'
 
 
 def find_nearest_airport_forecast(user_point):
@@ -167,11 +178,11 @@ def find_nearest_airport_forecast(user_point):
         #adding the correctly ranged forecast to the final list
         sunset_forecasts.append(sunset_forecast)
 
-    #closest airport's forecast is the first one in the list!
-    closest_forecast = sunset_forecasts[0]
+    # #closest airport's forecast is the first one in the list!
+    # closest_forecast = sunset_forecasts[0]
 
 
-    return closest_forecast
+    return sunset_forecasts
 
     #THIS IS HERE SO THAT I DON"T MAKE API REQUESTS!
     # test_json = {
@@ -198,12 +209,14 @@ def find_nearest_airport_forecast(user_point):
 
 
 
-
 if __name__ == '__main__':
 
     # app.debug = True
     # #doesn't cache templates, etc in debug mode:
     # app.jinja_env.auto_reload = app.debug
+    app = Flask(__name__)
+    #in order to use the debugging toolbar:
+    app.secret_key = 'kiloechoyankee'
 
     #connect to database
     connect_to_db(app)

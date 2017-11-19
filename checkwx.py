@@ -19,6 +19,7 @@ def return_forecast_dict(icao_list):
 
     response = requests.get(url, headers=headers)
     json_response = response.json()
+    print json_response
 
     #List of separate icao forecasts:
     #Each item in the data list corresponds to different icao code.
@@ -41,7 +42,7 @@ def return_forecast_dict(icao_list):
             print "FORECAST EXISTS!"
 
         except:
-            # raise NoForecastDataError('No forecast available')
+            #if no forecast exists, don't add it to the list
             continue
 
 
@@ -55,6 +56,10 @@ def return_forecast_dict(icao_list):
 
         #If there is forecast data, we want to append it to our list to return
         working_icao_forecasts.append(forecasts)
+
+
+    if len(working_icao_forecasts) == 0:
+        raise NoForecastDataError('No Forecasts Available')
 
 
     return working_icao_forecasts

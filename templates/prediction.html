@@ -39,6 +39,12 @@
     {{forecast['clouds']}}<br><br>
 
 
+    {{rec_message}}
+    {% if rec_forecast != 'same' %}
+        Here is the forecast for {{ rec_forecast['icao'] }}:<br>
+        {{ rec_forecast['clouds'] }}
+    {% endif %}
+
 </p>
 
 <!-- Trying to get the map to work: -->

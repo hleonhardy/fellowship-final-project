@@ -103,7 +103,45 @@ def show_prediction():
     sunset_datetime_obj = today_or_tomorrow_sunset(user_lat, user_lon)
 
     #forecast containing weather information AND icao code (new and imporoved)
-    closest_forecast_json = find_nearest_airport_forecast(user_point)
+    forecasts = find_nearest_airport_forecast(user_point)
+    closest_forecast_json = forecasts[0]
+
+    #**************************** RECOMENDATION *******************************#
+
+    #Even the worst rating is higher than this number:
+    highest_rating = -6000
+
+    recomendation = None
+
+    for forecast in forecasts:
+        cat_cloud_dict = make_cloud_dict(forecast)
+        rate_desc_dict = return_rating(cat_cloud_dict)
+        rating = rate_desc_dict['value']
+        if rating > highest_rating:
+            highest_rating = rating
+            recomendation = forecast['icao']
+            print "RECOMENDATION"
+            print recomendation
+            rec_forecast = forecast
+            print "SAME RECOMENDATION:"
+            print rec_forecast['icao']
+            print type(rec_forecast)
+        else:
+            print "{} did not have a better forecast".format(forecast['icao'])
+
+    print recomendation, highest_rating
+
+    if recomendation == closest_forecast_json['icao']:
+        rec_message = """You've got the highest rated sunset in your area! \n
+                        We recommend you stay right where you are! """
+        rec_forecast = "same"
+
+    else:
+        rec_message = """{} has a higher rated sunset! \n
+                        We reccomend you go there for the
+                        best sunset experience.""".format(recomendation)
+        print rec_forecast
+
 
     icao_code = closest_forecast_json['icao']
     #Querying for the airport with the code from the forecast
@@ -128,7 +166,9 @@ def show_prediction():
                            description=description,
                            userLat=user_lat,
                            userLon=user_lon,
-                           mapsapiurl=maps_src_url)
+                           mapsapiurl=maps_src_url,
+                           rec_forecast=rec_forecast,
+                           rec_message=rec_message)
 
 
 #******************************************************************************#
