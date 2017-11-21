@@ -56,6 +56,81 @@
     </div>
     
 
+
+
+<p>Or, use your location!</p>
+
+
+<form action='/prediction' id='usrlocation'>
+  <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
+  <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
+</form>
+<button id='submit'>use my location!</button>
+
+<script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+<script>
+var x = document.getElementById("usrlocation");
+
+function getLocation(evt) {
+    console.log("in getLocation");
+    evt.preventDefault();
+    return new Promise(function(resolve, reject) {
+      if (navigator.geolocation) {
+        console.log("in if");
+        navigator.geolocation.getCurrentPosition(resolve);      }
+      else {
+        console.log("in else");
+        console.log("Geolocation is not supported by this browser.");
+        reject();
+      }
+    });
+  }
+
+    // if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(assignPosition);
+    // } else { 
+    //     x.innerHTML = "Geolocation is not supported by this browser.";
+    // }
+
+// }
+
+function assignPosition(position) {
+
+    console.log('in assign position');
+  return new Promise(function(resolve) {
+    $('#usrlat').attr('value', position.coords.latitude);
+    $('#usrlng').attr('value', position.coords.longitude);
+    console.log("done with assignPosition");
+    resolve();
+  });
+}
+
+function submitForm() {
+    console.log("in submitForm");
+    $('#usrlocation').submit();
+}
+
+function callAll(evt) {
+  getLocation(evt)
+    .then(assignPosition)
+    .then(submitForm)
+
+
+    // .then(function(){
+    //   
+    //   submitForm();});
+}
+
+
+$('#submit').on('click', callAll);
+
+</script>
+
+
+
+
+
+
       
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src='/static/js/autocomplete.js'></script>

@@ -154,7 +154,14 @@ def find_nearest_airport_forecast(user_point):
         icao_code_lst.append(icao_code.lower())
 
     #one giant list containing lists of all forecasts for one airport
-    all_icao_forecasts = return_forecast_dict(icao_code_lst)
+    #make this into try and except to account for the no airports in range error
+
+    try:
+        all_icao_forecasts = return_forecast_dict(icao_code_lst)
+
+    except:
+        raise NoForecastDataError('No Forecasts Available')
+
 
     sunset_forecasts = []
 
@@ -184,43 +191,16 @@ def find_nearest_airport_forecast(user_point):
 
     return sunset_forecasts
 
-    #THIS IS HERE SO THAT I DON"T MAKE API REQUESTS!
-    # test_json = {
-    #                 u'clouds':
-    #                     [{u'base_feet_agl': 7000,
-    #                     u'code': u'SCT',
-    #                     u'text': u'Few'},
-    #                     {u'base_feet_agl': 25000,
-    #                     u'code': u'FEW',
-    #                     u'text': u'Few'}],
-    #                 u'timestamp':
-    #                     {u'forecast_from': u'14-11-2017 @ 21:00Z',
-    #                     u'forecast_to': u'15-11-2017 @ 08:00Z'},
-    #                 u'icao_code': u'KSFO'
-    #                 }
-
-    # return test_json
-
 
 
 #******************************************************************************#
 #******************************************************************************#
 #******************************************************************************#
-
 
 
 if __name__ == '__main__':
 
-    # app.debug = True
-    # #doesn't cache templates, etc in debug mode:
-    # app.jinja_env.auto_reload = app.debug
     app = Flask(__name__)
-    #in order to use the debugging toolbar:
-    app.secret_key = 'kiloechoyankee'
 
     #connect to database
     connect_to_db(app)
-
-
-    # #host with 0's so we can run with vagrant
-    # app.run(port=5000, host='0.0.0.0')

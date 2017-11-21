@@ -30,6 +30,30 @@ def get_coordinates_from_address(address):
     return {'lat': lat, 'lng': lng}
 
 
+# def geolocate():
+#     """Get's user's location using google maps API, returns location"""
+
+#     url = "https://www.googleapis.com/geolocation/v1/geolocate?key={}".format(GOOGLE_MAPS_API_KEY)
+
+#     response = urlopen(url)
+#     json_obj = load(response)
+
+#     return json_obj
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # address = '683 Sutter St, San Francisco, CA'
 # print get_coordinates_from_address(address)

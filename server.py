@@ -93,8 +93,19 @@ def show_prediction():
         user_lat = fav_location.favorite_lat
         user_lon = fav_location.favorite_lng
 
+    elif 'usrlat' in request.args:
+        user_lat = request.args.get('usrlat')
+        user_lon = request.args.get('usrlng')
+        print user_lat
+        print type(user_lat)
+        print user_lon
+        print type(user_lon)
+
+
     else:
         print "something didn't work"
+        flash("didn't work")
+        return redirect('/location')
 
     user_point = 'POINT({} {})'.format(user_lon, user_lat)
 
@@ -103,7 +114,15 @@ def show_prediction():
     sunset_datetime_obj = today_or_tomorrow_sunset(user_lat, user_lon)
 
     #forecast containing weather information AND icao code (new and imporoved)
-    forecasts = find_nearest_airport_forecast(user_point)
+    #adding try and except for no airport error
+
+    try:
+        forecasts = find_nearest_airport_forecast(user_point)
+    except:
+        flash("I'm sorry! There are no available forecasts in this area =[ ")
+        return redirect('/location')
+
+
     closest_forecast_json = forecasts[0]
 
     #**************************** RECOMENDATION *******************************#
@@ -305,8 +324,17 @@ def add_favorite():
     fav_point = 'POINT({} {})'.format(fav_lng, fav_lat)
 
     #finding the nearest airport that has an available forecast:
-    nearest_airport_forecast = find_nearest_airport_forecast(fav_point)
-    nearest_icao_code = nearest_airport_forecast['icao']
+    #Try and except incase there are no airports in range!
+
+    try:
+        nearest_airport_forecast = find_nearest_airport_forecast(fav_point)
+
+    except:
+        flash("I'm sorry! This location is too far from anywhere with available forecasts =[ ")
+        return redirect("/addfavorite")
+
+    closest_airport = nearest_airport_forecast[0]
+    nearest_icao_code = closest_airport['icao']
 
     #Getting airport object for airport ID (to add to db)
     nearest_airport = Airport.query.filter(Airport.icao_code == nearest_icao_code).one()
