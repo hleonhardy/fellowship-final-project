@@ -69,6 +69,8 @@
 
 <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
 <script>
+
+
 var x = document.getElementById("usrlocation");
 
 function getLocation(evt) {
@@ -110,11 +112,20 @@ function submitForm() {
     $('#usrlocation').submit();
 }
 
+// callAll calls the getLocation function which returns a promise
+//  --> promise is passed resolve and reject
+//  --> promise wraps getCurrentPosition which has resolve as a callback
+// Then, after the promise is resolved, we call assignPosition.
+//  --> assignPosition is automatically passed position as part of the promise
+//  --> assignPosition calls resolve() after changing value attributes in lat/lng hidden input
+// Lastly, we call submit form. 
+// .catch() is for the rejection.
+
 function callAll(evt) {
   getLocation(evt)
     .then(assignPosition)
     .then(submitForm)
-
+    .catch();
 
     // .then(function(){
     //   
