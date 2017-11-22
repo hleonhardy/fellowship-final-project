@@ -9,7 +9,7 @@
 {% block content %}
 
 This is where you upload a photo:
-
+<div>
 <form action='/uploadphoto' enctype="multipart/form-data" method='POST'>
 
     <input type='file' name='img' accept='image/*'><br>
@@ -36,6 +36,6 @@ This is where you upload a photo:
     <input type='submit'>
 
 </form>
-
+</div>
 
 {% endblock %}

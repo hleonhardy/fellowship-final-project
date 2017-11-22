@@ -3,8 +3,43 @@
 
 {% block content %}
 
-<h1> Here is my content. </h1>
+<h1> Welcome. </h1>
 
-<a href="/location">Click Here</a> to Enter a Location!
+
+<div id="locationField">
+<form action='/prediction'>
+    Enter an address to get a sunset prediction!
+    <input type="text" id="autocomplete" name="address"
+                    placeholder="Enter your address" onFocus="geolocate()">
+    <input type="submit">
+</form>
+</div>
+<br><br>
+
+<h2> About: </h2>
+<h4>All sunsets are beautiful, but some are particularly more beautiful than others.</h4>
+This page predicts how beautiful a sunset will be based on the amount and altitude of
+the clouds near the selected location.<br>
+This page uses weather data from airports, also known as METARS and TAFS.<br>
+We use airport weather data because they give specific amounts and altitudes of clouds (
+so that pilots can know what conditions to expect while flying).
+
+<h3>Why are sunsets filled with different colors?</h3>
+
+<p>
+Why do we see reds, pinks, and oranges when the sun is setting? <br>
+(I'll fill this in later)
+</p>
+<h3>Here are some pictures!</h3>
+<h2>A Pretty Sunset: </h2>
+<img src="/static/sunset_photos/burning-sky-sunset.jpg">
+<h2>Here is another pretty sunset: </h2>
+<img src="/static/sunset_photos/prettysunset.jpg">
+<h2>Here is a sunset that isn't quite as memorable as the ones above:</h2>
+<img src="/static/sunset_photos/toocloudy.jpg">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src='/static/js/autocomplete.js'></script>
+<script defer type="text/javascript" src="{{ placesmapurl | safe }}"></script>
 
 {% endblock %}

@@ -1,6 +1,24 @@
 {% extends 'base.html' %}
 {% block title %} Your Page {% endblock %}
 
+{% block style %}
+
+<style type="text/css">
+img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
+}
+
+img:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+</style>
+
+{% endblock %}
+
 {% block content %}
 
 <h1> Hi {{ user_obj.user_name }}! </h1>
@@ -11,33 +29,68 @@
 {% if user_obj.favorites %}
         {% for fav in user_obj.favorites %}
         <li>
+
+
+<!--       <form action='/prediction'>
+        <input type='hidden' name='favoritelocation' value='{{ fav.favorite_title}}'>
+            
             {{ fav.favorite_title }}
+
+        <input type='submit'>
+      </form> -->
+
+      <a href="/prediction?favoritelocation={{fav.favorite_title}}"> {{fav.favorite_title }}</a>
+
         </li>
         {% endfor %}
+        <br>
+
+
         <li> <a href="/addfavorite">Click Here</a> to add another favorite location!</li>
+
 {% else %}
+
     <li>You haven't favorited anything yet!<br>
         <a href="/addfavorite">Click Here</a> to add a favorite location!</li>
+
 {% endif %}
 </ul>
 
+
+
 <h3> Your Photos: </h3>
+
 
 <ul>
 {% if user_obj.user_photos %}
+        <a href="/uploadphoto">Click Here</a> to upload more photos!</li>
         {% for photo in user_obj.user_photos %}
         <li>
-            {{ photo }}
+            <h3>{{ photo.photo_title }}<br></h3>
+
+            <a target="_blank" href="{{ photo.filepath }}">
+            <img src="{{ photo.filepath }}" alt="Forest" style="width:150px">
+            </a>
+            <br> {{ photo.description }}<br>
+            Sunset Rating: {{ photo.sunset_rating }}<br>
+            Date Taken: {{ photo.datetime }}<br>
+            Taken {{ photo.airport_dist}} meters from {{ photo.airport.airport_name }}, {{ photo.airport.icao_code }}
+
+
+
         </li>
-        {% endfor %}
-        <a href="/uploadphoto">Click Here</a> to upload more photos!</li>
+        {% endfor %}<br>
 {% else %}
     <li>You haven't uploaded any photos yet!<br>
         <a href="/uploadphoto">Click Here</a> to upload a sunset photo!</li>
 
 </ul>
+
 {% endif %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src='/static/js/autocomplete.js'></script>
+<script defer type="text/javascript" src="{{ placesmapurl | safe }}"></script>
 
 
 

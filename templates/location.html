@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Location {% endblock %}
+{% block title %} Advanced Search {% endblock %}
 {% block style %}
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -25,7 +25,9 @@
 
 {% block content %}
 
-<h1> Location </h1>
+<h1> Advanced Search </h1>
+
+<div>
 
     {% if 'current_user' in session %}
       <form action='/prediction'>
@@ -40,25 +42,30 @@
       </form>
     {%  endif %}
 
+</div>
+
+<div>
     <form action='/prediction'>
-        Please enter the following information: <br>
+        Or, enter coordinates: <br>
         Latitude: <input type="text" name="lat"><br>
         Longitude: <input type="text" name="lon"><br>
         <input type="submit"> 
     </form>
-    <div id="locationField">
+
+</div>
+<div id="locationField">
     <form action='/prediction'>
         Or, enter an address:<br>
         Address: <input type="text" id="autocomplete" name="address"
                         placeholder="Enter your address" onFocus="geolocate()"><br>
         <input type="submit">
     </form>
-    </div>
+</div>
     
 
+<div>
 
-
-<p>Or, use your location!</p>
+<p><br><br>Or, use your location!</p>
 
 
 <form action='/prediction' id='usrlocation'>
@@ -66,6 +73,10 @@
   <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
 </form>
 <button id='submit'>use my location!</button>
+
+
+</div>
+
 
 <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
 <script>

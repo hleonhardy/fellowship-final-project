@@ -3,20 +3,45 @@
 <head>
     <title>{% block title %} INSERT TITLE HERE {% endblock %} </title>
     {% block style %} {% endblock %}
-</head>
-<body>
 
+<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+<link rel="stylesheet" type="text/css" href="/static/css/autocomplete.css">
+<style>
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+#navbar {
+    background-color: #C0C0C0;
+    color: white;
+}
+
+</style>
+</head>
+<body onscroll="stickyNav()">
+
+<ul>
+    <div id="navbar">
     <!-- This is the nav bar -->
     <a href='/'> Home | </a> 
-    <a href='/location'> Sunset Predictor | </a> 
+    <a href='/location'> Advanced Search | </a> 
     {% if 'current_user' not in session %}
         <a href='/register'>Register | </a> 
-        <a href='/login'>Log In  </a> 
+        <a href='/login'>Log In  |</a> 
     {% else %}
         <a href='/mypage'>My Page | </a>
         <a href='/logout'>Log Out | </a> 
     {% endif %}
 
+    <form action='/prediction'>
+        Search for sunset prediction here! <input type="text" id="nav-autocomplete" name="address" placeholder="Enter an address" onFocus="geolocateNav()">
+        <input type="submit">
+    </form>
+    </div>
+    
+</ul>
   <hr>
     {% for message in get_flashed_messages() %}
         {{ message }}
@@ -24,6 +49,20 @@
   <hr>
 
     {% block content %} INSERT CONTENT HERE {% endblock %}
+
+
+<script>
+var navbar = document.getElementById("navbar");
+var sticky = navbar.offsetTop;
+
+function stickyNav() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+</script>
 
 </body>
 </html>
