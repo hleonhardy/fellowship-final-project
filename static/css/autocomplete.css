@@ -3,8 +3,13 @@
   width: 480px;
 }
 #autocomplete {
-  width: 15%;
+  width: 50%;
 }
+
+#nav-autocomplete{
+  width: 20%;
+}
+
 .label {
   text-align: right;
   font-weight: bold;
