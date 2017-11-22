@@ -4623,7 +4623,6 @@
 302288,"HUPA","small_airport","Bugungu Airport",2.2,31.55,2472,"AF","UG","UG-U-A",,"no","HUGG",,,,"https://en.wikipedia.org/wiki/Bugungu_Airstrip",
 3265,"HUSO","medium_airport","Soroti Airport",1.7276899814605713,33.622798919677734,3697,"AF","UG","UG-211","Soroti","yes","HUSO","SRT",,,"http://en.wikipedia.org/wiki/Soroti_Airport",
 32476,"HUTO","small_airport","Tororo Airport",0.6830000281333923,34.16699981689453,3840,"AF","UG","UG-212","Tororo","no","HUTO","TRY",,,,
-44629,"IN-VOHP","small_airport","Kopal,Hospet Airport",15.358334,76.51667,1698,"AS","IN","IN-KA","Hospete","no",,,"VOHP",,,"koppal,hospete,airport"
 322359,"JAMI","small_airport","Jamies",35.520465,-90.729075,,"NA","US","US-AR","Harrisburg","no","JAMI",,,,,
 322367,"JOEY","small_airport","Joeys",35.398494,-91.348252,,"NA","US","US-AR","Tupelo","no","JOEY",,,,,
 19223,"KAAA","small_airport","Logan County Airport",40.15869903564453,-89.33499908447266,597,"NA","US","US-IL","Lincoln","no","KAAA",,"AAA",,,
@@ -17427,10 +17426,6 @@
 26885,"WSAT","medium_airport","Tengah Air Base",1.38725996017,103.708999634,50,"AS","SG","SG-03",,"no","WSAT","TGA",,,"http://en.wikipedia.org/wiki/Tengah_Airbase",
 26886,"WSSL","medium_airport","Seletar Airport",1.416949987411499,103.86799621582031,36,"AS","SG","SG-02","Seletar","yes","WSSL","XSP",,,"http://en.wikipedia.org/wiki/Seletar_Airport",
 26887,"WSSS","large_airport","Singapore Changi Airport",1.35019,103.994003,22,"AS","SG","SG-04","Singapore","yes","WSSS","SIN",,"http://www.changiairport.com/","https://en.wikipedia.org/wiki/Singapore_Changi_Airport",
-28113,"X-KDEN","closed","Denver Stapleton International Airport",39.774200439453125,-104.87899780273438,5333,"NA","US","US-CO","Denver","no",,,,,"http://en.wikipedia.org/wiki/Stapleton_International_Airport","DEN KDEN"
-4756,"X-MMTG","small_airport","Francisco Sarabia National Airport",16.769699,-93.341499,3451,"NA","MX","MX-CHP","Tuxtla Gutiérrez","no",,,,,"http://en.wikipedia.org/wiki/Francisco_Sarabia_National_Airport","MMTG, TGZ"
-5733,"X-RPVB","closed","Bacolod City Domestic Airport",10.64244,122.9296,26,"AS","PH","PH-NEC","Bacolod City","no",,,,,"http://en.wikipedia.org/wiki/Bacolod_City_Domestic_Airport","RPVB, BCD"
-44867,"X-TRPM","closed","W. H. Bramble Airport",16.758899688720703,-62.15639877319336,,"NA","MS","MS-U-A","Plymouth","no","TRPM","MNI",,,"http://en.wikipedia.org/wiki/W.H._Bramble_Airport",
 41918,"XBRO","small_airport","Broadford Airstrip",57.253399,-5.8279,24,"EU","GB","GB-SCT","Ashaig","no","EGEI",,,,"http://en.wikipedia.org/wiki/Broadford_Airfield","Ashaig Airstrip, Isle of Sky Airstrip, Broadford"
 35085,"XLLL","medium_airport","Soltsy-2 Air Base",58.139545,30.33042,266,"EU","RU","RU-NGR","Soltsy","no",,,"XLLL",,"http://en.wikipedia.org/wiki/Soltsy-2",
 34934,"XLLN","small_airport","Kasimovo Airfield",60.198299407958984,30.334999084472656,230,"EU","RU","RU-LEN","St. Petersburg","no","XLLN",,,,"http://en.wikipedia.org/wiki/Kasimovo_Airport","Аэродром Касимово"

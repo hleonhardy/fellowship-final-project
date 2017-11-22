@@ -23,7 +23,7 @@ def write_to_new_file():
 
         # Using Regex to search for ICAO codes.
         #This means: 4 capital letters in a row
-        match_obj = re.search(r"[A-Z]{4}", code)
+        match_obj = re.search(r'"[A-Z]{4}"', code)
 
         if match_obj:
             line_plus_new = "{}\n".format(line)
@@ -37,7 +37,7 @@ def write_to_new_file():
     all_airports.close()
 
 
-# write_to_new_file()
+write_to_new_file()
 
 
 

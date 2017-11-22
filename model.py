@@ -52,8 +52,8 @@ class Airport(db.Model):
     lattitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     airport_name = db.Column(db.String(150))
-    # city = db.Column(db.String(30))
-    # state = db.Column(db.String(20))
+    city = db.Column(db.String(50))
+    state = db.Column(db.String(20))
     country = db.Column(db.String(20), nullable=True)
 
     #This is going to be the location

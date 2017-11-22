@@ -34,8 +34,8 @@ def load_airports():
             #     continue
 
             #information[9] gives 'US-CA' format.
-            # state = information[9][3:]
-            # city = information[10]
+            state = information[9][4:-1]
+            city = information[10][1:-1]
 
             #Apparently some lines in this file have something strange in
             #place of lattitude and longitude.
@@ -73,14 +73,16 @@ def load_airports():
                               lattitude=lat,
                               longitude=lon,
                               airport_name=name,
-                              # city=city,
-                              # state=state,
+                              city=city,
+                              state=state,
                               country=country,
                               location=location)
 
             db.session.add(airport)
 
     db.session.commit()
+
+
 
 
 if __name__ == '__main__':

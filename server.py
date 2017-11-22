@@ -41,7 +41,7 @@ app.jinja_env.undefined = StrictUndefined
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 GOOGLE_MAPS_API_KEY = os.environ['GOOGLEMAPSAPIKEY']
-maps_src_url = "https://maps.googleapis.com/maps/api/js?key={}&callback=initMap".format(GOOGLE_MAPS_API_KEY)
+maps_src_url = "https://maps.googleapis.com/maps/api/js?key={}&libraries=places&callback=initMap".format(GOOGLE_MAPS_API_KEY)
 places_map_url = "https://maps.googleapis.com/maps/api/js?key={}&libraries=places&callback=initAutocomplete".format(GOOGLE_MAPS_API_KEY)
 
 
@@ -49,7 +49,8 @@ places_map_url = "https://maps.googleapis.com/maps/api/js?key={}&libraries=place
 def index():
     """homepage"""
 
-    return render_template('homepage.html')
+    return render_template('homepage.html',
+                            placesmapurl=places_map_url)
 
 
 @app.route('/location')
@@ -159,6 +160,10 @@ def show_prediction():
         rec_message = """{} has a higher rated sunset! \n
                         We reccomend you go there for the
                         best sunset experience.""".format(recomendation)
+
+        recomendation = Airport.query.filter(Airport.icao_code == recomendation).one()
+
+
         print rec_forecast
 
 
@@ -187,7 +192,8 @@ def show_prediction():
                            userLon=user_lon,
                            mapsapiurl=maps_src_url,
                            rec_forecast=rec_forecast,
-                           rec_message=rec_message)
+                           rec_message=rec_message,
+                           placesmapurl=places_map_url)
 
 
 #******************************************************************************#
@@ -199,7 +205,8 @@ def show_prediction():
 def show_register_form():
     """Registration form"""
 
-    return render_template('register.html')
+    return render_template('register.html',
+                            placesmapurl=places_map_url)
 
 
 @app.route('/register', methods=['POST'])
@@ -226,7 +233,9 @@ def process_form():
         db.session.add(new_user)
         db.session.commit()
 
-    return redirect('/login')
+        session['current_user'] = new_user.user_id
+    flash("welcome {}!".format(new_user.user_name))
+    return redirect('/')
 
 
 @app.route('/login')
@@ -236,7 +245,9 @@ def login_page():
     if 'current_user' in session:
         flash('You\'re already logged in...silly goose')
         return redirect('/')
-    return render_template('login.html')
+
+    return render_template('login.html',
+                            placesmapurl=places_map_url)
 
 
 @app.route('/login', methods=['POST'])
@@ -292,7 +303,7 @@ def users_page():
         user_obj = User.query.get(user_id)
         print user_obj.favorites
 
-        return render_template('mypage.html', user_obj=user_obj)
+        return render_template('mypage.html', user_obj=user_obj, placesmapurl=places_map_url)
 
 
 # ******************************* FAVORITES ***********************************#
@@ -395,7 +406,7 @@ def upload_photo():
     photo_pt = 'POINT({} {})'.format(photo_lng, photo_lat)
 
     #finding nearest available airport so we can store that in db:
-    nearest_airport_forecast = find_nearest_airport_forecast(photo_pt)
+    nearest_airport_forecast = find_nearest_airport_forecast(photo_pt)[0]
     nearest_icao_code = nearest_airport_forecast['icao']
 
     #Getting airport object for airport ID (to add to db)
