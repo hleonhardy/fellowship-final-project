@@ -129,7 +129,7 @@ def find_nearest_airport_forecast(user_point):
 #   #distance in meters
     distance = 1000000
     #limit on number of rows we get back from the query
-    lim = 5
+    lim = 10
 
     sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
 

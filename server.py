@@ -134,37 +134,35 @@ def show_prediction():
     recomendation = None
 
     for forecast in forecasts:
+        #Getting a rating for each forecast
         cat_cloud_dict = make_cloud_dict(forecast)
         rate_desc_dict = return_rating(cat_cloud_dict)
         rating = rate_desc_dict['value']
+
+        #Recommended airport is the one with the highest rating
         if rating > highest_rating:
             highest_rating = rating
             recomendation = forecast['icao']
-            print "RECOMENDATION"
-            print recomendation
             rec_forecast = forecast
-            print "SAME RECOMENDATION:"
-            print rec_forecast['icao']
-            print type(rec_forecast)
+
         else:
             print "{} did not have a better forecast".format(forecast['icao'])
-
-    print recomendation, highest_rating
 
     if recomendation == closest_forecast_json['icao']:
         rec_message = """You've got the highest rated sunset in your area! \n
                         We recommend you stay right where you are! """
         rec_forecast = "same"
+        rec_lat = None
+        rec_lng = None
 
     else:
         rec_message = """{} has a higher rated sunset! \n
                         We reccomend you go there for the
                         best sunset experience.""".format(recomendation)
 
-        recomendation = Airport.query.filter(Airport.icao_code == recomendation).one()
-
-
-        print rec_forecast
+        recomendation_obj = Airport.query.filter(Airport.icao_code == recomendation).one()
+        rec_lat = recomendation_obj.lattitude
+        rec_lng = recomendation_obj.longitude
 
 
     icao_code = closest_forecast_json['icao']
@@ -181,6 +179,7 @@ def show_prediction():
     description = rate_desc_dict['description']
 
 
+
     return render_template('prediction.html',
                            icao_code=icao_code,
                            airport_obj=airport_obj,
@@ -193,7 +192,9 @@ def show_prediction():
                            mapsapiurl=maps_src_url,
                            rec_forecast=rec_forecast,
                            rec_message=rec_message,
-                           placesmapurl=places_map_url)
+                           placesmapurl=places_map_url,
+                           rec_lat=rec_lat,
+                           rec_lng=rec_lng)
 
 
 #******************************************************************************#
