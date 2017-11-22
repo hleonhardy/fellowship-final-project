@@ -21,6 +21,11 @@
 <input type='hidden' id='airport_lat' value="{{ airport_obj.lattitude }}">
 <input type='hidden' id='airport_lng' value="{{ airport_obj.longitude }}">
 
+<input type='hidden' id='rec_lat' value="{{ rec_lat }}">
+<input type='hidden' id='rec_lng' value="{{ rec_lng }}">
+
+
+
 <h1> Here is my prediction: </h1>
 
 <h2> {{ description }} </h2>
@@ -65,6 +70,12 @@ function initMap() {
     let airportLat = parseFloat($('#airport_lat').val())
     let airportLng = parseFloat($('#airport_lng').val())
 
+    let recLat = $('#rec_lat').val()
+    let recLng = $('#rec_lng').val()
+
+
+
+
     let yourPosition = {lat: user_lat, lng: user_lon};
         console.log(yourPosition)
 
@@ -72,13 +83,14 @@ function initMap() {
         center: yourPosition,
         zoom: 11,
     });
+
     let marker = new google.maps.Marker({
         position: yourPosition,
         map: map,
         title: 'Chosen Location'
+
     });
 
-    
 
     let airportPosition = {lat: airportLat, lng: airportLng}
         console.log(airportPosition)
@@ -88,6 +100,20 @@ function initMap() {
         map: map,
         title: 'Forecast Location'
     });
+
+    if (recLat !== 'None') {
+        recLat = parseFloat(recLat)
+        recLng = parseFloat(recLng)
+
+        let recPosition = {lat: recLat, lng: recLng};
+
+        let recMarker = new google.maps.Marker({
+            position: recPosition,
+            map: map,
+            title: 'Recommended Location'
+        });
+    }
+    
     initAutocomplete();
 }
 
