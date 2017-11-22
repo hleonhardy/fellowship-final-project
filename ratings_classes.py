@@ -24,8 +24,8 @@ class Rating(object):
             elif cat_cloud_dict[key] == 'BKN':
                 self.rating = self.bkn
 
-            else: #cat_cloud_dict[key] == 'OVO':
-                self.rating = self.ovo
+            else: #cat_cloud_dict[key] == 'OVC':
+                self.rating = self.ovc
 
             #Places change for subclasses so we are making sure whatever
             #value we have for each place is in the right place.
@@ -39,6 +39,7 @@ class Rating(object):
                 hun_ten_one[2] = self.rating
 
         rating_num = "{}{}{}".format(hun_ten_one[0], hun_ten_one[1], hun_ten_one[2])
+        print rating_num
 
 
         return rating_num
@@ -46,15 +47,15 @@ class Rating(object):
 
 
 class BadRating(Rating):
-    """BKN/OVO cloud object"""
+    """BKN/OV cloud object"""
 
     def __init__(self):
 
-        self.skc = 0
-        self.few = 1
-        self.sct = 2
-        self.bkn = 3
-        self.ovo = 4
+        self.skc = 1
+        self.few = 2
+        self.sct = 3
+        self.bkn = 4
+        self.ovc = 5
 
         self.hundreds = 'low'
         self.tens = 'mid'
@@ -75,15 +76,15 @@ class BadRating(Rating):
 
 
 class LowCloudRating(Rating):
-    """Rating for just low clouds, no BKN or OVO"""
+    """Rating for just low clouds, no BKN or OVC"""
 
     def __init__(self):
 
-        self.skc = 0
-        self.few = 1
-        self.sct = 2
-        self.bkn = 3
-        self.ovo = 4
+        self.skc = 1
+        self.few = 2
+        self.sct = 3
+        self.bkn = 4
+        self.ovc = 5
 
         self.hundreds = 'low'
         self.tens = 'mid'

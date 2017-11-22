@@ -43,7 +43,7 @@ sample_dict_3 = {'high': 'SKC', 'low': 'SKC', 'mid': 'SCT'}
 sample_dict_4 = {'high': 'SCT', 'low': 'SCT', 'mid':'SKC'}
 sample_dict_5 = {'high': 'SCT', 'low': 'SKC', 'mid': 'SKC'}
 sample_dict_6 = {'low': 'SKC', 'mid': 'FEW', 'high': 'FEW'}
-sample_dict_7 = {'low': 'SKC', 'mid': 'OVO', 'high': 'FEW'}
+sample_dict_7 = {'low': 'SKC', 'mid': 'OVC', 'high': 'FEW'}
 
 ################################################################################
 
@@ -83,12 +83,12 @@ def return_rating(cat_cloud_dict):
     """Takes in cloud dict and returns a new dict with a rating and description"""
 
     #Broken or Overcast (These get the worst ratings)
-    if 'BKN' in cat_cloud_dict.values() or 'OVO' in cat_cloud_dict.values():
+    if 'BKN' in cat_cloud_dict.values() or 'OVC' in cat_cloud_dict.values():
         rating_obj = BadRating()
         print "bad rating"
 
-    #Low clouds present (no bkn or ovo)
-    elif  cat_cloud_dict['low'] != 'SKC':
+    #Low clouds present (no bkn or ovc)
+    elif cat_cloud_dict['low'] != 'SKC':
         rating_obj = LowCloudRating()
         print "low cloud rating"
 
@@ -100,7 +100,7 @@ def return_rating(cat_cloud_dict):
     #If there is nothing in mid (only high):
     elif cat_cloud_dict['mid'] == 'SKC':
         rating_obj = OnlyHighCloudRating()
-        print "high cloud, no bkn or ovo"
+        print "high cloud, no bkn or ovc"
 
     #If mid clouds are few:
     elif cat_cloud_dict['mid'] == 'FEW':

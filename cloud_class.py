@@ -20,7 +20,7 @@ class Cloud(object):
             self.amount = 2
         elif cloud_code == 'BKN':
             self.amount = 3
-        else: #cloud_code = 'OVO':
+        else: #cloud_code = 'OVC':
             self.amount = 4
 
         self.cloud_code = cloud_code
