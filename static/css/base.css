@@ -2,6 +2,10 @@
     background-color: #D7DBDD;
     border-color: black;
     z-index: 5;
+    margin-bottom: 0;
+/*    position: fixed;*/
+/*    top: 0;*/
+    /*width: 100%    */
 }
 
 .navbar-default .navbar-brand {
@@ -17,3 +21,17 @@
     padding-top: 10px;
 }
 
+.navbar-default {
+    width: 100%;
+    position: fixed;
+    top: 0;
+}
+
+#page-content {
+    margin-top: 60px;
+}
+
+/*hr {
+    margin-bottom: 0;
+    margin-top: 0;
+}*/

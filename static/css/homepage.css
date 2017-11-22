@@ -1,0 +1,29 @@
+/*.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    width: 50px;
+    height: auto;
+    max-width: 50px;
+}*/
+
+
+.carousel {
+    width: 60%;
+    height: auto;
+    margin-bottom: 50px;
+}
+
+.carousel-caption {
+    top: 0;
+    padding-top: 0;
+
+}
+
+.caption {
+    color: white;
+}
+
+
+img {
+    width: 100%;
+    height: auto;
+    background-color: #696969;
+}
