@@ -4,17 +4,27 @@
 {% block style %}
 
 <style type="text/css">
-/*img {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-    width: 150px;
-}
+    img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 150px;
+    }
 
-img:hover {
-    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-}
-*/
+    img:hover {
+        box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+    }
+
+      .container {
+        text-align: center;
+
+      }
+
+      .row {
+        text-align: center;
+      }
+
+
 </style>
 
 <link rel="stylesheet" type="text/css" href="/static/css/homepage.css">
@@ -23,14 +33,18 @@ img:hover {
 
 {% block content %}
 
+<div class='container'>
+
+
+
 <h1> Hi {{ user_obj.user_name }}! </h1>
 
 <h3> Favorite Locations: </h3>
 
-<ul>
+
 {% if user_obj.favorites %}
         {% for fav in user_obj.favorites %}
-        <li>
+        
 
 
 <!--       <form action='/prediction'>
@@ -42,18 +56,18 @@ img:hover {
       </form> -->
 
       <a href="/prediction?favoritelocation={{fav.favorite_title}}"> {{fav.favorite_title }}</a>
-
-        </li>
+      <br>
+        
         {% endfor %}
         <br>
 
 
-        <li> <a href="/addfavorite">Click Here</a> to add another favorite location!</li>
+        <a href="/addfavorite">Click Here</a> to add another favorite location!<br>
 
 {% else %}
 
-    <li>You haven't favorited anything yet!<br>
-        <a href="/addfavorite">Click Here</a> to add a favorite location!</li>
+    You haven't favorited anything yet!<br>
+        <a href="/addfavorite">Click Here</a> to add a favorite location!
 
 {% endif %}
 </ul>
@@ -61,13 +75,15 @@ img:hover {
 
 
 <h3> Your Photos: </h3>
+<br>
 
 
-<ul>
+<div class="row">
 {% if user_obj.user_photos %}
-        <a href="/uploadphoto">Click Here</a> to upload more photos!</li>
+        <a href="/uploadphoto">Click Here</a> to upload more photos!
+        <br>
         {% for photo in user_obj.user_photos %}
-        <li>
+        <div class="col-xs-3">
             <h3>{{ photo.photo_title }}<br></h3>
 
             <a target="_blank" href="{{ photo.filepath }}">
@@ -78,17 +94,22 @@ img:hover {
             Date Taken: {{ photo.datetime }}<br>
             Taken {{ photo.airport_dist}} meters from {{ photo.airport.airport_name }}, {{ photo.airport.icao_code }}
 
+        </div>
 
 
-        </li>
+
+       
         {% endfor %}<br>
 {% else %}
-    <li>You haven't uploaded any photos yet!<br>
-        <a href="/uploadphoto">Click Here</a> to upload a sunset photo!</li>
+    You haven't uploaded any photos yet!<br>
+        <a href="/uploadphoto">Click Here</a> to upload a sunset photo!
 
-</ul>
+</div>
 
 {% endif %}
+
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src='/static/js/autocomplete.js'></script>

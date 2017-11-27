@@ -5,10 +5,13 @@
 {% endblock %}
 {% block content %}
 
-<h1> Welcome. </h1>
+<div class='container'>
+
+<h1> Home </h1><br>
 
 
 <div class="container" align="center">
+  <div class="col-xs-offset-2">
 
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
@@ -19,7 +22,7 @@
     </ol>
 
     <!-- Wrapper for slides -->
-    <div class="carousel-inner">
+    <div class="carousel-inner" >
 
       <div class="item active">
         <img src="/static/sunset_photos/sunset1.jpg" alt="pretty">
@@ -60,11 +63,11 @@
   </div>
 
 </div>
+</div>
 
+<hr>
 
-
-
-<div id="locationField">
+<div id="locationField" class='col-xs-offset-3'>
 <form action='/prediction'>
     Enter an address to get a sunset prediction!
     <input type="text" id="autocomplete" name="address"
@@ -73,15 +76,15 @@
 </form>
 </div>
 <br><br>
-
+<hr>
 <h2> About: </h2>
 <h4>All sunsets are beautiful, but some are particularly more beautiful than others.</h4>
 This page predicts how beautiful a sunset will be based on the amount and altitude of
 the clouds near the selected location.<br>
 This page uses weather data from airports, also known as METARS and TAFS.<br>
 We use airport weather data because they give specific amounts and altitudes of clouds (
-so that pilots can know what conditions to expect while flying).
-
+so that pilots can know what conditions to expect while flying).<br><br>
+<hr>
 <h3>Why are sunsets filled with different colors?</h3>
 
 <p>
@@ -89,7 +92,7 @@ Why do we see reds, pinks, and oranges when the sun is setting? <br>
 (I'll fill this in later)
 </p>
 
-
+</div>
 
 
 <script defer type="text/javascript" src="{{ placesmapurl | safe }}"></script>

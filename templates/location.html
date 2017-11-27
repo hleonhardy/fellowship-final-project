@@ -17,19 +17,73 @@
         margin: 0;
         padding: 0;
       }
+
+      .container {
+        text-align: center;
+        width: 50%;
+        height: 100%;
+        border-width: 5px;
+        border-color: black;
+        border-style: solid;
+
+      }
+
+      .col-xs-6{
+        text-align: center;
+
+      }
+
+
+      hr { 
+          display: block;
+          margin-top: 0.5em;
+          margin-bottom: 0.5em;
+          margin-left: auto;
+          margin-right: auto;
+          border-style: inset;
+          border-width: 0.5px;
+          border-color: gray;
+      } 
+
+
     </style>
 
 {% endblock %}
 
 {% block content %}
 
-<h1> Advanced Search </h1>
 
-<div>
+<div class='container'>
+
+<h1> Advanced Search </h1>
+<div class='row'>
+  <br>
+<hr>
+  <div class="col-xs-6 col-xs-offset-3">
+
+  <h3><br>Use your location!</h3>
+
+
+  <form action='/prediction' id='usrlocation'>
+    <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
+    <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
+  </form>
+  <button id='submit'>use my location!</button>
+      <br>
+      <br>
+      <br>
+      <hr>
+      <br>
+
+  </div>
+</div>
+
+<div class='row'>
+  <div class="col-xs-6 col-xs-offset-3">
 
     {% if 'current_user' in session %}
       <form action='/prediction'>
-        {{ user_obj.user_name }}, choose from your favorites!<br>
+        <h3> Choose from your favorites!</h3><br>
         <select name="favoritelocation">
         {% for favorite in user_obj.favorites %}
           <option name='option'>{{favorite.favorite_title}}</option>
@@ -38,20 +92,37 @@
         <input type='submit'>
 
       </form>
+
+      <br>
+      <hr>
+      <br>
     {%  endif %}
 
 </div>
 
-<div>
+</div>
+
+
+
+
+<div class='row'>
+  <div class="col-xs-6 col-xs-offset-3">
     <form action='/prediction'>
-        Or, enter coordinates: <br>
+        <h3>Or, Enter Coordinates:</h3> <br>
         Latitude: <input type="text" name="lat"><br>
         Longitude: <input type="text" name="lon"><br>
         <input type="submit"> 
     </form>
-
+    <br>
+    <hr>
+    <br>
 </div>
-<div id="locationField">
+</div>
+
+
+<!-- <div class='row'>
+  <div class="col-xs-6 col-xs-offset-2" id="LocationField">
+
     <form action='/prediction'>
         Or, enter an address:<br>
         Address: <input type="text" id="autocomplete" name="address"
@@ -60,20 +131,16 @@
     </form>
 </div>
     
-
-<div>
-
-<p><br><br>Or, use your location!</p>
-
-
-<form action='/prediction' id='usrlocation'>
-  <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
-  <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
-</form>
-<button id='submit'>use my location!</button>
+<br>
+<br>
+<br><br><br>
+<hr>
+<br>
+</div> -->
 
 
 </div>
+
 
 
 <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
