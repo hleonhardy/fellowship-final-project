@@ -1,6 +1,9 @@
 """Classes for each rating category"""
 
 
+#NOTE: Some places outside the US use 'NSC' for 'no significant clouds'
+#I have NOT accounted for this yet.
+
 class Rating(object):
     """A rating object"""
 
