@@ -3,6 +3,8 @@
 
 {% block style %}
 
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
 <style type="text/css">
     img {
         border: 1px solid #ddd;
@@ -24,6 +26,43 @@
         text-align: center;
       }
 
+
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .modal-body {
+        width: 100px;
+        height: 200px;
+
+      }
+
+      #autocomplete{
+        z-index: 100000;
+      }
+
+      .pac-container{
+        z-index: 1000;
+      }
+
+      .modal {
+        z-index: 50;
+      }
+
+      .modal-backdrop{
+        z-index: 10;
+      }
+
+
+      
 
 </style>
 
@@ -62,16 +101,55 @@
         <br>
 
 
-        <a href="/addfavorite">Click Here</a> to add another favorite location!<br>
+<!--         <a href="/addfavorite">Click Here</a> to add another favorite location!<br> -->
+
+
+
+
+
+
 
 {% else %}
 
     You haven't favorited anything yet!<br>
-        <a href="/addfavorite">Click Here</a> to add a favorite location!
+
 
 {% endif %}
 </ul>
 
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+          Click Here
+        </button>
+        <br> to add another favorite location!<br>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Favorite Location</h4>
+              </div>
+              <div class="modal-body">
+                <div id="locationField">
+                    <form action='/addfavorite' method='POST'>
+
+                        What would you like to name your location?:<br>
+                        Title: <input type="text" id='title' name='title'><br>
+
+                        Please Enter an address:<br>
+                        Address: <input type="text" id="autocomplete" name="address"
+                                        placeholder="Enter your address" onFocus="geolocate()"><br>
+
+
+                        <input type="submit">
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 <h3> Your Photos: </h3>
@@ -79,15 +157,66 @@
 
 
 <div class="row">
-{% if user_obj.user_photos %}
-        <a href="/uploadphoto">Click Here</a> to upload more photos!
+{% if not user_obj.user_photos %}
+    You haven't uploaded any photos yet!<br>
+{% endif %}
+
+<!-- <a href="/uploadphoto">Click Here</a> to upload more photos! -->
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myPhotoModal">
+      Click Here
+    </button>
+    <br> to upload a photo!<br>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myPhotoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Upload Photo</h4>
+          </div>
+          <div class="modal-body">
+            <div id="locationField">
+                <div>
+                <form action='/uploadphoto' enctype="multipart/form-data" method='POST'>
+
+                    <input type='file' name='img' accept='image/*'><br>
+                    Photo Title: <input type='text' name='title'><br>
+                    Photo Description: <input type='text' name='description'><br>
+                    Date Taken: <input type='date' name='date'> <br>
+                    Where was this picture taken? 
+                    <input type="text" id="photo-autocomplete" name="location"
+                                        placeholder="Where was the photo taken?" onFocus="geolocate()"><br>
+                    Sunset Rating: <select name='rating'>
+                                        <option value='1'> 1 </option>
+                                        <option value='2'> 2 </option>
+                                        <option value='3'> 3 </option>
+                                        <option value='4'> 4 </option>
+                                        <option value='5'> 5 </option>
+                                    </select>
+                    <input type='submit'>
+
+                </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+{% if user_obj.user_photos  %}
         <br>
         {% for photo in user_obj.user_photos %}
         <div class="col-xs-3">
             <h3>{{ photo.photo_title }}<br></h3>
 
             <a target="_blank" href="{{ photo.filepath }}">
-            <img src="{{ photo.filepath }}" alt="Forest" style="width:150px">
+            <img src="{{ photo.filepath }}" alt="Photo" style="width:150px">
             </a>
             <br> {{ photo.description }}<br>
             Sunset Rating: {{ photo.sunset_rating }}<br>
@@ -95,20 +224,12 @@
             Taken {{ photo.airport_dist}} meters from {{ photo.airport.airport_name }}, {{ photo.airport.icao_code }}
 
         </div>
-
-
-
-       
         {% endfor %}<br>
-{% else %}
-    You haven't uploaded any photos yet!<br>
-        <a href="/uploadphoto">Click Here</a> to upload a sunset photo!
-
-</div>
 
 {% endif %}
-
 </div>
+
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
