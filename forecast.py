@@ -36,6 +36,7 @@ def today_or_tomorrow_sunset(lat, lon):
     #sunset_time greater means the sunset has NOT happened already, so use today.
     if sunset_time_today_obj > current_utc:
         sunset_time_obj = sunset_time_today_obj
+        day = 'today'
 
     else:
         #Getting tomorrow's date:
@@ -45,8 +46,10 @@ def today_or_tomorrow_sunset(lat, lon):
         #Setting the sunset time = tomorrow's sunset time
         sunset_time_obj = datetime.datetime.strptime(sunset_time_tomorrow,
                                                      '%Y-%m-%dT%H:%M:%S+00:00')
+        day = 'tomorrow'
 
-    return sunset_time_obj
+
+    return {'time': sunset_time_obj, 'day': day}
 
 
 
@@ -176,7 +179,8 @@ def find_nearest_airport_forecast(user_point):
         lng = airport_obj.longitude
 
         #Finding time of sunset
-        sunset_datetime_obj = today_or_tomorrow_sunset(lat, lng)
+        sunset_dict = today_or_tomorrow_sunset(lat, lng)
+        sunset_datetime_obj = sunset_dict['time']
 
         #finding appropriate forecast given sunset time
         #(we want the sunset time to be within the range of the forecast time)

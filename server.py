@@ -77,6 +77,9 @@ def show_prediction():
     # #ICAO codes are 4 uppercase letters:
     # code = code.upper()
 
+
+    ################# Getting coordinates from form submission #################
+
     if 'lat' in request.args:
         user_lat = request.args.get('lat')
         user_lon = request.args.get('lon')
@@ -103,16 +106,22 @@ def show_prediction():
         print type(user_lon)
 
 
-    else:
+    else: #TODO: delete this
         print "something didn't work"
         flash("didn't work")
         return redirect('/location')
 
+    ############################################################################
+
+    #Turning user coordinates into a point for geography
     user_point = 'POINT({} {})'.format(user_lon, user_lat)
 
     #Time of today or tomorrow's sunset
     #For display purposes:
-    sunset_datetime_obj = today_or_tomorrow_sunset(user_lat, user_lon)
+    sunset_dict = today_or_tomorrow_sunset(user_lat, user_lon)
+    sunset_datetime_obj = sunset_dict['time']
+    day = sunset_dict['day']
+
 
     #forecast containing weather information AND icao code (new and imporoved)
     #adding try and except for no airport error
@@ -194,7 +203,9 @@ def show_prediction():
                            rec_message=rec_message,
                            placesmapurl=places_map_url,
                            rec_lat=rec_lat,
-                           rec_lng=rec_lng)
+                           rec_lng=rec_lng,
+                           day=day
+                           )
 
 
 #******************************************************************************#

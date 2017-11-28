@@ -29,9 +29,9 @@ def return_forecast_dict(icao_list):
     working_icao_forecasts = []
 
     for icao_data in data:
-        print "THE DATA"
-        print icao_data
-        print "END OF DATA"
+        # print "THE DATA"
+        # print icao_data
+        # print "END OF DATA"
 
         #An airport with no forecast data will not have a forecast key.
         try:
