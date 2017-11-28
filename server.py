@@ -302,18 +302,11 @@ def users_page():
     else:
         user_id = session['current_user']
         user_obj = User.query.get(user_id)
-        print user_obj.favorites
 
         return render_template('mypage.html', user_obj=user_obj, placesmapurl=places_map_url)
 
 
 # ******************************* FAVORITES ***********************************#
-
-@app.route('/addfavorite')
-def get_favorite():
-    """Form for adding a favorite location"""
-
-    return render_template('addfavorite.html', placesmapurl=places_map_url)
 
 
 @app.route('/addfavorite', methods=['POST'])
@@ -343,7 +336,7 @@ def add_favorite():
 
     except:
         flash("I'm sorry! This location is too far from anywhere with available forecasts =[ ")
-        return redirect("/addfavorite")
+        return redirect("/mypage")
 
     closest_airport = nearest_airport_forecast[0]
     nearest_icao_code = closest_airport['icao']
