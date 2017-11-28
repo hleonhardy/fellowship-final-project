@@ -365,12 +365,6 @@ def add_favorite():
 
 # ********************************** PHOTOS ***********************************#
 
-@app.route('/uploadphoto')
-def upload_photo_form():
-    """Form to upload a photo"""
-
-    return render_template('uploadphoto.html', placesmapurl=places_map_url)
-
 
 @app.route('/uploadphoto', methods=['POST'])
 def upload_photo():

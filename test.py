@@ -38,63 +38,63 @@ class ServerTest(unittest.TestCase):
         print "tear down complete"
 
 
-    # def test_homepage(self):
-    #     """ Tests to make sure the homepage shows"""
+    def test_homepage(self):
+        """ Tests to make sure the homepage shows"""
 
-    #     #getting the homepage route
-    #     result = self.client.get('/')
-    #     self.assertIn('<h2> About: </h2>', result.data)
-    #     print "Homepage Route Successful"
-
-
-    # def test_location(self):
-    #     """ Tests the 'Advanced Search' page. """
-
-    #     #getting the location route
-    #     result = self.client.get('/location')
-    #     self.assertIn('<h1> Advanced Search </h1>', result.data)
-    #     print "Advanced Search Route Successful"
+        #getting the homepage route
+        result = self.client.get('/')
+        self.assertIn('<h2> About: </h2>', result.data)
+        print "Homepage Route Successful"
 
 
-    # def test_prediction(self):
-    #     """ Tests the actual prediction page. """
+    def test_location(self):
+        """ Tests the 'Advanced Search' page. """
 
-    #     sfprediction = '/prediction?lat=37.6189994812012&lon=-122.375'
-    #     result = self.client.get(sfprediction)
-
-    #     self.assertIn('<h1> Here is my prediction: </h1>', result.data)
-
-    #     print "Gave SF lat and lng, got prediction route to show."
+        #getting the location route
+        result = self.client.get('/location')
+        self.assertIn('<h1> Advanced Search </h1>', result.data)
+        print "Advanced Search Route Successful"
 
 
-    # def test_register_page(self):
-    #     """ Tests registration page. """
+    def test_prediction(self):
+        """ Tests the actual prediction page. """
 
-    #     result = self.client.get('/register')
-    #     self.assertIn('<td>Name: </td>', result.data)
+        sfprediction = '/prediction?lat=37.6189994812012&lon=-122.375'
+        result = self.client.get(sfprediction)
 
-    #     print "Registration Route Successful."
+        self.assertIn('<h1> Here is my prediction: </h1>', result.data)
 
-
-    # def test_login_page(self):
-    #     """ Tests log in page """
-
-    #     result = self.client.get('/login')
-    #     self.assertIn('<h1>Log In!</h1>', result.data)
-
-    #     print "Log In Route Successful"
+        print "Gave SF lat and lng, got prediction route to show."
 
 
+    def test_register_page(self):
+        """ Tests registration page. """
 
-    # def test_login_process(self):
-    #     """ Tests to see if a user can successfully log in. """
+        result = self.client.get('/register')
+        self.assertIn('<td>Name: </td>', result.data)
 
-    #     result = self.client.post('/login',
-    #                                 data={'email': 'sbob78@gmail.com', 'password': 'password'},
-    #                                 follow_redirects=True)
-    #     self.assertIn('Log Out', result.data)
+        print "Registration Route Successful."
 
-    #     print "User Successfully Logged In"
+
+    def test_login_page(self):
+        """ Tests log in page """
+
+        result = self.client.get('/login')
+        self.assertIn('<h1>Log In!</h1>', result.data)
+
+        print "Log In Route Successful"
+
+
+
+    def test_login_process(self):
+        """ Tests to see if a user can successfully log in. """
+
+        result = self.client.post('/login',
+                                    data={'email': 'sbob78@gmail.com', 'password': 'password'},
+                                    follow_redirects=True)
+        self.assertIn('Log Out', result.data)
+
+        print "User Successfully Logged In"
 
 
     def test_my_page(self):
