@@ -119,11 +119,11 @@ class ServerTest(unittest.TestCase):
         print "My Page Not Accessable to Not Logged In User"
 
 
-    def test_add_fav_route(self):
-        """Tests to see if the favorites page shows up"""
+    # def test_add_fav_route(self):
+    #     """Tests to see if the favorites page shows up"""
 
-        result = self.client.get('/addfavorite')
-        self.assertIn('')
+    #     result = self.client.get('/addfavorite')
+    #     self.assertIn('')
 
 
 
