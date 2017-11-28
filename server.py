@@ -73,11 +73,6 @@ def get_prediction():
 def show_prediction():
     """Displays prediction (information for now)"""
 
-    # code = request.args.get('icao')
-    # #ICAO codes are 4 uppercase letters:
-    # code = code.upper()
-
-
     ################# Getting coordinates from form submission #################
 
     if 'lat' in request.args:
@@ -116,11 +111,17 @@ def show_prediction():
     #Turning user coordinates into a point for geography
     user_point = 'POINT({} {})'.format(user_lon, user_lat)
 
-    #Time of today or tomorrow's sunset
-    #For display purposes:
+    #Time of today or tomorrow's sunset 
     sunset_dict = today_or_tomorrow_sunset(user_lat, user_lon)
     sunset_datetime_obj = sunset_dict['time']
+    #(for display purposes)
     day = sunset_dict['day']
+
+    #for display purposes only
+    current_utc = datetime.datetime.utcnow()
+
+
+    #******************* FINDING CLOSEST AIRPORT FORECAST ******************** #
 
 
     #forecast containing weather information AND icao code (new and imporoved)
@@ -134,13 +135,34 @@ def show_prediction():
 
 
     closest_forecast_json = forecasts[0]
+    icao_code = closest_forecast_json['icao']
+
+    #Querying for the airport with the code from the forecast
+    closest_airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()
+
+
+    #Making a specifcally formated cloud dictionary to use
+    #in return rating (which returns a dictionary with rating and description)
+    cat_cloud_dict = make_cloud_dict(closest_forecast_json)
+    rate_desc_dict = return_rating(cat_cloud_dict)
+    description = rate_desc_dict['description']
+
+
+    #DISTANCE FROM CLOSEST AIRPORT TO USER(m):
+    distance_to_closest = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(user_point, 4326),
+                                                 closest_airport_obj.location)).one()[0]
+
 
     #**************************** RECOMENDATION *******************************#
 
-    #Even the worst rating is higher than this number:
-    highest_rating = -6000
+    #setting the highest rating equal to the closest forecast
+    #this way if we get a tie, it won't be considered higher
+    cat_cloud_dict_closest = make_cloud_dict(closest_forecast_json)
+    rate_desc_dict = return_rating(cat_cloud_dict_closest)
+    highest_rating = rate_desc_dict['value']
 
-    recomendation = None
+    #Pre-setting the recommendation to be the closest forecast
+    recomendation = closest_forecast_json['icao']
 
     for forecast in forecasts:
         #Getting a rating for each forecast
@@ -157,41 +179,33 @@ def show_prediction():
         else:
             print "{} did not have a better forecast".format(forecast['icao'])
 
+    #If there are no higher rated sunsets
     if recomendation == closest_forecast_json['icao']:
         rec_message = """You've got the highest rated sunset in your area! \n
                         We recommend you stay right where you are! """
         rec_forecast = "same"
         rec_lat = None
         rec_lng = None
+        recomendation_obj = None
+        distance_to_rec = None
 
     else:
-        rec_message = """{} has a higher rated sunset! \n
-                        We reccomend you go there for the
-                        best sunset experience.""".format(recomendation)
 
         recomendation_obj = Airport.query.filter(Airport.icao_code == recomendation).one()
         rec_lat = recomendation_obj.lattitude
         rec_lng = recomendation_obj.longitude
-
-
-    icao_code = closest_forecast_json['icao']
-    #Querying for the airport with the code from the forecast
-    airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()
-
-    #for display purposes only
-    current_utc = datetime.datetime.utcnow()
-
-    #Making a specifcally formated cloud dictionary to use
-    #in return rating (which returns a dictionary with rating and description)
-    cat_cloud_dict = make_cloud_dict(closest_forecast_json)
-    rate_desc_dict = return_rating(cat_cloud_dict)
-    description = rate_desc_dict['description']
+        rec_message = """{} ({}) has a higher rated sunset! \n
+                        We reccomend you go there for the
+                        best sunset experience.""".format(recomendation_obj.airport_name, recomendation)
+        #DISTANCE FROM RECOMMENDED AIRPORT TO USER(m):
+        distance_to_rec = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(user_point, 4326),
+                                                                    recomendation_obj.location)).one()[0]
 
 
 
     return render_template('prediction.html',
                            icao_code=icao_code,
-                           airport_obj=airport_obj,
+                           airport_obj=closest_airport_obj,
                            sunset_time=sunset_datetime_obj,
                            forecast=closest_forecast_json,
                            current_utc=current_utc,
@@ -204,8 +218,10 @@ def show_prediction():
                            placesmapurl=places_map_url,
                            rec_lat=rec_lat,
                            rec_lng=rec_lng,
-                           day=day
-                           )
+                           day=day,
+                           recomendation_obj=recomendation_obj,
+                           distance_to_closest=distance_to_closest,
+                           distance_to_rec=distance_to_rec)
 
 
 #******************************************************************************#
