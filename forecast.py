@@ -48,8 +48,12 @@ def today_or_tomorrow_sunset(lat, lon):
                                                      '%Y-%m-%dT%H:%M:%S+00:00')
         day = 'tomorrow'
 
+    sunset_time_str = sunset_time_obj.strftime('%Y-%m-%d %H:%M:%S UTC')
 
-    return {'time': sunset_time_obj, 'day': day}
+
+
+
+    return {'time': sunset_time_obj, 'day': day, 'sunset_str': sunset_time_str}
 
 
 

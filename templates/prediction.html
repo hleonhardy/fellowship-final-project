@@ -9,6 +9,11 @@
         width:600px;
     }
 
+    .container {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
 </style>
 
 {% endblock %}
@@ -24,47 +29,70 @@
 <input type='hidden' id='rec_lat' value="{{ rec_lat }}">
 <input type='hidden' id='rec_lng' value="{{ rec_lng }}">
 
+<input type='hidden' id='sunset-time' value='{{ sunset_str }}'>
+<input type='hidden' id='current-time' value='{{ current_time_str }}'>
 
 
-<h1> Here is my prediction: </h1>
-<p> (for {{ day }}'s sunset) </p>
+<div class='container'>
+  <div class = 'row'>
+    <div class='col-xs-5'>
+      <h1> Here is my prediction: </h1>
+      <p> (for {{ day }}'s sunset) </p>
 
-<h2> {{ description }} </h2>
+      <h2> {{ description }} </h2>
 
-<p> CURRENT TIME: {{ current_utc.time()}} UTC
-<p> SUNSET TIME: {{sunset_time}} UTC </p>
+      CURRENT TIME: <p id='current-time-display'> </p>
+      SUNSET TIME:   <p id="sunset-time-display"> </p>
 
-<p>Location of closest forecast: ({{ distance_to_closest }} meters away) <br>
-{{ airport_obj.airport_name }}<br>
-{{ airport_obj.icao_code }}<br>
-</p>
+      <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
+      {{ airport_obj.airport_name }}<br>
+      {{ airport_obj.icao_code }}<br>
+      </p>
 
-<p>
+      <p>
+          {{rec_message}}
+          {% if rec_forecast != 'same' %}
+             ({{ distance_to_rec }} km away)
+          {% endif %}
+      </p>
+    </div>  
 
-    
-<!--     {{forecast['timestamp']['forecast_from']}}<br>
-    {{forecast['timestamp']['forecast_to']}}<br>
-    {{forecast['clouds']}}<br><br> -->
 
-
-    {{rec_message}}
-    {% if rec_forecast != 'same' %}
-<!--         Here is the forecast for {{ recomendation_obj.airport_name }}, {{ rec_forecast['icao'] }}:<br> -->
-       <!--  {{ rec_forecast['clouds'] }} -->
-       ({{ distance_to_rec }} meters away)
-
-    {% endif %}
-
-</p>
-
-<!-- Trying to get the map to work: -->
-
-<div id='map'></div>
+    <div id='map' class='col-xs-6'></div>
+  </div>
+</div>
 <script src="https://code.jquery.com/jquery.js"></script>
 
 
 
 <script type="text/javascript">
+
+
+let sunsetTime = $('#sunset-time').val();
+let currentTime = $('#current-time').val();
+
+let sunsetTimeDisplay = $('#sunset-time-display');
+let currentTimeDisplay = $('#current-time-display');
+
+let sDate = new Date(sunsetTime);
+let cDate = new Date(currentTime);
+
+//TO DO:
+//Come back to this using a javascript library such as 'moments' to find the 
+//actual time zone instead of just stripping the string
+
+let sTimeZoneStr = sDate.toString()
+sTimeZoneStr = sTimeZoneStr.slice(sTimeZoneStr.length - 4, sTimeZoneStr.length - 1);
+let cTimeZoneStr = cDate.toString()
+cTimeZoneStr = cTimeZoneStr.slice(cTimeZoneStr.length - 4, cTimeZoneStr.length - 1);
+
+let sDateTxt = sDate.getHours()+":"+sDate.getMinutes()+":"+sDate.getSeconds()+" "+sTimeZoneStr;
+let cDateTxt = cDate.getHours()+":"+cDate.getMinutes()+":"+cDate.getSeconds()+" "+cTimeZoneStr;
+
+sunsetTimeDisplay.html(sDateTxt);
+currentTimeDisplay.html(cDateTxt);
+
+
 function initMap() {
     let user_lat = parseFloat($('#user_lat').val())
     let user_lon = parseFloat($('#user_lon').val())
@@ -118,6 +146,7 @@ function initMap() {
     
     initAutocomplete();
 }
+
 
 
 </script>

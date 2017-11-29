@@ -101,7 +101,7 @@ def show_prediction():
         print type(user_lon)
 
 
-    else: #TODO: delete this
+    else:#TODO: delete this
         print "something didn't work"
         flash("didn't work")
         return redirect('/location')
@@ -111,14 +111,20 @@ def show_prediction():
     #Turning user coordinates into a point for geography
     user_point = 'POINT({} {})'.format(user_lon, user_lat)
 
-    #Time of today or tomorrow's sunset 
+    #Time of today or tomorrow's sunset
     sunset_dict = today_or_tomorrow_sunset(user_lat, user_lon)
     sunset_datetime_obj = sunset_dict['time']
     #(for display purposes)
     day = sunset_dict['day']
+    sunset_str = sunset_dict['sunset_str']
+
+    print sunset_str
 
     #for display purposes only
     current_utc = datetime.datetime.utcnow()
+    print current_utc
+    current_time_str = current_utc.strftime('%Y-%m-%d %H:%M:%S UTC')
+    print current_time_str
 
 
     #******************* FINDING CLOSEST AIRPORT FORECAST ******************** #
@@ -151,6 +157,10 @@ def show_prediction():
     #DISTANCE FROM CLOSEST AIRPORT TO USER(m):
     distance_to_closest = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(user_point, 4326),
                                                  closest_airport_obj.location)).one()[0]
+    #from m to km
+    distance_to_closest = distance_to_closest/1000
+    distance_to_closest = str(distance_to_closest)[:6]
+    distance_to_closest = float(distance_to_closest)
 
 
     #**************************** RECOMENDATION *******************************#
@@ -200,6 +210,10 @@ def show_prediction():
         #DISTANCE FROM RECOMMENDED AIRPORT TO USER(m):
         distance_to_rec = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(user_point, 4326),
                                                                     recomendation_obj.location)).one()[0]
+        #m to km
+        distance_to_rec = distance_to_rec/1000
+        distance_to_rec = str(distance_to_rec)[:6]
+        distance_to_rec = float(distance_to_rec)
 
 
 
@@ -221,7 +235,9 @@ def show_prediction():
                            day=day,
                            recomendation_obj=recomendation_obj,
                            distance_to_closest=distance_to_closest,
-                           distance_to_rec=distance_to_rec)
+                           distance_to_rec=distance_to_rec,
+                           sunset_str=sunset_str,
+                           current_time_str=current_time_str)
 
 
 #******************************************************************************#
