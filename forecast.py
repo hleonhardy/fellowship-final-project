@@ -134,9 +134,9 @@ def find_nearest_airport_forecast(user_point):
     """Finds closest airport where the weather forecast is available and returns json response"""
 
 #   #distance in meters
-    distance = 1000000
+    distance = 100000
     #limit on number of rows we get back from the query
-    lim = 10
+    lim = 15
 
     sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
 
