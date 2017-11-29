@@ -7,12 +7,19 @@
     #map {
         height:600px;
         width:600px;
+
+        
     }
 
-    .container {
-      margin-left: 0;
-      margin-right: 0;
+    #col-content{
+      padding-top: 100px;
     }
+
+    .row {
+      padding-top: 20px;
+    }
+
+
 
 </style>
 
@@ -35,7 +42,7 @@
 
 <div class='container'>
   <div class = 'row'>
-    <div class='col-xs-5'>
+    <div class='col-xs-6' id="col-content">
       <h1> Here is my prediction: </h1>
       <p> (for {{ day }}'s sunset) </p>
 
@@ -58,7 +65,10 @@
     </div>  
 
 
-    <div id='map' class='col-xs-6'></div>
+    <div class='col-xs-6'>
+      <div id='map'> 
+      </div>
+    </div>
   </div>
 </div>
 <script src="https://code.jquery.com/jquery.js"></script>
@@ -86,11 +96,14 @@ sTimeZoneStr = sTimeZoneStr.slice(sTimeZoneStr.length - 4, sTimeZoneStr.length -
 let cTimeZoneStr = cDate.toString()
 cTimeZoneStr = cTimeZoneStr.slice(cTimeZoneStr.length - 4, cTimeZoneStr.length - 1);
 
-let sDateTxt = sDate.getHours()+":"+sDate.getMinutes()+":"+sDate.getSeconds()+" "+sTimeZoneStr;
-let cDateTxt = cDate.getHours()+":"+cDate.getMinutes()+":"+cDate.getSeconds()+" "+cTimeZoneStr;
+let sDateTxt = sDate.getHours()+":"+sDate.getMinutes()+":"+sDate.getSeconds()+" "+"("+sTimeZoneStr+")";
+let cDateTxt = cDate.getHours()+":"+cDate.getMinutes()+":"+cDate.getSeconds()+" "+"("+cTimeZoneStr+")";
 
-sunsetTimeDisplay.html(sDateTxt);
-currentTimeDisplay.html(cDateTxt);
+let sDateTimeStr = sDate.toLocaleTimeString() + " " + sTimeZoneStr;
+let cDateTimeStr = cDate.toLocaleTimeString() + " " + cTimeZoneStr;
+
+sunsetTimeDisplay.html(sDateTimeStr);
+currentTimeDisplay.html(cDateTimeStr);
 
 
 function initMap() {
@@ -103,33 +116,39 @@ function initMap() {
     let recLat = $('#rec_lat').val()
     let recLng = $('#rec_lng').val()
 
-
-
+    let bounds;
 
     let yourPosition = {lat: user_lat, lng: user_lon};
         console.log(yourPosition)
 
+    let airportPosition = {lat: airportLat, lng: airportLng}
+        console.log(airportPosition)
+
+
+    bounds = new google.maps.LatLngBounds();
+
     let map = new google.maps.Map(document.querySelector('#map'), {
-        center: yourPosition,
-        zoom: 11,
+        center: yourPosition
+        // zoom: 11,
     });
 
     let marker = new google.maps.Marker({
         position: yourPosition,
         map: map,
         title: 'Chosen Location'
-
     });
-
-
-    let airportPosition = {lat: airportLat, lng: airportLng}
-        console.log(airportPosition)
 
     let airportMarker = new google.maps.Marker({
         position: airportPosition,
         map: map,
         title: 'Forecast Location'
     });
+
+    let usrLoc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+    bounds.extend(usrLoc);
+
+    let airportLoc = new google.maps.LatLng(airportMarker.position.lat(), airportMarker.position.lng());
+    bounds.extend(airportLoc);
 
     if (recLat !== 'None') {
         recLat = parseFloat(recLat)
@@ -142,7 +161,12 @@ function initMap() {
             map: map,
             title: 'Recommended Location'
         });
+
+        recLoc = new google.maps.LatLng(recMarker.position.lat(), recMarker.position.lng());
+        bounds.extend(recLoc);
     }
+
+    map.fitBounds(bounds)
     
     initAutocomplete();
 }
