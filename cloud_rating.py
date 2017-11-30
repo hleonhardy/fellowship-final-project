@@ -1,51 +1,18 @@
 # THIS HAPPENS AFTER FORECAST HAS BEEN DETERMINED
 #recall in server.py: forecast_json = find_forecast(code, sunset_datetime_obj)
 
-from ratings_classes import (
-                            Rating,
-                            BadRating,
-                            LowCloudRating,
-                            ClearSkyRating,
-                            OnlyHighCloudRating,
-                            MidFewRating,
-                            MidSctRating
-                            )
+from ratings_classes import (Rating,
+                             BadRating,
+                             LowCloudRating,
+                             ClearSkyRating,
+                             OnlyHighCloudRating,
+                             MidFewRating,
+                             MidSctRating)
 from cloud_class import Cloud
 
-################################################################################
-#SAMPLE DATA:
-cloud_dict_1 = {"clouds": [
-                        {
-                            "cloud_base_ft_agl": 0,
-                            "cloud_base_meters_agl": 0,
-                            "cloud_code": "SKC",
-                            "cloud_text": "Clear skies"
-                        }
-                    ]
-                }
-
-cloud_dict_2 = {"clouds": [
-                        {
-                            "cloud_base_ft_agl": 7000,
-                            "cloud_code": "BKN"
-                        },
-                        {
-                            "cloud_base_ft_agl": 500,
-                            "cloud_code": "SCT"
-                        }
-                    ]
-                }
-
-
-sample_dict_1 = {'high': 'SKC', 'low': 'SCT', 'mid': 'BKN'}
-sample_dict_2 = {'high': 'SKC', 'low': 'SKC', 'mid': 'SKC'}
-sample_dict_3 = {'high': 'SKC', 'low': 'SKC', 'mid': 'SCT'}
-sample_dict_4 = {'high': 'SCT', 'low': 'SCT', 'mid':'SKC'}
-sample_dict_5 = {'high': 'SCT', 'low': 'SKC', 'mid': 'SKC'}
-sample_dict_6 = {'low': 'SKC', 'mid': 'FEW', 'high': 'FEW'}
-sample_dict_7 = {'low': 'SKC', 'mid': 'OVC', 'high': 'FEW'}
 
 ################################################################################
+
 
 def make_cloud_dict(forecast_json):
     """Given the correct forecast, returns categorized cloud dictionary"""
@@ -78,6 +45,8 @@ def make_cloud_dict(forecast_json):
     return clouds
 
 
+################################################################################
+
 
 def return_rating(cat_cloud_dict):
     """Takes in cloud dict and returns a new dict with a rating and description"""
@@ -85,41 +54,38 @@ def return_rating(cat_cloud_dict):
     #Broken or Overcast (These get the worst ratings)
     if 'BKN' in cat_cloud_dict.values() or 'OVC' in cat_cloud_dict.values():
         rating_obj = BadRating()
-        print "bad rating"
+        # print "bad rating"
 
     #Low clouds present (no bkn or ovc)
     elif cat_cloud_dict['low'] != 'SKC':
         rating_obj = LowCloudRating()
-        print "low cloud rating"
+        # print "low cloud rating"
 
     #Only clear skies/neutral rating
     elif cat_cloud_dict['low'] == 'SKC' and cat_cloud_dict['mid'] == 'SKC' and cat_cloud_dict['high'] == 'SKC':
         rating_obj = ClearSkyRating()
-        print "clear sky"
+        # print "clear sky"
 
     #If there is nothing in mid (only high):
     elif cat_cloud_dict['mid'] == 'SKC':
         rating_obj = OnlyHighCloudRating()
-        print "high cloud, no bkn or ovc"
+        # print "high cloud, no bkn or ovc"
 
     #If mid clouds are few:
     elif cat_cloud_dict['mid'] == 'FEW':
         rating_obj = MidFewRating()
-        print "mid few"
+        # print "mid few"
 
     #If mid clouds are scattered (best rating):
     else:
         rating_obj = MidSctRating()
-        print "mid scattered"
+        # print "mid scattered"
 
 
     rating_num = rating_obj.get_number(cat_cloud_dict)
+
+
     return {'value': rating_num, 'description': rating_obj.description}
-
-
-
-
-# print return_rating(sample_dict_7)
 
 
 

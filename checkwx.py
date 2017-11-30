@@ -12,14 +12,14 @@ def return_forecast_dict(icao_list):
 
     #format string of icao_codes
     icao_string = ','.join(icao_list)
-    print icao_string
+    # print icao_string
 
     url = 'https://api.checkwx.com/taf/{}/decoded'.format(icao_string)
     headers = { 'X-API-Key': API_KEY }
 
     response = requests.get(url, headers=headers)
     json_response = response.json()
-    print json_response
+    # print json_response
 
     #List of separate icao forecasts:
     #Each item in the data list corresponds to different icao code.
@@ -39,10 +39,11 @@ def return_forecast_dict(icao_list):
             #Each index in the list is the forecast:
             #(list of individual forecast dictionaries)
             forecasts = icao_data['forecast']
-            print "FORECAST EXISTS!"
+            # print "FORECAST EXISTS!"
 
         except:
             #if no forecast exists, don't add it to the list
+            print "{} not added to working forecast list.".format(icao_data[:4])
             continue
 
 
@@ -56,6 +57,8 @@ def return_forecast_dict(icao_list):
 
         #If there is forecast data, we want to append it to our list to return
         working_icao_forecasts.append(forecasts)
+
+        print "{} added to working forecast list".format(icao_data['icao'])
 
 
     if len(working_icao_forecasts) == 0:

@@ -16,21 +16,28 @@ def today_or_tomorrow_sunset(lat, lon):
 
 
     current_date = datetime.date.today()
+    current_date_str = current_date.strftime('%Y-%m-%d')
 
     #Find sunset time local to given airport
-    # import pdb; pdb.set_trace()
     sunset_time_today = return_sunset_time(lat, lon, current_date)
 
-    # import pdb; pdb.set_trace()
-
-    #getting current UTC time datetime object to compare to sunset datetime
+    #getting current utc for object comparison
     current_utc = datetime.datetime.utcnow()
-    # print current_utc
+
+
+    #This API will give you TOMMOROW's sunset time UTC if today's time
+    #runs past midnight UTC.
+    if sunset_time_today[:10] != current_date_str:
+        print "this api sucks"
+        current_date = current_date - datetime.timedelta(days=1)
+        sunset_time_today = return_sunset_time(lat, lon, current_date)
+
 
     #Creating datetime objects with strptime:
     #'2017-11-09T01:03:37+00:00' is the format for the sunet time.
     sunset_time_today_obj = datetime.datetime.strptime(sunset_time_today,
                                                        '%Y-%m-%dT%H:%M:%S+00:00')
+
 
     #If Sunset has already passed, we want to give you tomorrow's time.
     #sunset_time greater means the sunset has NOT happened already, so use today.
@@ -40,9 +47,11 @@ def today_or_tomorrow_sunset(lat, lon):
 
     else:
         #Getting tomorrow's date:
-        tomorrow = current_utc + datetime.timedelta(days=1)
+        tomorrow = current_date + datetime.timedelta(days=1)
+        print "tomorrow: {}".format(tomorrow)
         #Getting sunset time using tomorrow's date
         sunset_time_tomorrow = return_sunset_time(lat, lon, tomorrow)
+        print "sunset time tomorrow: {}".format(sunset_time_tomorrow)
         #Setting the sunset time = tomorrow's sunset time
         sunset_time_obj = datetime.datetime.strptime(sunset_time_tomorrow,
                                                      '%Y-%m-%dT%H:%M:%S+00:00')
@@ -51,10 +60,7 @@ def today_or_tomorrow_sunset(lat, lon):
     sunset_time_str = sunset_time_obj.strftime('%Y-%m-%d %H:%M:%S UTC')
 
 
-
-
     return {'time': sunset_time_obj, 'day': day, 'sunset_str': sunset_time_str}
-
 
 
 
@@ -75,7 +81,7 @@ def find_forecast(lst_of_forecast_dicts, sunset_time_obj):
     #Going through the dictionary and picking the forecast that matches
     #The sunset time
 
-    print "sunset time: {}".format(sunset_time_obj)
+    # print "sunset time: {}".format(sunset_time_obj)
 
     sunset_forecast_json = None
 
@@ -92,7 +98,7 @@ def find_forecast(lst_of_forecast_dicts, sunset_time_obj):
         forecast_to_obj = datetime.datetime.strptime(forecast_to,
                                                        '%d-%m-%Y @ %H:%MZ')
 
-        print "forecast from: {} \n forecast to: {}".format(forecast_from_obj, forecast_to_obj)
+        # print "forecast from: {} \n forecast to: {}".format(forecast_from_obj, forecast_to_obj)
 
 
         #We want the sunset time that is within the forecast range:
@@ -100,7 +106,7 @@ def find_forecast(lst_of_forecast_dicts, sunset_time_obj):
             #The correct forecast
             sunset_forecast_json = forecast
             break
-        else:
+        # else:
             print "no forecasts in the available range?"
 
     if sunset_forecast_json is None:
@@ -130,13 +136,13 @@ def find_forecast(lst_of_forecast_dicts, sunset_time_obj):
 
 
 
-def find_nearest_airport_forecast(user_point):
+def find_nearest_airport_forecast(user_point, distance=50000):
     """Finds closest airport where the weather forecast is available and returns json response"""
 
 #   #distance in meters
-    distance = 100000
+    # distance = 75000
     #limit on number of rows we get back from the query
-    lim = 15
+    lim = 10
 
     sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
 

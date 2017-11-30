@@ -35,6 +35,8 @@ app = Flask(__name__)
 #in order to use the debugging toolbar:
 app.secret_key = 'kiloechoyankee'
 
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
 #this makes jijnja yell at you for undefined variables
 app.jinja_env.undefined = StrictUndefined
 
@@ -99,11 +101,12 @@ def show_prediction():
         print type(user_lat)
         print user_lon
         print type(user_lon)
+        distance_filter = request.args.get('distance-filter')
 
 
     else:#TODO: delete this
         print "something didn't work"
-        flash("didn't work")
+        flash("didn't work", 'error')
         return redirect('/location')
 
     ############################################################################
@@ -134,9 +137,13 @@ def show_prediction():
     #adding try and except for no airport error
 
     try:
-        forecasts = find_nearest_airport_forecast(user_point)
+        if 'distance-filter' in request.args:
+            distance_filter = request.args.get('distance-filter')
+            forecasts = find_nearest_airport_forecast(user_point, distance_filter)
+        else:
+            forecasts = find_nearest_airport_forecast(user_point)
     except:
-        flash("I'm sorry! There are no available forecasts in this area =[ ")
+        flash("I'm sorry! There are no available forecasts in this area =[ ", 'error')
         return redirect('/location')
 
 
@@ -174,17 +181,36 @@ def show_prediction():
     #Pre-setting the recommendation to be the closest forecast
     recomendation = closest_forecast_json['icao']
 
+    #add all forecast ratings to dictionary so that we can rank them
+    all_forecast_rating_dict = {}
+
     for forecast in forecasts:
         #Getting a rating for each forecast
         cat_cloud_dict = make_cloud_dict(forecast)
         rate_desc_dict = return_rating(cat_cloud_dict)
         rating = rate_desc_dict['value']
 
+        airport_forecast_obj = Airport.query.filter(Airport.icao_code == forecast['icao']).one()
+        distance_to_airport = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(user_point, 4326),
+                                                                    airport_forecast_obj.location)).one()[0]
+
+        #m to km:
+        distance_to_airport = distance_to_airport/1000
+        distance_to_airport = str(distance_to_airport)[:6]
+        distance_to_airport = float(distance_to_airport)
+
+        rate_desc_dict['airport_obj'] = airport_forecast_obj
+        rate_desc_dict['distance_from_user_km'] = distance_to_airport
+
+        all_forecast_rating_dict[forecast['icao']] = rate_desc_dict
+
+
         #Recommended airport is the one with the highest rating
         if rating > highest_rating:
             highest_rating = rating
             recomendation = forecast['icao']
             rec_forecast = forecast
+            print "{} has a higher rating".format(recomendation)
 
         else:
             print "{} did not have a better forecast".format(forecast['icao'])
@@ -215,6 +241,8 @@ def show_prediction():
         distance_to_rec = str(distance_to_rec)[:6]
         distance_to_rec = float(distance_to_rec)
 
+
+    print all_forecast_rating_dict
 
 
     return render_template('prediction.html',
@@ -266,7 +294,7 @@ def process_form():
 
     if user_object:
 
-        flash("You already have an account. Please log in!")
+        flash("You already have an account. Please log in!", 'error')
         return redirect('/login')
     #If user object with email address provided doens't exist, add to db...
     else:        
@@ -278,7 +306,7 @@ def process_form():
         db.session.commit()
 
         session['current_user'] = new_user.user_id
-    flash("welcome {}!".format(new_user.user_name))
+    flash("welcome {}!".format(new_user.user_name), 'success')
     return redirect('/')
 
 
@@ -287,7 +315,7 @@ def login_page():
     """Page form for logging in user"""
 
     if 'current_user' in session:
-        flash('You\'re already logged in...silly goose')
+        flash('You\'re already logged in...silly goose', 'error')
         return redirect('/')
 
     return render_template('login.html',
@@ -306,16 +334,16 @@ def login_user():
     if user_object:
 
         if user_object.user_pass == user_pass:
-            flash("You're logged in. Welcome!")
+            flash("You're logged in. Welcome!", 'success')
             specific_user_id = user_object.user_id
             session['current_user'] = specific_user_id
 
         else:
-            flash("That is an incorrect password")
+            flash("That is an incorrect password", 'error')
             return redirect('/login')
 
     else:
-        flash('You need to register first!')
+        flash('You need to register first!', 'error')
 
         return redirect('/register')
 
@@ -328,7 +356,7 @@ def logout_user():
     """logs out user by deleting the current user from the session"""
 
     del session['current_user']
-    flash('successfully logged out')
+    flash('successfully logged out', 'success')
     return redirect ('/')
 
 #******************************************************************************#
@@ -340,7 +368,7 @@ def users_page():
     """Displays user's favorites and photos"""
 
     if 'current_user' not in session:
-        flash('Please log in to see your page!')
+        flash('Please log in to see your page!', 'error')
         return redirect('/')
     else:
         user_id = session['current_user']
@@ -378,7 +406,7 @@ def add_favorite():
         nearest_airport_forecast = find_nearest_airport_forecast(fav_point)
 
     except:
-        flash("I'm sorry! This location is too far from anywhere with available forecasts =[ ")
+        flash("I'm sorry! This location is too far from anywhere with available forecasts =[ ", 'error')
         return redirect("/mypage")
 
     closest_airport = nearest_airport_forecast[0]
@@ -400,7 +428,7 @@ def add_favorite():
     db.session.add(new_favorite)
     db.session.commit()
 
-    flash('{} added to your favorites!'.format(favorite_title))
+    flash('{} added to your favorites!'.format(favorite_title), 'success')
 
 
     return redirect('/mypage')
