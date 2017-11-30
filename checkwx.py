@@ -64,7 +64,7 @@ def return_forecast_dict(icao_list):
     if len(working_icao_forecasts) == 0:
         raise NoForecastDataError('No Forecasts Available')
 
-
+    print working_icao_forecasts
     return working_icao_forecasts
 
 

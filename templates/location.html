@@ -114,12 +114,14 @@
 
 
       <div id='my-fav-opt' class='options' style="visibility: hidden">
-        <h3> Choose from your favorites!</h3><br>
-        <select name="favoritelocation">
-        {% for favorite in user_obj.favorites %}
-          <option name='fav-option'>{{favorite.favorite_title}}</option>
-        {% endfor %}
-        </select>
+        {% if 'current_user' in session %}
+          <h3> Choose from your favorites!</h3><br>
+          <select name="favoritelocation">
+          {% for favorite in user_obj.favorites %}
+            <option name='fav-option'>{{favorite.favorite_title}}</option>
+          {% endfor %}
+          </select>
+        {%  endif %}
         <input id='hidden-fav' name='my-favorites' type='hidden' value='value-hidden' class='hidden-input'>
       </div>
 

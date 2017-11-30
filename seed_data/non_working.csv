@@ -1,3 +1,6 @@
+
+SF AREA:
+
 20101,"KHWD","small_airport","Hayward Executive Airport",37.659198761,-122.122001648,52,"NA","US","US-CA","Hayward","no","KHWD","HWD","HWD","http://www.hayward-ca.gov/CITY-GOVERNMENT/DEPARTMENTS/PUBLIC-WORKS-ET/HEA/","http://en.wikipedia.org/wiki/Hayward_Executive_Airport","Hayward Air Terminal"
 20023,"KHAF","small_airport","Half Moon Bay Airport",37.513401031499995,-122.500999451,66,"NA","US","US-CA","Half Moon Bay","no","KHAF","HAF","HAF",,"http://en.wikipedia.org/wiki/Half_Moon_Bay_Airport",
 21105,"KSQL","small_airport","San Carlos Airport",37.511901855469,-122.25,5,"NA","US","US-CA","San Carlos","no","KSQL","SQL","SQL","http://publicworks.smcgov.org/san-carlos-airport","http://en.wikipedia.org/wiki/San_Carlos_Airport_(California)","San Carlos-Belmont Airport, San Mateo Country Airport"
@@ -14,3 +17,35 @@
 3741,"KNUQ","medium_airport","Moffett Federal Airfield",37.416099548339844,-122.04900360107422,32,"NA","US","US-CA","Mountain View","no","KNUQ",,"NUQ",,"http://en.wikipedia.org/wiki/Moffett_Federal_Airfield",
 17175,"KEDU","small_airport","University Airport",38.53150177001953,-121.78600311279297,69,"NA","US","US-CA","Davis","no","KEDU",,"EDU",,"http://en.wikipedia.org/wiki/University_Airport",
 18612,"KDWA","small_airport","Yolo County Davis Woodland Winters Airport",38.57910156,-121.8570023,100,"NA","US","US-CA","Davis/Woodland/Winters","no","KDWA",,"DWA",,"http://en.wikipedia.org/wiki/Yolo_County_Airport","Formerly 2Q3"
+
+
+PORTLAND AREA:
+
+21099,"KSPB","small_airport","Scappoose Industrial Airpark",45.770999908447266,-122.86199951171875,58,"NA","US","US-OR","Scappoose","no","KSPB",,"SPB",,,
+3699,"KMMV","medium_airport","Mc Minnville Municipal Airport",45.19440079,-123.1360016,163,"NA","US","US-OR","Mc Minnville","no","KMMV",,"MMV",,"http://en.wikipedia.org/wiki/McMinnville_Municipal_Airport",
+20277,"KKLS","medium_airport","Southwest Washington Regional Airport",46.11800003049999,-122.898002625,20,"NA","US","US-WA","Kelso","no","KKLS","KLS","KLS","http://www.kelso.gov/Departments%20%2526%20Services/Airport","http://en.wikipedia.org/wiki/Southwest_Washington_Regional_Airport","Molt Taylor Field, Kelso-Longview Regional"
+24915,"KTMK","small_airport","Tillamook Airport",45.4182014465,-123.814002991,36,"NA","US","US-OR","Tillamook","no","KTMK","OTK","TMK",,"http://en.wikipedia.org/wiki/Tillamook_Airport","S47"
+21183,"KTDO","small_airport","Ed Carlson Memorial Field South Lewis County Airport",46.4771995544,-122.805999756,374,"NA","US","US-WA","Toledo","no","KTDO","TDO","TDO",,"http://en.wikipedia.org/wiki/Ed_Carlson_Memorial_Field","Winlock Airport"
+3472,"KCVO","medium_airport","Corvallis Municipal Airport",44.49720001,-123.2900009,250,"NA","US","US-OR","Corvallis","no","KCVO","CVO","CVO","http://www.corvallisoregon.gov/index.aspx?page=160","http://en.wikipedia.org/wiki/Corvallis_Municipal_Airport","Albany Oregon"
+19515,"KCLS","small_airport","Chehalis Centralia Airport",46.676998138399995,-122.983001709,176,"NA","US","US-WA","Chehalis","no","KCLS","CLS","CLS","http://www.flycls.com/",,
+24101,"KPLU","small_airport","Pierce County-Thun Field",47.10390090942383,-122.28700256347656,538,"NA","US","US-WA","Puyallup","no","KPLU",,"PLU",,,"1S0"
+
+SEATTLE AREA:
+
+20947,"KRNT","small_airport","Renton Municipal Airport",47.4930992126,-122.216003418,32,"NA","US","US-WA","Renton","no","KRNT","RNT","RNT","https://rentonwa.gov/living/default.aspx?id=212","http://en.wikipedia.org/wiki/Renton_Municipal_Airport","Scott Field"
+3922,"KTIW","medium_airport","Tacoma Narrows Airport",47.26789856,-122.5780029,294,"NA","US","US-WA","Tacoma","no","KTIW","TIW","TIW",,"http://en.wikipedia.org/wiki/Tacoma_Narrows_Airport",
+19334,"KAWO","small_airport","Arlington Municipal Airport",48.16070175,-122.1589966,142,"NA","US","US-WA","Arlington","no","KAWO",,"AWO",,"http://en.wikipedia.org/wiki/Arlington_Municipal_Airport_(Washington)",
+20651,"KNRA","small_airport","Coupeville Nolf Airport",48.18830108642578,-122.63200378417969,199,"NA","US","US-WA","Coupeville","no","KNRA",,"NRA",,"http://en.wikipedia.org/wiki/Naval_Outlying_Field_Coupeville",
+21068,"KSHN","small_airport","Sanderson Field",47.233600616455,-123.14800262451,273,"NA","US","US-WA","Shelton","no","KSHN","SHN","SHN","http://www.portofshelton.com/airport.html","http://en.wikipedia.org/wiki/Sanderson_Field",
+19035,"KOKH","small_airport","AJ Eisenberg Airport",48.251499176,-122.674003601,193,"NA","US","US-WA","Oak Harbor","no","KOKH","ODW","OKH",,"http://en.wikipedia.org/wiki/A.J._Eisenberg_Airport","Formerly 76S, Wes Lupien"
+17182,"KESW","small_airport","Easton State Airport",47.2541999817,-121.185997009,2226,"NA","US","US-WA","Easton","no","KESW","ESW","ESW","http://www.wsdot.wa.gov/Public/Templates/Standard/DefaultTemplate.aspx?NRMODE=Published&NRNODEGUID=%7B3B856445-96DD-44E1-ABCE-2F","http://en.wikipedia.org/wiki/Easton_State_Airport",
+19420,"KBVS","small_airport","Skagit Regional Airport",48.4709014893,-122.42099762,144,"NA","US","US-WA","Burlington/Mount Vernon","no","KBVS","MVW","BVS","http://www.portofskagit.com/skagit-regional-airport/","http://en.wikipedia.org/wiki/Skagit_Regional_Airport","75S"
+1323,"CYSA","small_airport","Stratford Municipal Airport",43.415599823,-80.93440246579999,1215,"NA","CA","CA-ON","Stratford","no","CYSA",,"CYSA","http://www.city.stratford.on.ca/site_ourcitylife/know_your_city_airport.asp","http://en.wikipedia.org/wiki/Stratford_Municipal_Airport","NM4, CNM4"
+19868,"KFHR","small_airport","Friday Harbor Airport",48.5219993591,-123.024002075,113,"NA","US","US-WA","Friday Harbor","yes","KFHR","FRD","FHR","http://www.portfridayharbor.org/?page_id=49","http://en.wikipedia.org/wiki/Friday_Harbor_Airport",
+
+
+
+
+
+
+

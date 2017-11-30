@@ -10,34 +10,48 @@ from flask import (Flask,
                    session,
                    jsonify)
 
+from tzwhere import tzwhere
+import pytz
+
 
 def today_or_tomorrow_sunset(lat, lon):
     """determines if you should use todays or tomorrows sunset and gives the coordinates"""
 
+    # **** Must give the api the 'local' sunset date in order to return the
+    # day variable of 'today' or 'tomorrow'. ****
 
     current_date = datetime.date.today()
     current_date_str = current_date.strftime('%Y-%m-%d')
 
-    #Find sunset time local to given airport
-    sunset_time_today = return_sunset_time(lat, lon, current_date)
-
     #getting current utc for object comparison
     current_utc = datetime.datetime.utcnow()
+    # import pdb; pdb.set_trace()
+
+    #This doesn't always work...???
+    #using tzwhere to get the timezone for given coordinates
+    tz = tzwhere.tzwhere()
+
+    try:
+        tz_str = tz.tzNameAt(lat, lon)
+    except:
+        raise NoTimeZoneAvailable('No Time Zone Available')
+
+    #using pytz to make object to calculate utc offset
+    timezone = pytz.timezone(tz_str)
+    tz_offset = timezone.utcoffset(current_utc)
+
+    #datetime/date object according to the coordinates entered!
+    current_local_time = current_utc + tz_offset
+    current_local_date = current_local_time.date()
 
 
-    #This API will give you TOMMOROW's sunset time UTC if today's time
-    #runs past midnight UTC.
-    if sunset_time_today[:10] != current_date_str:
-
-        current_date = current_date - datetime.timedelta(days=1)
-        sunset_time_today = return_sunset_time(lat, lon, current_date)
-
+    #Find sunset time local to given airport
+    sunset_time_today = return_sunset_time(lat, lon, current_local_date)
 
     #Creating datetime objects with strptime:
     #'2017-11-09T01:03:37+00:00' is the format for the sunet time.
     sunset_time_today_obj = datetime.datetime.strptime(sunset_time_today,
                                                        '%Y-%m-%dT%H:%M:%S+00:00')
-
 
     #If Sunset has already passed, we want to give you tomorrow's time.
     #sunset_time greater means the sunset has NOT happened already, so use today.
@@ -57,8 +71,24 @@ def today_or_tomorrow_sunset(lat, lon):
 
     sunset_time_str = sunset_time_obj.strftime('%Y-%m-%d %H:%M:%S UTC')
 
+    #To make it prettier, get rid of microseconds.
+    current_local_time = current_local_time.replace(microsecond=0)
+    current_local_time = current_local_time.time()
 
-    return {'time': sunset_time_obj, 'day': day, 'sunset_str': sunset_time_str}
+    sunset_time_obj = sunset_time_obj.replace(microsecond=0)
+
+    local_sunset_time = sunset_time_today_obj + tz_offset
+    local_sunset_time = local_sunset_time.time()
+
+
+
+    return {'time': sunset_time_obj,
+            'day': day,
+            'sunset_str': sunset_time_str,
+            'local_time': current_local_time,
+            'local_tz': timezone,
+            'local_sunset_time': local_sunset_time}
+
 
 
 
@@ -142,13 +172,20 @@ def find_nearest_airport_forecast(user_point, distance=50000):
     #limit on number of rows we get back from the query
     lim = 15
 
+    print "In the find nearest airport forecast function :"
+    print "limit: {}".format(lim)
+    print "distance: {}".format(distance)
+
+
     sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
 
+    print "Before SQL Query: "
     sql = """SELECT icao_code FROM airports
             WHERE ST_DWithin(location, :user_point, :dist)
             ORDER BY ST_Distance(location, :user_point)
             LIMIT :lim"""
 
+    print "After SQL Query: "
     cursor = db.session.execute(sql, sql_args)
 
     #Getting all of the icao_codes from our database query:
@@ -173,13 +210,17 @@ def find_nearest_airport_forecast(user_point, distance=50000):
     except:
         raise NoForecastDataError('No Forecasts Available')
 
-
+    print "Got Forecast Data from checkwx"
     sunset_forecasts = []
 
+    
     #for list of all forecasts for one airport in giant list:
     for lst_of_forecast_dicts in all_icao_forecasts:
 
         icao_code = lst_of_forecast_dicts[0]['icao']
+
+        print "Icao code: {}".format(icao_code)
+
         airport_obj = Airport.query.filter(Airport.icao_code == icao_code).one()
 
         #getting coordinates in order to find sunset time:
@@ -187,7 +228,12 @@ def find_nearest_airport_forecast(user_point, distance=50000):
         lng = airport_obj.longitude
 
         #Finding time of sunset
-        sunset_dict = today_or_tomorrow_sunset(lat, lng)
+        #The python library that finds time zone doesn't like some lattitudes
+        try:
+            sunset_dict = today_or_tomorrow_sunset(lat, lng)
+        except:
+            continue
+
         sunset_datetime_obj = sunset_dict['time']
 
         #finding appropriate forecast given sunset time
@@ -200,7 +246,7 @@ def find_nearest_airport_forecast(user_point, distance=50000):
     # #closest airport's forecast is the first one in the list!
     # closest_forecast = sunset_forecasts[0]
 
-
+    print sunset_forecasts
     return sunset_forecasts
 
 

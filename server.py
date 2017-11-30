@@ -77,38 +77,50 @@ def show_prediction():
 
     ################# Getting coordinates from form submission #################
 
-    print "{}, {}, {}, {}".format(request.args.get('my-coordinates'),
-                                  request.args.get('my-address'),
-                                  request.args.get('my-favorites'),
-                                  request.args.get('my-location')
-                                  )
+    print "coord: {}, add: {}, add(nav): {}, fav: {}, loc: {}".format(request.args.get('my-coordinates'),
+                                                                      request.args.get('my-address'),
+                                                                      request.args.get('my-address-nav'),
+                                                                      request.args.get('my-favorites'),
+                                                                      request.args.get('my-location')
+                                                                      )
 
-
-    if request.args.get('my-coordinates') != 'value-hidden':
+    if request.args.get('my-coordinates') != 'value-hidden' and request.args.get('my-coordinates') is not None:
+        print 'coordinates'
         user_lat = request.args.get('lat')
         user_lon = request.args.get('lon')
 
-    elif request.args.get('my-address') != 'value-hidden':
+    elif request.args.get('my-address') != 'value-hidden' and request.args.get('my-address') is not None:
+        print 'address'
         address = request.args.get('address')
+        print address
         coordinates = get_coordinates_from_address(address)
         user_lat = coordinates['lat']
         user_lon = coordinates['lng']
 
-    elif request.args.get('my-favorites') != 'value-hidden':
+    elif request.args.get('my-nav-address') is not None:
+        print 'address (nav)'
+        address = request.args.get('address')
+        print address
+        coordinates = get_coordinates_from_address(address)
+        user_lat = coordinates['lat']
+        user_lon = coordinates['lng']
+
+    elif request.args.get('my-favorites') != 'value-hidden' and request.args.get('my-favorites') is not None:
+        print 'favorites'
         favlocation = request.args.get('favoritelocation')
         #has to match user ID AND location title
         fav_location = UserFavorite.query.filter(UserFavorite.favorite_title == favlocation, UserFavorite.user_id == session['current_user']).one()
         user_lat = fav_location.favorite_lat
         user_lon = fav_location.favorite_lng
 
-    elif request.args.get('my-location') != 'value-hidden':
+    elif request.args.get('my-location') != 'value-hidden' and request.args.get('my-location') is not None:
+        print 'my-location'
         user_lat = request.args.get('usrlat')
         user_lon = request.args.get('usrlng')
         # print user_lat
         # print type(user_lat)
         # print user_lon
         # print type(user_lon)
-        distance_filter = request.args.get('distance-search')
 
 
     else:#TODO: delete this
@@ -129,6 +141,16 @@ def show_prediction():
     sunset_str = sunset_dict['sunset_str']
 
     print sunset_str
+
+    local_tz = sunset_dict['local_tz']
+    local_time = sunset_dict['local_time']
+    local_sunset_time = sunset_dict['local_sunset_time']
+
+    print "Local time and tz: "
+    print local_time
+    print local_tz
+    print "Local Sunset Time: {}".format(local_sunset_time)
+
 
     #for display purposes only
     current_utc = datetime.datetime.utcnow()
@@ -220,6 +242,7 @@ def show_prediction():
             highest_rating = rating
             recomendation = forecast['icao']
             rec_forecast = forecast
+            rec_desc = rate_desc_dict['description']
             print "{} has a higher rating".format(recomendation)
 
         else:
@@ -234,6 +257,7 @@ def show_prediction():
         rec_lng = None
         recomendation_obj = None
         distance_to_rec = None
+        rec_desc = None
 
     else:
 
@@ -275,7 +299,11 @@ def show_prediction():
                            distance_to_closest=distance_to_closest,
                            distance_to_rec=distance_to_rec,
                            sunset_str=sunset_str,
-                           current_time_str=current_time_str)
+                           current_time_str=current_time_str,
+                           local_time=local_time,
+                           local_tz=local_tz,
+                           local_sunset_time=local_sunset_time,
+                           rec_desc=rec_desc)
 
 
 #******************************************************************************#

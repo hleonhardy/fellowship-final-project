@@ -48,9 +48,12 @@
 
       <h2> {{ description }} </h2>
 
-      CURRENT TIME: <p id='current-time-display'> </p>
-      SUNSET TIME: ({{ day }})  <p id="sunset-time-display"> </p>
-
+      Local Timezone: {{local_tz}}<br>
+      CURRENT TIME: {{local_time}}<br>
+      <!-- <p id='current-time-display'> </p> -->
+      SUNSET TIME ({{ day }}): {{local_sunset_time}} <br>
+      <!-- <p id="sunset-time-display"> </p> -->
+      <br><br><br>
       <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
       {{ airport_obj.airport_name }}<br>
       {{ airport_obj.icao_code }}<br>
@@ -59,7 +62,8 @@
       <p>
           {{rec_message}}
           {% if rec_forecast != 'same' %}
-             ({{ distance_to_rec }} km away)
+             ({{ distance_to_rec }} km away)<br>
+             Forecast: {{rec_desc}}
           {% endif %}
       </p>
     </div>  
@@ -78,32 +82,32 @@
 <script type="text/javascript">
 
 
-let sunsetTime = $('#sunset-time').val();
-let currentTime = $('#current-time').val();
+// let sunsetTime = $('#sunset-time').val();
+// let currentTime = $('#current-time').val();
 
-let sunsetTimeDisplay = $('#sunset-time-display');
-let currentTimeDisplay = $('#current-time-display');
+// let sunsetTimeDisplay = $('#sunset-time-display');
+// let currentTimeDisplay = $('#current-time-display');
 
-let sDate = new Date(sunsetTime);
-let cDate = new Date(currentTime);
+// let sDate = new Date(sunsetTime);
+// let cDate = new Date(currentTime);
 
-//TO DO:
-//Come back to this using a javascript library such as 'moments' to find the 
-//actual time zone instead of just stripping the string
+// //TO DO:
+// //Come back to this using a javascript library such as 'moments' to find the 
+// //actual time zone instead of just stripping the string
 
-let sTimeZoneStr = sDate.toString()
-sTimeZoneStr = sTimeZoneStr.slice(sTimeZoneStr.length - 4, sTimeZoneStr.length - 1);
-let cTimeZoneStr = cDate.toString()
-cTimeZoneStr = cTimeZoneStr.slice(cTimeZoneStr.length - 4, cTimeZoneStr.length - 1);
+// let sTimeZoneStr = sDate.toString()
+// sTimeZoneStr = sTimeZoneStr.slice(sTimeZoneStr.length - 4, sTimeZoneStr.length - 1);
+// let cTimeZoneStr = cDate.toString()
+// cTimeZoneStr = cTimeZoneStr.slice(cTimeZoneStr.length - 4, cTimeZoneStr.length - 1);
 
-let sDateTxt = sDate.getHours()+":"+sDate.getMinutes()+":"+sDate.getSeconds()+" "+"("+sTimeZoneStr+")";
-let cDateTxt = cDate.getHours()+":"+cDate.getMinutes()+":"+cDate.getSeconds()+" "+"("+cTimeZoneStr+")";
+// // let sDateTxt = sDate.getHours()+":"+sDate.getMinutes()+":"+sDate.getSeconds()+" "+"("+sTimeZoneStr+")";
+// // let cDateTxt = cDate.getHours()+":"+cDate.getMinutes()+":"+cDate.getSeconds()+" "+"("+cTimeZoneStr+")";
 
-let sDateTimeStr = sDate.toLocaleTimeString() + " " + sTimeZoneStr;
-let cDateTimeStr = cDate.toLocaleTimeString() + " " + cTimeZoneStr;
+// let sDateTimeStr = sDate.toLocaleTimeString() + " " + sTimeZoneStr;
+// let cDateTimeStr = cDate.toLocaleTimeString() + " " + cTimeZoneStr;
 
-sunsetTimeDisplay.html(sDateTimeStr);
-currentTimeDisplay.html(cDateTimeStr);
+// sunsetTimeDisplay.html(sDateTimeStr);
+// currentTimeDisplay.html(cDateTimeStr);
 
 
 function initMap() {
