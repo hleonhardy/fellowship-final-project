@@ -4718,7 +4718,6 @@
 3380,"KAOO","medium_airport","Altoona Blair County Airport",40.29639816,-78.31999969,1503,"NA","US","US-PA","Altoona","yes","KAOO","AOO","AOO",,"http://en.wikipedia.org/wiki/Altoona-Blair_County_Airport",
 19290,"KAOV","small_airport","Ava Bill Martin Memorial Airport",36.971900939941406,-92.68190002441406,1311,"NA","US","US-MO","Ava","no","KAOV",,"AOV",,,
 19291,"KAPA","medium_airport","Centennial Airport",39.57009888,-104.848999,5885,"NA","US","US-CO","Denver","no","KAPA","APA","APA",,"http://en.wikipedia.org/wiki/Centennial_Airport","Arapahoe County Airport"
-19292,"KAPC","small_airport","Napa County Airport",38.2132,-122.280998,35,"NA","US","US-CA","Napa","no","KAPC","APC","APC","http://www.napacountyairport.org/","https://en.wikipedia.org/wiki/Napa_County_Airport",
 19293,"KAPF","medium_airport","Naples Municipal Airport",26.1525993347,-81.7752990723,8,"NA","US","US-FL","Naples","no","KAPF","APF","APF",,"http://en.wikipedia.org/wiki/Naples_Municipal_Airport",
 3381,"KAPG","medium_airport","Phillips Army Air Field",39.466202,-76.1688,57,"NA","US","US-MD","Aberdeen Proving Grounds(Aberdeen)","no","KAPG","APG","APG",,"https://en.wikipedia.org/wiki/Phillips_Army_Airfield",
 19294,"KAPH","small_airport","A P Hill AAF (Fort A P Hill) Airport",38.068902,-77.318298,220,"NA","US","US-VA","Fort A. P. Hill","no","KAPH","APH","APH",,"http://en.wikipedia.org/wiki/A.P._Hill_Army_Airfield",
@@ -4937,7 +4936,6 @@
 16630,"KCCA","small_airport","Clinton Municipal Airport",35.597801208496094,-92.45159912109375,514,"NA","US","US-AR","Clinton","no","KCCA",,"CCA",,,"4M4"
 19467,"KCCB","small_airport","Cable Airport",34.1115989685,-117.68800354,1444,"NA","US","US-CA","Upland","no","KCCB","CCB","CCB",,"http://en.wikipedia.org/wiki/Cable_Airport",
 19468,"KCCO","small_airport","Newnan Coweta County Airport",33.31159973144531,-84.7697982788086,970,"NA","US","US-GA","Atlanta","no","KCCO",,"CCO",,,
-19469,"KCCR","small_airport","Buchanan Field",37.9897003174,-122.056999207,26,"NA","US","US-CA","Concord","no","KCCR","CCR","CCR",,"http://en.wikipedia.org/wiki/Buchanan_Field_Airport",
 19470,"KCCY","medium_airport","Northeast Iowa Regional Airport",43.0726013184,-92.6108016968,1125,"NA","US","US-IA","Charles City","no","KCCY","CCY","CCY",,"http://en.wikipedia.org/wiki/Northeast_Iowa_Regional_Airport","Charles City Municipal Airport"
 18977,"KCDA","small_airport","Caledonia County Airport",44.5690994263,-72.0179977417,1188,"NA","US","US-VT","Lyndonville","no","KCDA","LLX","CDA",,"http://en.wikipedia.org/wiki/Caledonia_County_Airport","Formerly 6B8"
 3442,"KCDC","medium_airport","Cedar City Regional Airport",37.70100021362305,-113.0989990234375,5622,"NA","US","US-UT","Cedar City","yes","KCDC","CDC","CDC",,"http://en.wikipedia.org/wiki/Cedar_City_Regional_Airport",
@@ -5174,10 +5172,8 @@
 19667,"KDVK","small_airport","Stuart Powell Field",37.5778999329,-84.76969909670001,1022,"NA","US","US-KY","Danville","no","KDVK",,"DVK",,"http://en.wikipedia.org/wiki/Stuart_Powell_Field",
 19668,"KDVL","small_airport","Devils Lake Regional Airport",48.11420059,-98.90879822,1456,"NA","US","US-ND","Devils Lake","no","KDVL","DVL","DVL","http://www.devilslakeairport.com/","http://en.wikipedia.org/wiki/Devils_Lake_Regional_Airport",
 19669,"KDVN","small_airport","Davenport Municipal Airport",41.61029816,-90.58830261,751,"NA","US","US-IA","Davenport","no","KDVN","DVN","DVN","http://www.cityofdavenportiowa.com/department/?fDD=47-0","http://en.wikipedia.org/wiki/Davenport_Municipal_Airport_(Iowa)",
-19670,"KDVO","small_airport","Marin County Airport - Gnoss Field",38.143600463867,-122.55599975586,2,"NA","US","US-CA","Novato","no","KDVO","NOT","DVO","http://www.marincounty.org/depts/pw/divisions/airport","http://en.wikipedia.org/wiki/Marin_County_Airport","O56"
 19671,"KDVP","small_airport","Slayton Municipal Airport",43.986801147461,-95.782600402832,1623,"NA","US","US-MN","Slayton","no","KDVP","NSL","DVP","http://www.slayton.govoffice.com/index.asp?SEC=5E59296F-B088-43BB-80E9-EC7A9653571B&Type=B_BASIC",,"60Y"
 19672,"KDVT","small_airport","Phoenix Deer Valley Airport",33.6883010864,-112.083000183,1478,"NA","US","US-AZ","Phoenix","no","KDVT","DVT","DVT","http://deervalleyairport.com/","http://en.wikipedia.org/wiki/Phoenix_Deer_Valley_Airport",
-18612,"KDWA","small_airport","Yolo County Davis Woodland Winters Airport",38.57910156,-121.8570023,100,"NA","US","US-CA","Davis/Woodland/Winters","no","KDWA",,"DWA",,"http://en.wikipedia.org/wiki/Yolo_County_Airport","Formerly 2Q3"
 302474,"KDWF","closed","Wright Field",39.78,-84.10444444439999,800,"NA","US","US-OH","Dayton","no","KDWF","DWF","DWF",,"http://en.wikipedia.org/wiki/Wright_Field","Wright AFB"
 19673,"KDWH","small_airport","David Wayne Hooks Memorial Airport",30.0618000031,-95.55280303960001,152,"NA","US","US-TX","Houston","no","KDWH","DWH","DWH","http://www.hooksairport.com/","http://en.wikipedia.org/wiki/David_Wayne_Hooks_Memorial_Airport",
 19674,"KDWU","small_airport","Ashland Regional Airport",38.554500579833984,-82.73799896240234,546,"NA","US","US-KY","Ashland","no","KDWU",,"DWU",,"http://en.wikipedia.org/wiki/Ashland_Regional_Airport",
@@ -5524,7 +5520,6 @@
 20002,"KGZS","small_airport","Abernathy Field",35.15370178222656,-87.05680084228516,685,"NA","US","US-TN","Pulaski","no","KGZS",,"GZS",,,
 20021,"KHAB","small_airport","Marion County Rankin Fite Airport",34.11759949,-87.99819946,436,"NA","US","US-AL","Hamilton","no","KHAB","HAB","HAB",,"http://en.wikipedia.org/wiki/Marion_County_%E2%80%93_Rankin_Fite_Airport",
 20022,"KHAE","small_airport","Hannibal Regional Airport",39.72449875,-91.4437027,769,"NA","US","US-MO","Hannibal","no","KHAE",,"HAE",,,
-20023,"KHAF","small_airport","Half Moon Bay Airport",37.513401031499995,-122.500999451,66,"NA","US","US-CA","Half Moon Bay","no","KHAF","HAF","HAF",,"http://en.wikipedia.org/wiki/Half_Moon_Bay_Airport",
 20024,"KHAI","small_airport","Three Rivers Municipal Dr Haines Airport",41.9598007202,-85.59339904790001,824,"NA","US","US-MI","Three Rivers","no","KHAI","HAI","HAI",,,
 20025,"KHAO","small_airport","Butler Co Regional Airport - Hogan Field",39.363800048799995,-84.5220031738,633,"NA","US","US-OH","Hamilton","no","KHAO","HAO","HAO","http://bcra.butlercountyohio.org/","http://en.wikipedia.org/wiki/Butler_County_Regional_Airport",
 17617,"KHAX","closed","Hatbox Field",35.7458992004,-95.4128036499,627,"NA","US","US-OK","Muskogee","no","KHAX","HAX","HAX",,"http://en.wikipedia.org/wiki/Hatbox_Field","Muskogee Army Airfield"
@@ -5631,7 +5626,6 @@
 20099,"KHVR","medium_airport","Havre City County Airport",48.54299927,-109.762001,2591,"NA","US","US-MT","Havre","no","KHVR","HVR","HVR",,,
 20100,"KHVS","small_airport","Hartsville Regional Airport",34.4030990601,-80.11920166019999,364,"NA","US","US-SC","Hartsville","no","KHVS","HVS","HVS","http://hartsvillesc.gov/visitors/hartsville-airport/","http://en.wikipedia.org/wiki/Hartsville_Regional_Airport",
 29730,"KHWC","closed","Bryan Airport",41.473899841308594,-84.55670166015625,771,"NA","US","US-OH",,"no","KHWC",,"HWC",,,
-20101,"KHWD","small_airport","Hayward Executive Airport",37.659198761,-122.122001648,52,"NA","US","US-CA","Hayward","no","KHWD","HWD","HWD","http://www.hayward-ca.gov/CITY-GOVERNMENT/DEPARTMENTS/PUBLIC-WORKS-ET/HEA/","http://en.wikipedia.org/wiki/Hayward_Executive_Airport","Hayward Air Terminal"
 20102,"KHWO","small_airport","North Perry Airport",26.0012,-80.2407,8,"NA","US","US-FL","Hollywood","no","KHWO","HWO","HWO","http://www.broward.org/airport/northperryairport/Pages/Default.aspx","http://en.wikipedia.org/wiki/North_Perry_Airport",
 20103,"KHWQ","small_airport","Wheatland County At Harlowton Airport",46.44860077,-109.8529968,4311,"NA","US","US-MT","Harlowton","no","KHWQ",,"HWQ",,,
 20104,"KHWV","small_airport","Brookhaven Airport",40.8218994141,-72.86940002440001,81,"NA","US","US-NY","Shirley","no","KHWV","WSH","HWV",,"http://en.wikipedia.org/wiki/Brookhaven_Airport",
@@ -6103,7 +6097,6 @@
 20640,"KNGS","small_airport","Santa Rosa Nolf Airport",30.61079978942871,-86.94000244140625,150,"NA","US","US-FL","Milton","no","KNGS",,"NGS",,,
 3727,"KNGU","medium_airport","Norfolk Ns (Chambers Fld) Airport",36.93759918,-76.28929901,17,"NA","US","US-VA","Norfolk","no","KNGU",,"NGU",,,
 20641,"KNGW","small_airport","Cabaniss Field Nolf Airport",27.700300216674805,-97.43440246582031,30,"NA","US","US-TX","Corpus Christi","no","KNGW",,"NGW",,,
-29651,"KNGZ","closed","Alameda Naval Air Station",37.78889846801758,-122.31999969482422,10,"NA","US","US-CA","Alameda","no","KNGZ","NGZ",,,"http://en.wikipedia.org/wiki/Naval_Air_Station_Alameda","Naval Air Station"
 3728,"KNHK","medium_airport","Patuxent River Naval Air Station/Trapnell Field Aiport",38.2859993,-76.41179657,39,"NA","US","US-MD","Patuxent River","no","KNHK",,"NHK",,,
 20642,"KNHL","closed","Wolf NOLF Airport",30.3461,-87.541702,61,"NA","US","US-AL","Joesphine","no","KNHL",,"KNHL",,,
 300162,"KNHU","heliport","Norfolk Naval Station Heliport",36.9480555556,-76.2961111111,6,"NA","US","US-VA","Norfolk","no","KNHU",,,,,
@@ -6142,7 +6135,6 @@
 20658,"KNUC","small_airport","San Clemente Island Naval Auxiliary Landing Field",33.02270126,-118.5879974,184,"NA","US","US-CA","San Clemente Island","no","KNUC",,"NUC",,"http://en.wikipedia.org/wiki/Naval_Auxiliary_Landing_Field_San_Clemente_Island",
 20659,"KNUI","small_airport","Webster Nolf Airport",38.145999908447266,-76.42859649658203,22,"NA","US","US-MD","St Inigoes","no","KNUI",,"NUI",,,
 20660,"KNUN","small_airport","Saufley Field Nolf Airport",30.46969985961914,-87.33809661865234,85,"NA","US","US-FL","Pensacola","no","KNUN",,"NUN",,,
-3741,"KNUQ","medium_airport","Moffett Federal Airfield",37.416099548339844,-122.04900360107422,32,"NA","US","US-CA","Mountain View","no","KNUQ",,"NUQ",,"http://en.wikipedia.org/wiki/Moffett_Federal_Airfield",
 20661,"KNUW","medium_airport","Whidbey Island Naval Air Station /Ault Field/ Airport",48.35179901,-122.6559982,47,"NA","US","US-WA","Oak Harbor","no","KNUW",,"NUW",,,
 20662,"KNVD","small_airport","Nevada Municipal Airport",37.85210037231445,-94.30490112304688,892,"NA","US","US-MO","Nevada","no","KNVD",,"NVD",,,
 20663,"KNVI","heliport","Pace Nolf Heliport",30.699699401900002,-87.195602417,180,"NA","US","US-FL","Wallace","no","KNVI",,"NVI",,,
@@ -6266,7 +6258,6 @@
 3764,"KPAH","medium_airport","Barkley Regional Airport",37.06079864501953,-88.7738037109375,410,"NA","US","US-KY","Paducah","yes","KPAH","PAH","PAH",,"http://en.wikipedia.org/wiki/Barkley_Regional_Airport",
 3765,"KPAM","large_airport","Tyndall Air Force Base",30.0695991516,-85.57540130619999,17,"NA","US","US-FL","Panama City","no","KPAM","PAM","PAM","http://www.tyndall.af.mil/","http://en.wikipedia.org/wiki/Tyndall_Air_Force_Base",
 20804,"KPAN","small_airport","Payson Airport",34.256801605225,-111.33899688721,5157,"NA","US","US-AZ","Payson","no","KPAN","PJB","PAN","http://www.paysonaz.gov/Departments/Airport/AirportHome.html","http://en.wikipedia.org/wiki/Payson_Airport","E69"
-20805,"KPAO","small_airport","Palo Alto Airport of Santa Clara County",37.461101532,-122.114997864,4,"NA","US","US-CA","Palo Alto","no","KPAO","PAO","PAO","http://www.countyairports.org/pao.html","http://en.wikipedia.org/wiki/Palo_Alto_Airport_of_Santa_Clara_County",
 20807,"KPBF","medium_airport","Grider Field",34.1730995178,-91.9356002808,206,"NA","US","US-AR","Pine Bluff","no","KPBF","PBF","PBF","http://www.cityofpinebluff.com/pbairport/","http://en.wikipedia.org/wiki/Grider_Field",
 20808,"KPBG","medium_airport","Plattsburgh International Airport",44.650901794433594,-73.46810150146484,234,"NA","US","US-NY","Plattsburgh","yes","KPBG","PBG","PBG","http://www.plattsburghinternationalairport.com/","http://en.wikipedia.org/wiki/Plattsburgh_International_Airport","Plattsburgh Air Force Base"
 20809,"KPBH","small_airport","Price County Airport",45.70899963378906,-90.40249633789062,1497,"NA","US","US-WI","Phillips","no","KPBH",,"PBH",,,
@@ -6439,7 +6430,6 @@
 20926,"KRGK","small_airport","Red Wing Regional Airport",44.589401,-92.485001,778,"NA","US","US-MN","Red Wing","no","KRGK",,"RGK",,"https://en.wikipedia.org/wiki/Red_Wing_Regional_Airport",
 3846,"KRHI","medium_airport","Rhinelander Oneida County Airport",45.63119888305664,-89.46749877929688,1624,"NA","US","US-WI","Rhinelander","yes","KRHI","RHI","RHI",,"http://en.wikipedia.org/wiki/Rhinelander-Oneida_County_Airport",
 20927,"KRHP","small_airport","Western Carolina Regional Airport",35.195202,-83.862999,1697,"NA","US","US-NC","Andrews","no","KRHP",,"RHP","http://www.cherokeecounty-nc.gov/index.aspx?page=61","http://en.wikipedia.org/wiki/Andrews-Murphy_Airport","6A3, Andrews-Murphy Airport"
-20928,"KRHV","small_airport","Reid-Hillview Airport of Santa Clara County",37.332901001,-121.819000244,135,"NA","US","US-CA","San Jose","no","KRHV","RHV","RHV","http://www.countyairports.org/rhv.html","http://en.wikipedia.org/wiki/Reid-Hillview_Airport",
 3847,"KRIC","large_airport","Richmond International Airport",37.50519943237305,-77.3197021484375,167,"NA","US","US-VA","Richmond","yes","KRIC","RIC","RIC",,"http://en.wikipedia.org/wiki/Richmond_International_Airport",
 20929,"KRID","small_airport","Richmond Municipal Airport",39.757198333740234,-84.8427963256836,1140,"NA","US","US-IN","Richmond","no","KRID",,"RID",,,
 30335,"KRIE","small_airport","Rice Lake Airport",45.478599548339844,-91.72219848632812,1142,"NA","US","US-WI",,"no","KRIE",,,,,
@@ -6629,7 +6619,6 @@
 29962,"KSPX","closed","Houston Gulf Airport",29.50830078125,-95.051399230957,20,"NA","US","US-TX","Houston","no","KSPX","SPX","SPX",,"http://en.wikipedia.org/wiki/Houston_Gulf_Airport","Spaceland Airport"
 19345,"KSPZ","small_airport","Silver Springs Airport",39.40299987792969,-119.2509994506836,4269,"NA","US","US-NV","Silver Springs","no","KSPZ",,"SPZ",,"http://en.wikipedia.org/wiki/Silver_Springs_Airport","Formerly B08"
 21104,"KSQI","small_airport","Whiteside County Airport-Joseph H Bittorf Field",41.74280167,-89.67630005,648,"NA","US","US-IL","Sterling/Rockfalls","no","KSQI","SQI","SQI","http://www.visitrockfalls.com/visitor-s-guide/airport/whiteside-county-airport.html",,
-21105,"KSQL","small_airport","San Carlos Airport",37.511901855469,-122.25,5,"NA","US","US-CA","San Carlos","no","KSQL","SQL","SQL","http://publicworks.smcgov.org/san-carlos-airport","http://en.wikipedia.org/wiki/San_Carlos_Airport_(California)","San Carlos-Belmont Airport, San Mateo Country Airport"
 21106,"KSRB","small_airport","Upper Cumberland Regional Airport",36.05590057373047,-85.53070068359375,1025,"NA","US","US-TN","Sparta","no","KSRB",,"SRB",,,
 21107,"KSRC","small_airport","Searcy Municipal Airport",35.21060181,-91.73750305,265,"NA","US","US-AR","Searcy","no","KSRC",,"SRC",,,
 21108,"KSRE","small_airport","Seminole Municipal Airport",35.27470016479492,-96.67520141601562,1024,"NA","US","US-OK","Seminole","no","KSRE",,"SRE",,,
@@ -6685,7 +6674,6 @@
 3917,"KTCL","medium_airport","Tuscaloosa Regional Airport",33.220600128174,-87.611396789551,170,"NA","US","US-AL","Tuscaloosa","no","KTCL","TCL","TCL","http://www.tuscaloosa.com/Government/Departments/Transportation/airport","http://en.wikipedia.org/wiki/Tuscaloosa_Regional_Airport",
 3918,"KTCM","large_airport","McChord Air Force Base",47.1376991272,-122.475997925,322,"NA","US","US-WA","Tacoma","no","KTCM","TCM","TCM",,"http://en.wikipedia.org/wiki/McChord_Air_Force_Base",
 3919,"KTCS","medium_airport","Truth Or Consequences Municipal Airport",33.2369003296,-107.272003174,4853,"NA","US","US-NM","Truth Or Consequences","no","KTCS","TCS","TCS","http://www.torcnm.org/departments/airport.html","http://en.wikipedia.org/wiki/Truth_or_Consequences_Municipal_Airport",
-21181,"KTCY","small_airport","Tracy Municipal Airport",37.68899917602539,-121.44200134277344,193,"NA","US","US-CA","Tracy","no","KTCY",,"TCY",,"http://en.wikipedia.org/wiki/Tracy_Municipal_Airport",
 21182,"KTDF","small_airport","Person County Airport",36.28490067,-78.98419952,609,"NA","US","US-NC","Roxboro","no","KTDF",,"TDF",,"http://en.wikipedia.org/wiki/Person_County_Airport",
 21183,"KTDO","small_airport","Ed Carlson Memorial Field South Lewis County Airport",46.4771995544,-122.805999756,374,"NA","US","US-WA","Toledo","no","KTDO","TDO","TDO",,"http://en.wikipedia.org/wiki/Ed_Carlson_Memorial_Field","Winlock Airport"
 21184,"KTDW","small_airport","Tradewind Airport",35.1698989868,-101.825996399,3649,"NA","US","US-TX","Amarillo","no","KTDW","TDW","TDW","http://tradewindairport.com/index.html","http://en.wikipedia.org/wiki/Tradewind_Airport",
@@ -6810,7 +6798,6 @@
 21311,"KVAY","small_airport","South Jersey Regional Airport",39.942901611299995,-74.845703125,53,"NA","US","US-NJ","Mount Holly","no","KVAY","LLY","VAY","http://southjerseyairport.com/","http://en.wikipedia.org/wiki/South_Jersey_Regional_Airport","Burlington County Airport"
 3944,"KVBG","large_airport","Vandenberg Air Force Base",34.7373008728,-120.583999634,369,"NA","US","US-CA","Lompoc","no","KVBG","VBG","VBG",,"http://en.wikipedia.org/wiki/Vandenberg_Air_Force_Base",
 21312,"KVBT","small_airport","Bentonville Municipal-Louise M Thaden Field",36.34569931,-94.21929932,1296,"NA","US","US-AR","Bentonville","no","KVBT",,"VBT",,,
-21314,"KVCB","small_airport","Nut Tree Airport",38.376800537109375,-121.96199798583984,117,"NA","US","US-CA","Vacaville","no","KVCB",,"VCB",,,
 3945,"KVCT","medium_airport","Victoria Regional Airport",28.85260009765625,-96.91850280761719,115,"NA","US","US-TX","Victoria","yes","KVCT","VCT","VCT",,"http://en.wikipedia.org/wiki/Victoria_Regional_Airport",
 21315,"KVCV","small_airport","Southern California Logistics Airport",34.597499847399995,-117.383003235,2885,"NA","US","US-CA","Victorville","no","KVCV","VCV","VCV","http://www.logisticsairport.com/page.aspx?pgid=3","http://en.wikipedia.org/wiki/Southern_California_Logistics_Airport","George AFB, Victorville Airport"
 21316,"KVDF","small_airport","Tampa Executive Airport",28.013999939,-82.3452987671,22,"NA","US","US-FL","Tampa","no","KVDF",,"VDF","http://www.tampaairport.com/tampa-executive-airport","https://en.wikipedia.org/wiki/Tampa_Executive_Airport","X16, Vandenberg Airport"
@@ -17346,7 +17333,6 @@
 26861,"WITM","small_airport","Malikus Saleh Airport",5.226679801940918,96.95030212402344,90,"AS","ID","ID-AC","Lhok Seumawe-Sumatra Island","yes","WITM","LSW",,,,
 41472,"WITS","small_airport","Seumayam Airport",3.75,96.63333129882812,53,"AS","ID","ID-AC","Seumayam-Sumatra Island","no","WITS",,,,,
 26862,"WITT","medium_airport","Sultan Iskandar Muda International Airport",5.522872024010001,95.42063713070002,65,"AS","ID","ID-AC","Banda Aceh","yes","WITT","BTJ",,,"http://en.wikipedia.org/wiki/Sultan_Iskandar_Muda_International_Airport","WIAB"
-313309,"WJBK","closed","Berkley Municipal Heliport",37.8666,-122.3065,12,"NA","US","US-CA","Oakland","no","WJBK","JBK","JBK",,,
 41322,"WMAA","small_airport","Bahau Airport",2.8166699409484863,102.41699981689453,214,"AS","MY","MY-05","Bahau","no","WMAA",,,,,
 41323,"WMAB","small_airport","Batu Pahat Airport",1.8602420091629028,102.9010009765625,30,"AS","MY","MY-01","Batu Pahat","no","WMAB",,,,,
 32660,"WMAC","small_airport","Benta Airport",4.050000190734863,101.98300170898438,250,"AS","MY","MY-06","Benta","no","WMAC",,,,,
