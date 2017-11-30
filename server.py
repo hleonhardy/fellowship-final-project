@@ -77,31 +77,38 @@ def show_prediction():
 
     ################# Getting coordinates from form submission #################
 
-    if 'lat' in request.args:
+    print "{}, {}, {}, {}".format(request.args.get('my-coordinates'),
+                                  request.args.get('my-address'),
+                                  request.args.get('my-favorites'),
+                                  request.args.get('my-location')
+                                  )
+
+
+    if request.args.get('my-coordinates') != 'value-hidden':
         user_lat = request.args.get('lat')
         user_lon = request.args.get('lon')
 
-    elif 'address' in request.args:
+    elif request.args.get('my-address') != 'value-hidden':
         address = request.args.get('address')
         coordinates = get_coordinates_from_address(address)
         user_lat = coordinates['lat']
         user_lon = coordinates['lng']
 
-    elif 'favoritelocation' in request.args:
+    elif request.args.get('my-favorites') != 'value-hidden':
         favlocation = request.args.get('favoritelocation')
         #has to match user ID AND location title
         fav_location = UserFavorite.query.filter(UserFavorite.favorite_title == favlocation, UserFavorite.user_id == session['current_user']).one()
         user_lat = fav_location.favorite_lat
         user_lon = fav_location.favorite_lng
 
-    elif 'usrlat' in request.args:
+    elif request.args.get('my-location') != 'value-hidden':
         user_lat = request.args.get('usrlat')
         user_lon = request.args.get('usrlng')
-        print user_lat
-        print type(user_lat)
-        print user_lon
-        print type(user_lon)
-        distance_filter = request.args.get('distance-filter')
+        # print user_lat
+        # print type(user_lat)
+        # print user_lon
+        # print type(user_lon)
+        distance_filter = request.args.get('distance-search')
 
 
     else:#TODO: delete this
@@ -137,8 +144,11 @@ def show_prediction():
     #adding try and except for no airport error
 
     try:
-        if 'distance-filter' in request.args:
-            distance_filter = request.args.get('distance-filter')
+        if 'distance-search' in request.args:
+            distance_filter = request.args.get('distance-search')
+            distance_filter = float(distance_filter) * 1000
+            print "distance {}".format(distance_filter)
+            print type(distance_filter)
             forecasts = find_nearest_airport_forecast(user_point, distance_filter)
         else:
             forecasts = find_nearest_airport_forecast(user_point)

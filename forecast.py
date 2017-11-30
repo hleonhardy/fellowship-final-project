@@ -28,7 +28,7 @@ def today_or_tomorrow_sunset(lat, lon):
     #This API will give you TOMMOROW's sunset time UTC if today's time
     #runs past midnight UTC.
     if sunset_time_today[:10] != current_date_str:
-        print "this api sucks"
+
         current_date = current_date - datetime.timedelta(days=1)
         sunset_time_today = return_sunset_time(lat, lon, current_date)
 
@@ -48,10 +48,8 @@ def today_or_tomorrow_sunset(lat, lon):
     else:
         #Getting tomorrow's date:
         tomorrow = current_date + datetime.timedelta(days=1)
-        print "tomorrow: {}".format(tomorrow)
         #Getting sunset time using tomorrow's date
         sunset_time_tomorrow = return_sunset_time(lat, lon, tomorrow)
-        print "sunset time tomorrow: {}".format(sunset_time_tomorrow)
         #Setting the sunset time = tomorrow's sunset time
         sunset_time_obj = datetime.datetime.strptime(sunset_time_tomorrow,
                                                      '%Y-%m-%dT%H:%M:%S+00:00')
@@ -142,7 +140,7 @@ def find_nearest_airport_forecast(user_point, distance=50000):
 #   #distance in meters
     # distance = 75000
     #limit on number of rows we get back from the query
-    lim = 10
+    lim = 15
 
     sql_args = {'user_point': user_point, 'dist': distance, 'lim':lim}
 

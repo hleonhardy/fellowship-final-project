@@ -42,7 +42,6 @@ class Rating(object):
                 hun_ten_one[2] = self.rating
 
         rating_num = "{}{}{}".format(hun_ten_one[0], hun_ten_one[1], hun_ten_one[2])
-        print rating_num
 
 
         return rating_num

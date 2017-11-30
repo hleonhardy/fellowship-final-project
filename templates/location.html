@@ -45,6 +45,11 @@
           border-color: gray;
       } 
 
+/*
+      .col-xs-6 {
+        padding-top: 25px;
+        padding-bottom: 25px;
+      }*/
 
     </style>
 
@@ -54,8 +59,13 @@
 
 
 <div class='container'>
-
-  <h1> Advanced Search </h1>
+  <div class='row'>
+    <h1> Advanced Search </h1>
+    <br>
+    <br>
+    <hr>
+    <br>
+  </div>
 
   <form action='/prediction' id='usrlocation'>
 
@@ -79,149 +89,134 @@
 
       <div class='col-xs-6' id='search-options'>
         <p> Method: 
-        <select name='method-filter'>
-          <option value='my-location' id='my-location'>My Location</option>
+        <select name='method-filter' id='method'>
+          <option value='my-location' id='my-location' name='usr-location'>My Location</option>
           {% if 'current_user' in session %}
-            <option value='my-favorites' id='my-favorites'>My Favorites</option>
+            <option value='my-favorites' id='my-favorites' name='usr-favorites'>My Favorites</option>
           {% endif %}
-          <option value='enter-coordinates' id='enter-coordinates'>Coordinates</option>
-          <option value='enter-address' id='enter-address'>Address</option>
+          <option value='enter-coordinates' id='enter-coordinates' name='usr-coordinates'>Coordinates</option>
+          <option value='enter-address' id='enter-address' name='usr-address'>Address</option>
         </select>
         </p>
       </div>
 
     </div>
 
-
-  <div id='my-loc-opt'>
-    <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
-    <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
-  </div>
+    <div class='row'>
 
 
-
-  <div id='my-fav-opt'>
-
-  </div>
+      <div id='my-loc-opt' class='options' style="visibility: visible">
+        <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
+        <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
+        <input id='hidden-loc' name='my-location' type='hidden' value='visible' class='hidden-input'>
+      </div>
 
 
 
-  <div id='coordinates-opt'>
-
-  </div>
-
-
-
-  <div id='address-opt'>
-
-  </div>
-
-
-
-    <br><br><br><br>
-
-  </form>
-  <button id='submit'>Submit!</button>
-
-</div>
-
-<!-- <div class='row'>
-  <br>
-<hr>
-  <div class="col-xs-6 col-xs-offset-3">
-
-  <h3><br>Use your location!</h3>
-
-
-  <form action='/prediction' id='usrlocation'>
-    <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
-    <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
-  </form>
-  <button id='submit'>use my location!</button>
-      <br>
-      <br>
-      <br>
-      <hr>
-      <br>
-
-  </div>
-</div>
-
-<div class='row'>
-  <div class="col-xs-6 col-xs-offset-3">
-
-    {% if 'current_user' in session %}
-      <form action='/prediction'>
+      <div id='my-fav-opt' class='options' style="visibility: hidden">
         <h3> Choose from your favorites!</h3><br>
         <select name="favoritelocation">
         {% for favorite in user_obj.favorites %}
-          <option name='option'>{{favorite.favorite_title}}</option>
+          <option name='fav-option'>{{favorite.favorite_title}}</option>
         {% endfor %}
         </select>
-        <input type='submit'>
-
-      </form>
-
-      <br>
-      <hr>
-      <br>
-    {%  endif %}
-
-</div>
-
-</div>
+        <input id='hidden-fav' name='my-favorites' type='hidden' value='value-hidden' class='hidden-input'>
+      </div>
 
 
 
+      <div id='coordinates-opt' class='options' style="visibility: hidden">
+        <h3>Enter Coordinates:</h3> <br>
+        <div class='col-xs-6 col-xs-offset-4'>
+          <table>
+          <tr>
+            <th>Latitude: </th>
+            <td><input type="text" name="lat"><br> </th>
+          </tr>
+          <tr>
+            <th>Longitude: </th>
+            <td><input type="text" name="lon"><br> </th>
+          </tr>
+          </table>
+        </div>
+        <input id='hidden-coord' name='my-coordinates' type='hidden' value='value-hidden' class='hidden-input'>
+      </div>
 
-<div class='row'>
-  <div class="col-xs-6 col-xs-offset-3">
-    <form action='/prediction'>
-        <h3>Or, Enter Coordinates:</h3> <br>
-        <table>
-        <tr>
-          <th>Latitude: </th>
-          <td><input type="text" name="lat"><br> </th>
-        </tr>
-        <tr>
-          <th>Longitude: </th>
-          <td><input type="text" name="lon"><br> </th>
-        </tr>
-        </table>
-        <input type="submit"> 
-    </form>
-    <br>
-    <hr>
-    <br>
-</div>
 
-</div>
 
-<div class='row'>
-  <div class="col-xs-6 col-xs-offset-2" id="LocationField">
-
-    <form action='/prediction'>
-        Or, enter an address:<br>
-        Address: <input type="text" id="autocomplete" name="address"
+      <div id='address-opt' class='options' style="visibility: hidden">
+        Enter an address:<br>
+        <input type="text" id="autocomplete" name="address"
                         placeholder="Enter your address" onFocus="geolocate()"><br>
-        <input type="submit">
-    </form>
-</div>
-    
-<br>
-<br>
-<br><br><br>
-<hr>
-<br>
-</div>
+
+        <input id='hidden-address' name='my-address' type='hidden' value='value-hidden' class='hidden-input'>
+      </div>
 
 
-</div> -->
+
+      <br><br><br><br>
+    </div>
+  </form>
+
+  <button id='submit'>Submit!</button>
+
+</div>
 
 
 
 <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
 <script>
+
+//Changing the form based on which method is selected:
+//////////////////////////////////////////////////////
+
+let method;
+let inputClass;
+
+
+function turnHidden(evt) {
+  method = $("#method")
+  inputClass = $('.hidden-input')
+  console.log(method.val());
+
+  //my-location my-favorites enter-coordinates enter-address
+  //my-loc-opt my-fav-opt coordinates-opt address-opt
+  //hidden-loc hidden-fav hidden-coord hidden-address
+
+  if (method.val() === 'my-location'){
+    inputClass.val('value-hidden');
+    $('#hidden-loc').val('visible');
+    $('.options').css("visibility", "hidden");
+    $('#my-loc-opt').css("visibility", "visible");
+
+  }
+
+  if (method.val() === 'my-favorites') {
+    inputClass.val('value-hidden');    
+    $('#hidden-fav').val('visible');
+    $('.options').css("visibility", "hidden");
+    $('#my-fav-opt').css("visibility", "visible");
+  }
+
+  if (method.val() === 'enter-coordinates') {
+    inputClass.val('value-hidden');
+    $('#hidden-coord').val('visible');
+    $('.options').css("visibility", "hidden");
+    $('#coordinates-opt').css("visibility", "visible");
+  }
+
+  if (method.val() === 'enter-address') {
+    inputClass.val('value-hidden');
+    $('#hidden-address').val('visible');
+    $('.options').css("visibility", "hidden");
+    $('#address-opt').css("visibility", "visible");  
+  }
+
+}
+
+$("#method").change(turnHidden);
+
+/////////////////////////////////////////////////////
 
 
 var x = document.getElementById("usrlocation");
