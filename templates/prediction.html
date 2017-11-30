@@ -138,17 +138,16 @@ function initMap() {
         title: 'Chosen Location'
     });
 
-    let airportMarker = new google.maps.Marker({
-        position: airportPosition,
-        map: map,
-        title: 'Forecast Location'
-    });
+    // let airportMarker = new google.maps.Marker({
+    //     position: airportPosition,
+    //     map: map,
+    //     title: 'Forecast Location',
+    //     // icon: 'http://boothamphitheatre.com/wp-content/uploads/2016/02/dc6o4KBc9.png'
+    // });
 
-    let usrLoc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
-    bounds.extend(usrLoc);
 
-    let airportLoc = new google.maps.LatLng(airportMarker.position.lat(), airportMarker.position.lng());
-    bounds.extend(airportLoc);
+    // let airportLoc = new google.maps.LatLng(airportMarker.position.lat(), airportMarker.position.lng());
+    // bounds.extend(airportLoc);
 
     if (recLat !== 'None') {
         recLat = parseFloat(recLat)
@@ -164,9 +163,16 @@ function initMap() {
 
         recLoc = new google.maps.LatLng(recMarker.position.lat(), recMarker.position.lng());
         bounds.extend(recLoc);
+        
+        let usrLoc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+        bounds.extend(usrLoc);
+        map.fitBounds(bounds)
     }
 
-    map.fitBounds(bounds)
+    if (recLat == 'None'){
+      map.setZoom(12);
+    }
+
     
     initAutocomplete();
 }

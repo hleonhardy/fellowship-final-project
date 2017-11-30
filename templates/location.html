@@ -55,8 +55,77 @@
 
 <div class='container'>
 
-<h1> Advanced Search </h1>
-<div class='row'>
+  <h1> Advanced Search </h1>
+
+  <form action='/prediction' id='usrlocation'>
+
+    <div class='row'>
+
+
+
+      <div class='col-xs-6' id='distance'>
+        <p> Search Within:
+            <select name='distance-search'>
+              <option value='50' id='50' name='distance-filter'>50</option>
+              <option value='10' id='10' name='distance-filter'>10</option>
+              <option value='75' id='75' name='distance-filter'>75</option>
+              <option value='100' id='100' name='distance-filter'>100</option>
+              <option value='200' id='200' name='distance-filter'>200</option>
+              <option value='500' id='500' name='distance-filter'>500</option>
+              <option value='1000' id='1000' name='distance-filter'>1000</option>
+            </select>
+         km</p>
+      </div>
+
+      <div class='col-xs-6' id='search-options'>
+        <p> Method: 
+        <select name='method-filter'>
+          <option value='my-location' id='my-location'>My Location</option>
+          {% if 'current_user' in session %}
+            <option value='my-favorites' id='my-favorites'>My Favorites</option>
+          {% endif %}
+          <option value='enter-coordinates' id='enter-coordinates'>Coordinates</option>
+          <option value='enter-address' id='enter-address'>Address</option>
+        </select>
+        </p>
+      </div>
+
+    </div>
+
+
+  <div id='my-loc-opt'>
+    <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
+    <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
+  </div>
+
+
+
+  <div id='my-fav-opt'>
+
+  </div>
+
+
+
+  <div id='coordinates-opt'>
+
+  </div>
+
+
+
+  <div id='address-opt'>
+
+  </div>
+
+
+
+    <br><br><br><br>
+
+  </form>
+  <button id='submit'>Submit!</button>
+
+</div>
+
+<!-- <div class='row'>
   <br>
 <hr>
   <div class="col-xs-6 col-xs-offset-3">
@@ -128,7 +197,7 @@
 
 </div>
 
-<!-- <div class='row'>
+<div class='row'>
   <div class="col-xs-6 col-xs-offset-2" id="LocationField">
 
     <form action='/prediction'>
@@ -144,10 +213,10 @@
 <br><br><br>
 <hr>
 <br>
-</div> -->
-
-
 </div>
+
+
+</div> -->
 
 
 

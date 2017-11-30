@@ -65,8 +65,13 @@
 
 
 <div id="page-content">
-    {% for message in get_flashed_messages() %}
-        <br>{{ message }}
+   {% for category, message in get_flashed_messages(with_categories=true) %}
+      {% if category == 'error' %}
+        {% set category = 'danger' %}
+      {% endif %}
+      <div class="alert alert-{{ category }}" role="alert">
+        {{ message }}
+      </div>
     {% endfor %}
 
     {% block content %} INSERT CONTENT HERE {% endblock %}
