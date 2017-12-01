@@ -12,6 +12,8 @@ from flask import (Flask,
 
 from tzwhere import tzwhere
 import pytz
+from timezonefinder import TimezoneFinder
+
 
 
 def today_or_tomorrow_sunset(lat, lon):
@@ -29,15 +31,23 @@ def today_or_tomorrow_sunset(lat, lon):
 
     #This doesn't always work...???
     #using tzwhere to get the timezone for given coordinates
-    tz = tzwhere.tzwhere()
 
-    try:
-        tz_str = tz.tzNameAt(lat, lon)
-    except:
-        raise NoTimeZoneAvailable('No Time Zone Available')
+    #ATTEMPTING TO USE DIFFERENT LIBRARY FOR TZ FINDER
+    # tz = tzwhere.tzwhere()
+
+    # try:
+    #     tz_str = tz.tzNameAt(lat, lon)
+    # except:
+    #     raise NoTimeZoneAvailable('No Time Zone Available')
+
+    # **************************** #
+    # OH MAH GURD SO MUCH FASTER :)
+    tf = TimezoneFinder()
+    tz_str = tf.timezone_at(lng=lon, lat=lat)
 
     #using pytz to make object to calculate utc offset
     timezone = pytz.timezone(tz_str)
+
     tz_offset = timezone.utcoffset(current_utc)
 
     #datetime/date object according to the coordinates entered!
@@ -170,7 +180,7 @@ def find_nearest_airport_forecast(user_point, distance=50000):
 #   #distance in meters
     # distance = 75000
     #limit on number of rows we get back from the query
-    lim = 15
+    lim = 25
 
     print "In the find nearest airport forecast function :"
     print "limit: {}".format(lim)

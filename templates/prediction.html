@@ -60,10 +60,11 @@
       </p>
 
       <p>
-          {{rec_message}}
+          <h3>{{rec_message}}</h3>
           {% if rec_forecast != 'same' %}
              ({{ distance_to_rec }} km away)<br>
-             Forecast: {{rec_desc}}
+
+             <h3>Forecast: {{rec_desc}}</h3>
           {% endif %}
       </p>
     </div>  

@@ -10,12 +10,14 @@ idna==2.6
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
+numpy==1.13.3
 pkg-resources==0.0.0
 psycopg2==2.6.1
 pytz==2017.3
 requests==2.18.4
 Shapely==1.6.2.post1
 SQLAlchemy==1.1.15
+timezonefinder==2.1.2
 tzwhere==3.0.3
 urllib3==1.22
 Werkzeug==0.12.2
