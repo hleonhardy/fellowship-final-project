@@ -115,8 +115,8 @@ def show_prediction():
 
     elif request.args.get('my-location') != 'value-hidden' and request.args.get('my-location') is not None:
         print 'my-location'
-        user_lat = request.args.get('usrlat')
-        user_lon = request.args.get('usrlng')
+        user_lat = float(request.args.get('usrlat'))
+        user_lon = float(request.args.get('usrlng'))
         # print user_lat
         # print type(user_lat)
         # print user_lon
