@@ -16,7 +16,7 @@
     }
 
     #col-content{
-      padding-top: 100px;
+      padding-top: 20px;
     }
 
     .row {
@@ -66,50 +66,86 @@
   <div class = 'row'>
     <div class='col-xs-6 scroll' id="col-content">
       <div class='scroll-text'>
-        <h1> Here is my prediction: </h1>
-        <p> (for {{ day }}'s sunset) </p>
+        <div id="prediction-div">
+          <h1> Here is my prediction: </h1>
+          <p> (for {{ day }}'s sunset) </p>
 
-        <h2> {{ description }} </h2>
+          <h2> {{ description }} </h2>
+        </div>
+        <div id='time-div'>
+          Local Timezone: {{local_tz}}<br>
+          CURRENT TIME: {{local_time}}<br>
+          <!-- <p id='current-time-display'> </p> -->
+          SUNSET TIME ({{ day }}): {{local_sunset_time}} <br>
+          <!-- <p id="sunset-time-display"> </p> -->
+        </div>
+        <div id='loc-div'>
+          <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
+          {{ airport_obj.airport_name }}<br>
+          {{ airport_obj.icao_code }}<br>
+          </p>
+        </div>
 
-        Local Timezone: {{local_tz}}<br>
-        CURRENT TIME: {{local_time}}<br>
-        <!-- <p id='current-time-display'> </p> -->
-        SUNSET TIME ({{ day }}): {{local_sunset_time}} <br>
-        <!-- <p id="sunset-time-display"> </p> -->
-        <br>
-        <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
-        {{ airport_obj.airport_name }}<br>
-        {{ airport_obj.icao_code }}<br>
-        </p>
-
-        <p>
+        <div id="rec-div">
             <h3>{{rec_message}}</h3>
             {% if rec_forecast != 'same' %}
                ({{ distance_to_rec }} km away)<br>
 
                <h3>Forecast: {{rec_desc}}</h3>
             {% endif %}
-        </p>
-        <br>
-        ranked recommendations:<br>
-        <div>
-        {% for rating_dict in sorted_forecast_ratings %}
-            {{ rating_dict['rank'] }} | {{ rating_dict['icao'] }}<br>
-        {% endfor %}
+        </div>
 
-        <br><br><br>
+
+
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse1">Click Here to View All Locations!</a>
+              </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+              <div id="rec-table">
+                <br>
+                ranked recommendations:<br>
+
+                <table class='table'>
+
+                  <thead>
+                    <tr>
+                      <th>Rank</th>
+                      <th>Name</th>
+                      <th>Forecast</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                  {% for rating_dict in sorted_forecast_ratings %}
+                      <tr>
+                        <td>{{ rating_dict['rank'] }}</td>
+                        <td>{{ rating_dict['airport_obj'].airport_name }}</td>
+                        <td>{{ rating_dict['description'] }}</td>
+                      <tr>
+                  {% endfor %}
+                  </tbody>
+
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-
-    </div>  
-
+    </div> 
 
     <div class='col-xs-6'>
       <div id='map'> 
       </div>
     </div>
+
   </div>
 </div>
+
 <script src="https://code.jquery.com/jquery.js"></script>
 
 
@@ -119,7 +155,6 @@
 
 
 function initMap() {
-  // console.log(lat, lng)
     let user_lat = parseFloat($('#user_lat').val())
     let user_lon = parseFloat($('#user_lon').val())
 
