@@ -11,12 +11,34 @@
         
     }
 
+    body, html {
+      overflow: hidden;
+    }
+
     #col-content{
       padding-top: 100px;
     }
 
     .row {
       padding-top: 20px;
+    }
+
+    .scroll {
+      background-color: white;
+/*      text-align: center;*/
+      height:75%;
+/*      position: absolute;*/
+      top: 0px;
+      bottom: 0;
+      left: 0;
+/*      width: 75%;*/
+      overflow-y: scroll;
+      direction: rtl;
+    }
+
+    .scroll-text{
+      direction: ltr;
+      padding-left: 20px;
     }
 
 
@@ -42,36 +64,42 @@
 
 <div class='container'>
   <div class = 'row'>
-    <div class='col-xs-6' id="col-content">
-      <h1> Here is my prediction: </h1>
-      <p> (for {{ day }}'s sunset) </p>
+    <div class='col-xs-6 scroll' id="col-content">
+      <div class='scroll-text'>
+        <h1> Here is my prediction: </h1>
+        <p> (for {{ day }}'s sunset) </p>
 
-      <h2> {{ description }} </h2>
+        <h2> {{ description }} </h2>
 
-      Local Timezone: {{local_tz}}<br>
-      CURRENT TIME: {{local_time}}<br>
-      <!-- <p id='current-time-display'> </p> -->
-      SUNSET TIME ({{ day }}): {{local_sunset_time}} <br>
-      <!-- <p id="sunset-time-display"> </p> -->
-      <br><br><br>
-      <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
-      {{ airport_obj.airport_name }}<br>
-      {{ airport_obj.icao_code }}<br>
-      </p>
+        Local Timezone: {{local_tz}}<br>
+        CURRENT TIME: {{local_time}}<br>
+        <!-- <p id='current-time-display'> </p> -->
+        SUNSET TIME ({{ day }}): {{local_sunset_time}} <br>
+        <!-- <p id="sunset-time-display"> </p> -->
+        <br>
+        <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
+        {{ airport_obj.airport_name }}<br>
+        {{ airport_obj.icao_code }}<br>
+        </p>
 
-      <p>
-          <h3>{{rec_message}}</h3>
-          {% if rec_forecast != 'same' %}
-             ({{ distance_to_rec }} km away)<br>
+        <p>
+            <h3>{{rec_message}}</h3>
+            {% if rec_forecast != 'same' %}
+               ({{ distance_to_rec }} km away)<br>
 
-             <h3>Forecast: {{rec_desc}}</h3>
-          {% endif %}
-      </p>
-      <br>
-      ranked recommendations:<br>
-      {% for rating_dict in sorted_forecast_ratings %}
-          {{ rating_dict['rank'] }} | {{ rating_dict['icao'] }}<br>
-      {% endfor %}
+               <h3>Forecast: {{rec_desc}}</h3>
+            {% endif %}
+        </p>
+        <br>
+        ranked recommendations:<br>
+        <div>
+        {% for rating_dict in sorted_forecast_ratings %}
+            {{ rating_dict['rank'] }} | {{ rating_dict['icao'] }}<br>
+        {% endfor %}
+
+        <br><br><br>
+      </div>
+    </div>
 
     </div>  
 
@@ -89,35 +117,9 @@
 <script type="text/javascript">
 
 
-// let sunsetTime = $('#sunset-time').val();
-// let currentTime = $('#current-time').val();
-
-// let sunsetTimeDisplay = $('#sunset-time-display');
-// let currentTimeDisplay = $('#current-time-display');
-
-// let sDate = new Date(sunsetTime);
-// let cDate = new Date(currentTime);
-
-// //TO DO:
-// //Come back to this using a javascript library such as 'moments' to find the 
-// //actual time zone instead of just stripping the string
-
-// let sTimeZoneStr = sDate.toString()
-// sTimeZoneStr = sTimeZoneStr.slice(sTimeZoneStr.length - 4, sTimeZoneStr.length - 1);
-// let cTimeZoneStr = cDate.toString()
-// cTimeZoneStr = cTimeZoneStr.slice(cTimeZoneStr.length - 4, cTimeZoneStr.length - 1);
-
-// // let sDateTxt = sDate.getHours()+":"+sDate.getMinutes()+":"+sDate.getSeconds()+" "+"("+sTimeZoneStr+")";
-// // let cDateTxt = cDate.getHours()+":"+cDate.getMinutes()+":"+cDate.getSeconds()+" "+"("+cTimeZoneStr+")";
-
-// let sDateTimeStr = sDate.toLocaleTimeString() + " " + sTimeZoneStr;
-// let cDateTimeStr = cDate.toLocaleTimeString() + " " + cTimeZoneStr;
-
-// sunsetTimeDisplay.html(sDateTimeStr);
-// currentTimeDisplay.html(cDateTimeStr);
-
 
 function initMap() {
+  // console.log(lat, lng)
     let user_lat = parseFloat($('#user_lat').val())
     let user_lon = parseFloat($('#user_lon').val())
 
