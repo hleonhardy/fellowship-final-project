@@ -1,5 +1,5 @@
 .nav, .navbar, .navbar-default {
-    background-color: #D7DBDD;
+    background-color: #B2AAA3;
     border-color: black;
     z-index: 5;
     margin-bottom: 0;
@@ -35,3 +35,7 @@
     margin-bottom: 0;
     margin-top: 0;
 }*/
+
+body {
+    background-color: #EDE2D7;
+}
