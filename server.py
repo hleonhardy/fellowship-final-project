@@ -265,7 +265,7 @@ def show_prediction():
         rec_lat = recomendation_obj.lattitude
         rec_lng = recomendation_obj.longitude
         rec_message = """{} ({}) has a higher rated sunset! \n
-                        We reccomend you go there for the
+                        We recommend you go there for the
                         best sunset experience.""".format(recomendation_obj.airport_name, recomendation)
         #DISTANCE FROM RECOMMENDED AIRPORT TO USER(m):
         distance_to_rec = db.session.query(func.ST_Distance_Sphere(func.ST_GeomFromText(user_point, 4326),
