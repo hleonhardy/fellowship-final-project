@@ -67,6 +67,12 @@
              <h3>Forecast: {{rec_desc}}</h3>
           {% endif %}
       </p>
+      <br>
+      ranked recommendations:<br>
+      {% for rating_dict in sorted_forecast_ratings %}
+          {{ rating_dict['rank'] }} | {{ rating_dict['icao'] }}<br>
+      {% endfor %}
+
     </div>  
 
 
