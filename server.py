@@ -214,7 +214,7 @@ def show_prediction():
     recomendation = closest_forecast_json['icao']
 
     #add all forecast ratings to dictionary so that we can rank them
-    all_forecast_rating_dict = {}
+    all_forecast_ratings = []
 
     for forecast in forecasts:
         #Getting a rating for each forecast
@@ -233,8 +233,9 @@ def show_prediction():
 
         rate_desc_dict['airport_obj'] = airport_forecast_obj
         rate_desc_dict['distance_from_user_km'] = distance_to_airport
+        rate_desc_dict['icao'] = forecast['icao']
 
-        all_forecast_rating_dict[forecast['icao']] = rate_desc_dict
+        all_forecast_ratings.append(rate_desc_dict)
 
 
         #Recommended airport is the one with the highest rating
@@ -276,7 +277,24 @@ def show_prediction():
         distance_to_rec = float(distance_to_rec)
 
 
-    print all_forecast_rating_dict
+    #Making sorted recomendations:
+    #make the value (rating number) int in order to sort them
+    [int(rating['value']) for rating in all_forecast_ratings]
+    sorted_forecast_ratings = sorted(all_forecast_ratings, key=lambda rating: rating['value'])
+    #giving rank--tied items get the same rank.
+    rank = 1
+    i = 0
+
+    for rating_dict in sorted_forecast_ratings:
+        if i != 0:
+            #if there isn't a tie, we increase the rank
+            if rating_dict['value'] != sorted_forecast_ratings[i-1]['value']:
+                rank += 1
+
+        rating_dict['rank'] = rank
+
+        i += 1
+
 
 
     return render_template('prediction.html',
