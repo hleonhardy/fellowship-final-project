@@ -10,7 +10,7 @@ from flask import (Flask,
                    session,
                    jsonify)
 
-from tzwhere import tzwhere
+# from tzwhere import tzwhere
 import pytz
 from timezonefinder import TimezoneFinder
 

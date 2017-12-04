@@ -41,6 +41,25 @@
       padding-left: 20px;
     }
 
+    #legend {
+        font-family: Arial, sans-serif;
+        background: #fff;
+        padding: 10px;
+        margin: 10px;
+        border: 3px solid #000;
+      }
+      #legend h3 {
+        margin-top: 0;
+        padding-left: 8px;
+      }
+      #legend img {
+        vertical-align: middle;
+      }
+
+      .smallicon {
+        padding-left: 7px;
+      }
+
 
 
 </style>
@@ -101,15 +120,15 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" href="#collapse1">Click Here to View All Locations!</a>
+                <a id="reveal-all-locations"data-toggle="collapse" href="#collapse1">Click Here to View All Locations!</a>
               </h4>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
               <div id="rec-table">
                 <br>
-                ranked recommendations:<br>
 
                 <table class='table'>
+                <input type='hidden' id='collapsed-expanded' value='collapsed'> 
 
                   <thead>
                     <tr>
@@ -121,6 +140,12 @@
 
                   <tbody>
                   {% for rating_dict in sorted_forecast_ratings %}
+                      <input id="{{ rating_dict['airport_obj'].airport_id }}"
+                          class='latlng' 
+                          type="hidden"
+                          data-lat="{{ rating_dict['airport_obj'].lattitude }}"
+                          data-lng="{{rating_dict['airport_obj'].longitude }}"
+                          data-name="{{rating_dict['airport_obj'].airport_name }}">
                       <tr>
                         <td>{{ rating_dict['rank'] }}</td>
                         <td>{{ rating_dict['airport_obj'].airport_name }}</td>
@@ -141,6 +166,14 @@
     <div class='col-xs-6'>
       <div id='map'> 
       </div>
+      <div id="legend">
+        <h3>Legend</h3>
+        <hr>
+        <p class='smallicon'>   <img src="http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png">    Your Location</p>
+        <p class='smallicon'>   <img src="http://maps.google.com/mapfiles/kml/paddle/ylw-stars-lv.png">    Recommended Location</p>
+        <p><img src="http://maps.google.com/mapfiles/kml/pal2/icon56.png"> Checked Locations</p>
+
+      </div>
     </div>
 
   </div>
@@ -152,7 +185,8 @@
 
 <script type="text/javascript">
 
-
+var map;
+var bounds;
 
 function initMap() {
     let user_lat = parseFloat($('#user_lat').val())
@@ -164,7 +198,6 @@ function initMap() {
     let recLat = $('#rec_lat').val()
     let recLng = $('#rec_lng').val()
 
-    let bounds;
 
     let yourPosition = {lat: user_lat, lng: user_lon};
         console.log(yourPosition)
@@ -175,27 +208,16 @@ function initMap() {
 
     bounds = new google.maps.LatLngBounds();
 
-    let map = new google.maps.Map(document.querySelector('#map'), {
+    map = new google.maps.Map(document.querySelector('#map'), {
         center: yourPosition
-        // zoom: 11,
     });
 
     let marker = new google.maps.Marker({
         position: yourPosition,
         map: map,
-        title: 'Chosen Location'
+        title: 'Chosen Location',
+        icon: 'http://maps.google.com/mapfiles/kml/paddle/red-circle.png'
     });
-
-    // let airportMarker = new google.maps.Marker({
-    //     position: airportPosition,
-    //     map: map,
-    //     title: 'Forecast Location',
-    //     // icon: 'http://boothamphitheatre.com/wp-content/uploads/2016/02/dc6o4KBc9.png'
-    // });
-
-
-    // let airportLoc = new google.maps.LatLng(airportMarker.position.lat(), airportMarker.position.lng());
-    // bounds.extend(airportLoc);
 
     if (recLat !== 'None') {
         recLat = parseFloat(recLat)
@@ -206,7 +228,8 @@ function initMap() {
         let recMarker = new google.maps.Marker({
             position: recPosition,
             map: map,
-            title: 'Recommended Location'
+            title: 'Recommended Location',
+            icon: 'http://maps.google.com/mapfiles/kml/paddle/ylw-stars.png'
         });
 
         recLoc = new google.maps.LatLng(recMarker.position.lat(), recMarker.position.lng());
@@ -221,10 +244,67 @@ function initMap() {
       map.setZoom(12);
     }
 
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('legend'));
     
     initAutocomplete();
 }
 
+
+let latLngData;
+let locPosition;
+let locLat;
+let locLng;
+let locMarker;
+
+function getLatLng(evt) {
+
+  collapsedOrExpanded = $("#collapsed-expanded").val();
+
+  if (collapsedOrExpanded === "collapsed"){
+
+    $(".latlng").each( function() { 
+
+      // console.log($(this).data('lat'));
+      // console.log($(this).data('lng'));
+      // console.log($(this).data('name'));
+    // });
+    locLat = parseFloat($(this).data('lat'));
+    locLng = parseFloat($(this).data('lng'));
+    locName = $(this).data('name');
+
+    locPosition = {lat: locLat, lng: locLng};
+
+    locMarker = new google.maps.Marker({
+    position: locPosition,
+    map: map,
+    title: locName,
+    icon: 'http://maps.google.com/mapfiles/kml/pal2/icon56.png'
+    });
+
+    locLoc = new google.maps.LatLng(locMarker.position.lat(), locMarker.position.lng());
+    bounds.extend(locLoc);
+
+    });
+
+    map.fitBounds(bounds);
+    $("#collapsed-expanded").val("expanded");
+
+  } else {
+
+    console.log('this is where i will initilize the original map'); 
+    initMap();
+    $("#collapsed-expanded").val("collapsed");
+
+
+
+  }
+
+  // $(".latlng").each( function() {console.log($(this).data()) });
+}
+
+
+
+$("#reveal-all-locations").on("click", getLatLng);
 
 
 </script>

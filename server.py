@@ -276,11 +276,12 @@ def show_prediction():
         distance_to_rec = str(distance_to_rec)[:6]
         distance_to_rec = float(distance_to_rec)
 
+
     # RANKING THE RECOMMENDATIONS
     #Making sorted recomendations:
     #make the value (rating number) int in order to sort them
     [int(rating['value']) for rating in all_forecast_ratings]
-    sorted_forecast_ratings = sorted(all_forecast_ratings, key=lambda rating: rating['value'])
+    sorted_forecast_ratings = sorted(all_forecast_ratings, key=lambda rating: rating['value'], reverse=True)
 
     #giving rank--tied items get the same rank.
     rank = 1

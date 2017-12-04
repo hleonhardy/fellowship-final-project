@@ -23,6 +23,18 @@
       top: 0;
       width: 100%
     }
+    .modal {
+      z-index: 50;
+    }
+
+    .modal-backdrop{
+      z-index: 10;
+    }
+    .modal-body {
+      width: 100px;
+      height: 200px;
+
+    }
 
     </style>
 
@@ -46,7 +58,7 @@
 
         {% if 'current_user' not in session %}
         <li><a href='/login'> Log In </a></li>
-        <li><a href='/register'> Register </a></li>
+<!--         <li><a href='/register'> Register </a></li> -->
     {% else %}
         <li><a href='/mypage'> My Page </a></li>
         <li><a href='/logout'> Log Out </a></li>
