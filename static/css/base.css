@@ -1,5 +1,5 @@
 .nav, .navbar, .navbar-default {
-    background-color: #B2AAA3;
+    background-color: #172233;
     border-color: black;
     z-index: 5;
     margin-bottom: 0;
@@ -37,5 +37,25 @@
 }*/
 
 body {
-    background-color: #EEE6DA;
+    background-color: #303030;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
 }
+
+a.nav-text {
+    color: white;
+}
+
+#navbar {
+    border-width: 2px;
+}
+
+#nav-autocomplete{
+    color: black;
+}
+
+
+
+
+

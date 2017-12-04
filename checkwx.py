@@ -19,7 +19,7 @@ def return_forecast_dict(icao_list):
 
     response = requests.get(url, headers=headers)
     json_response = response.json()
-    # print json_response
+    print json_response
 
     #List of separate icao forecasts:
     #Each item in the data list corresponds to different icao code.

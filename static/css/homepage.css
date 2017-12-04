@@ -4,6 +4,10 @@
     max-width: 50px;
 }*/
 
+#thin-font {
+  font-weight: 100;
+  font-size: medium;
+}
 
 .carousel {
     width: 100%;
@@ -28,9 +32,9 @@ img {
     background-color: #696969;
 }
 
-.container {
+/*.container {
     text-align: center;
-}
+}*/
 
       hr { 
           display: block;
@@ -42,5 +46,30 @@ img {
           border-width: 0.5px;
           border-color: gray;
       } 
+
+/*.home-inner-text {
+  width: 500px;
+  height: auto;
+}*/
+
+#my-loc-opt {
+  text-align: center;
+  padding-top: 100px;
+}
+
+#thin-font>h4 {
+    font-weight: 200;
+} 
+
+
+.h-thinner {
+  font-weight: 300;
+}
+
+.home-inner-text {
+  font-size: medium;
+}
+
+
 
 

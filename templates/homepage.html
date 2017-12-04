@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block title %} Sunset Homepage {% endblock %}
 {% block style %}
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="/static/css/homepage.css">
 {% endblock %}
 {% block content %}
@@ -9,9 +11,9 @@
 
 
 
-<div class="container">
-  <h1> Home </h1><br>
-  <hr><br>
+<div class="container" id='thin-font'>
+  <h1 class='h-thinner'> Sun Setup </h1>
+  <hr><br><br>
   <div class='row'>
     <div class="col-xs-6">
 
@@ -67,54 +69,144 @@
       </div>
     </div>
 
-    <div class="col-xs-6">
-      <div id="locationField">
-        <form action='/prediction'>
+    <div id = "click-usr-loc" class="col-xs-6">
+<!--       <div id="locationField"> -->
+<!--         <form action='/prediction'>
             Enter an address to get a sunset prediction!
             <input type="text" id="autocomplete" name="address"
                             placeholder="Enter your address" onFocus="geolocate()">
             <input type='hidden' name='my-address' value='visible'>
             <input type="submit">
-        </form>
-      </div>
+        </form> -->
+          <div id='my-loc-opt' class='options' style="visibility: visible">
+            <form action='/prediction' id='usrlocation'>
+              <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
+              <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
+              <input id='hidden-loc' name='my-location' type='hidden' value='visible' class='hidden-input'>
+            </form>
+            <h3>
+              <button type='submit' id='submit' style='background-color: #172233;'>Click Here </button><br><br><h3 class='h-thinner'>to predict the sunset!!</h3>
+            </h3>
+          </div>
+<!--       </div> -->
     </div>
   </div>
 
-<hr>
 
-<br><br>
-<hr>
-<div class='row'>
-<h2> About: </h2>
-<h4>All sunsets are beautiful, but some are particularly more beautiful than others.</h4>
-This page predicts how beautiful a sunset will be based on the amount and altitude of
-the clouds near the selected location.<br>
-This page uses weather data from airports, also known as METARS and TAFS.<br>
-We use airport weather data because they give specific amounts and altitudes of clouds (
-so that pilots can know what conditions to expect while flying).<br><br>
-<hr>
+  <div class='row'>
+
+    <hr><h2 class='h-thinner'> About </h2><hr><br><br><br>
+        <h4 class='h-thinner'>
+        All sunsets are beautiful, but some can make the most mezmerizing scenery you have ever seen.
+        </h4><br>
+      
+        <p class='home-inner-text'>
+          Sun Setup predicts how the sunset will look based on the amounts and altitudes of
+          the clouds near the user's selected location.
+          This page uses aviation weather forecasts, also known as METARS and TAFS.
+          We use these particular forecasts because they give specific amounts and altitudes of clouds (
+          so that pilots can know what conditions to expect while flying).<br><br><br><br>
+        </p>
+
+
+  </div>
+  <div class='row'>
+    <br><hr><br><br><h4 class='h-thinner'>What Makes the Perfect Sunset?</h4><br>
+
+      <p class='home-inner-text'>
+        The perfect sunset will have a balance between having enough clouds to get those pink, orange, and red colors but not so many clouds that we can't see anything at all. Sun Setup considers mid-altitdue (roughly 7,000-20,000 ft.) clouds that take up roughly half of the sky to make the best sunset. However, there are other factors to how beautiful the sunset will be besides clouds, so this isn't to say that we can only have a dazzling sunset with those conditions.
+      </p>
+
+<br><br><br><br><hr>
+  </div>
+  <br><br><br>
+<!--   <div class='row'>
+    <p> 
+    <h3>The Forecast Data: METARS and TAFs: </h3>
+    <p> blahblahblah what is a metar clouds yay </p>
+
+    </p>
+  </div> -->
+
+
+
 </div>
-<div class='row'>
-<h3>Why are sunsets filled with different colors?</h3>
-
-<p>
-Why do we see reds, pinks, and oranges when the sun is setting? <br>
-(I'll fill this in later)
-</p>
-</div>
-<hr>
-<div class='row'>
-<p> 
-<h3>The Forecast Data: METARS and TAFs: </h3>
-<p> blahblahblah what is a metar clouds yay </p>
-
-</p>
-</div>
 
 
 
-</div>
-</div>
+<script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+<script>
+
+
+var x = document.getElementById("usrlocation");
+
+function getLocation(evt) {
+    console.log("in getLocation");
+    evt.preventDefault();
+    return new Promise(function(resolve, reject) {
+      if (navigator.geolocation) {
+        console.log("in if");
+        navigator.geolocation.getCurrentPosition(resolve);      }
+      else {
+        console.log("in else");
+        console.log("Geolocation is not supported by this browser.");
+        reject();
+      }
+    });
+  }
+
+    // if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(assignPosition);
+    // } else { 
+    //     x.innerHTML = "Geolocation is not supported by this browser.";
+    // }
+
+// }
+
+function assignPosition(position) {
+
+    console.log('in assign position');
+  return new Promise(function(resolve) {
+    $('#usrlat').attr('value', position.coords.latitude);
+    $('#usrlng').attr('value', position.coords.longitude);
+    console.log("done with assignPosition");
+    resolve();
+  });
+}
+
+function submitForm() {
+    console.log("in submitForm");
+    $('#usrlocation').submit();
+    console.log('submitted the form');
+}
+
+// callAll calls the getLocation function which returns a promise
+//  --> promise is passed resolve and reject
+//  --> promise wraps getCurrentPosition which has resolve as a callback
+// Then, after the promise is resolved, we call assignPosition.
+//  --> assignPosition is automatically passed position as part of the promise
+//  --> assignPosition calls resolve() after changing value attributes in lat/lng hidden input
+// Lastly, we call submit form. 
+// .catch() is for the rejection.
+
+function callAll(evt) {
+  console.log('in callAll')
+  getLocation(evt)
+    .then(assignPosition)
+    .then(submitForm)
+    .catch()
+    // console.log('end of callAll');
+
+    // .then(function(){
+    //   
+    //   submitForm();});
+}
+
+
+$('#submit').on('click', callAll);
+
+</script>
+
 
 
 <script defer type="text/javascript" src="{{ placesmapurl | safe }}"></script>

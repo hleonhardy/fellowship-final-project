@@ -26,6 +26,7 @@
         border-color: black;
         border-style: solid;
         background-color: white;
+        color: black;
 
       }
 
@@ -71,9 +72,6 @@
   <form action='/prediction' id='usrlocation'>
 
     <div class='row'>
-
-
-
       <div class='col-xs-6' id='distance'>
         <p> Search Within:
             <select name='distance-search'>
@@ -103,7 +101,10 @@
 
     </div>
 
+
     <div class='row'>
+
+      <div class='col-xs-12'>
 
 
       <div id='my-loc-opt' class='options' style="visibility: visible">
@@ -112,7 +113,9 @@
         <input id='hidden-loc' name='my-location' type='hidden' value='visible' class='hidden-input'>
       </div>
 
+    </div>
 
+    <div class='col-xs-12'>
 
       <div id='my-fav-opt' class='options' style="visibility: hidden">
         {% if 'current_user' in session %}
@@ -125,19 +128,20 @@
         {%  endif %}
         <input id='hidden-fav' name='my-favorites' type='hidden' value='value-hidden' class='hidden-input'>
       </div>
+    </div>
 
-
+<hr><br>
 
       <div id='coordinates-opt' class='options' style="visibility: hidden">
-        <h3>Enter Coordinates:</h3> <br>
+<!--         <h3>Enter Coordinates:</h3> <br> --><br><br>
         <div class='col-xs-6 col-xs-offset-4'>
           <table>
           <tr>
-            <th>Latitude: </th>
+            <th style='color: black;'>Latitude: </th>
             <td><input type="text" name="lat"><br> </th>
           </tr>
           <tr>
-            <th>Longitude: </th>
+            <th style='color: black;'>Longitude: </th>
             <td><input type="text" name="lon"><br> </th>
           </tr>
           </table>
@@ -148,7 +152,7 @@
 
 
       <div id='address-opt' class='options' style="visibility: hidden">
-        Enter an address:<br>
+       
         <input type="text" id="autocomplete" name="address"
                         placeholder="Enter your address" onFocus="geolocate()"><br>
 
@@ -288,7 +292,7 @@ $('#submit').on('click', callAll);
 
 </script>
 
-    <script defer type="text/javascript" src="{{ placesmapurl | safe }}"></script>
+<script defer type="text/javascript" src="{{ placesmapurl | safe }}"></script>
 
 
 {% endblock %}

@@ -5,6 +5,7 @@
 #autocomplete {
   width: 50%;
   z-index: 1;
+  color: black;
 }
 
 #nav-autocomplete{

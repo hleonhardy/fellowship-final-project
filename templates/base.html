@@ -4,7 +4,7 @@
     <title>{% block title %} INSERT TITLE HERE {% endblock %} </title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,400|Raleway:200|Roboto:100,200,400" rel="stylesheet">
     {% block style %} {% endblock %}
 
     <meta charset="utf-8">
@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/autocomplete.css">
     <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+
 
     <style>
 
@@ -53,23 +54,23 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href='/'> Home </a></li>
-        <li><a href='/location'> Advanced Search </a> </li>
+        <li><a href='/' style="color: white;"> Home </a></li>
+        <li><a href='/location' style="color: white;"> Advanced Search </a> </li>
 
         {% if 'current_user' not in session %}
-        <li><a href='/login'> Log In </a></li>
+        <li><a href='/login' style="color: white;"> Log In </a></li>
 <!--         <li><a href='/register'> Register </a></li> -->
     {% else %}
-        <li><a href='/mypage'> My Page </a></li>
-        <li><a href='/logout'> Log Out </a></li>
+        <li><a href='/mypage' style="color: white;"> My Page </a></li>
+        <li><a href='/logout' style="color: white;"> Log Out </a></li>
     {% endif %}
 
     </ul>
       <ul class="nav navbar-nav navbar-right">
         <form action='/prediction'>
-          <li>Search for sunset prediction here! <input type="text" id="nav-autocomplete" name="address" placeholder="Enter an address" onFocus="geolocateNav()">
+          <li>Search for sunset prediction here  <input type="text" id="nav-autocomplete" name="address" placeholder="Enter an address" onFocus="geolocateNav()">
           <input type='hidden' name='my-nav-address' value='visible'>
-          <input type="submit"></li>
+          <input type="submit" style="background-color: #303030;"></li>
         </form>
       </ul>
     </div><!-- /.navbar-collapse -->
