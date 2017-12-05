@@ -99,20 +99,34 @@
 
           <h2> {{ description }} </h2><hr>
         </div>
-        <div id='time-div'>
-          Local Timezone: {{local_tz}}<br>
-          CURRENT TIME: {{local_time}}<br>
-          <!-- <p id='current-time-display'> </p> -->
-          SUNSET TIME ({{ day }}): {{local_sunset_time}} <br><hr>
-          <!-- <p id="sunset-time-display"> </p> -->
-        </div>
-        <div id='loc-div'>
-          <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
-          {{ airport_obj.airport_name }}<br>
-          {{ airport_obj.icao_code }}<br>
-          </p><hr>
-        </div>
 
+
+
+
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse2">More Information</a>
+              </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+              <div id='time-div'>
+                <br>Local Timezone: {{local_tz}}<br>
+                CURRENT TIME: {{local_time}}<br>
+                <!-- <p id='current-time-display'> </p> -->
+                SUNSET TIME ({{ day }}): {{local_sunset_time}} <br><hr>
+                <!-- <p id="sunset-time-display"> </p> -->
+              </div>
+              <div id='loc-div'>
+                <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
+                {{ airport_obj.airport_name }}<br>
+                {{ airport_obj.icao_code }}<br>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
         <div id="rec-div">
             <h2> Recommendation: </h2><br>
             <h4>{{rec_message}}</h4>
@@ -197,10 +211,12 @@
 
 var map;
 var bounds;
+let user_lat;
+let user_lon;
 
 function initMap() {
-    let user_lat = parseFloat($('#user_lat').val())
-    let user_lon = parseFloat($('#user_lon').val())
+    user_lat = parseFloat($('#user_lat').val())
+    user_lon = parseFloat($('#user_lon').val())
 
     let airportLat = parseFloat($('#airport_lat').val())
     let airportLng = parseFloat($('#airport_lng').val())
@@ -295,6 +311,13 @@ function getLatLng(evt) {
     bounds.extend(locLoc);
 
     });
+
+    user_lat = parseFloat($('#user_lat').val())
+    user_lon = parseFloat($('#user_lon').val())
+
+
+    let usrLoc = new google.maps.LatLng(user_lat, user_lon);
+    bounds.extend(usrLoc);
 
     map.fitBounds(bounds);
     $("#collapsed-expanded").val("expanded");

@@ -101,13 +101,14 @@
 
     </div>
 
+<hr><br>
 
     <div class='row'>
 
       <div class='col-xs-12'>
 
 
-      <div id='my-loc-opt' class='options' style="visibility: visible">
+      <div id='my-loc-opt' class='options' >
         <input id='usrlat' type='hidden' name='usrlat' value='this did not work'>
         <input id='usrlng' type='hidden' name='usrlng' value='this did not work'>
         <input id='hidden-loc' name='my-location' type='hidden' value='visible' class='hidden-input'>
@@ -117,9 +118,10 @@
 
     <div class='col-xs-12'>
 
-      <div id='my-fav-opt' class='options' style="visibility: hidden">
+      <div id='my-fav-opt' class='options' >
         {% if 'current_user' in session %}
-          <h3> Choose from your favorites!</h3><br>
+          <h4> Choose From Your Favorites </h4>
+          <!-- <h3> Choose from your favorites!</h3><br> -->
           <select name="favoritelocation">
           {% for favorite in user_obj.favorites %}
             <option name='fav-option'>{{favorite.favorite_title}}</option>
@@ -130,11 +132,10 @@
       </div>
     </div>
 
-<hr><br>
 
-      <div id='coordinates-opt' class='options' style="visibility: hidden">
-<!--         <h3>Enter Coordinates:</h3> <br> --><br><br>
-        <div class='col-xs-6 col-xs-offset-4'>
+    <div class='col-xs-6 col-xs-offset-4'>
+      <div id='coordinates-opt' class='options'>
+<!--         <h3>Enter Coordinates:</h3> <br> -->
           <table>
           <tr>
             <th style='color: black;'>Latitude: </th>
@@ -145,26 +146,27 @@
             <td><input type="text" name="lon"><br> </th>
           </tr>
           </table>
-        </div>
         <input id='hidden-coord' name='my-coordinates' type='hidden' value='value-hidden' class='hidden-input'>
       </div>
+    </div>
 
+    <div>
 
-
-      <div id='address-opt' class='options' style="visibility: hidden">
+      <div id='address-opt' class='options' >
        
         <input type="text" id="autocomplete" name="address"
                         placeholder="Enter your address" onFocus="geolocate()"><br>
 
         <input id='hidden-address' name='my-address' type='hidden' value='value-hidden' class='hidden-input'>
       </div>
+    </div>
 
 
 
-      <br><br><br><br>
+      <br>
     </div>
   </form>
-
+  <br><br>
   <button id='submit'>Submit!</button>
 
 </div>
@@ -180,6 +182,7 @@
 let method;
 let inputClass;
 
+$('.options').parent().hide();
 
 function turnHidden(evt) {
   method = $("#method")
@@ -193,30 +196,31 @@ function turnHidden(evt) {
   if (method.val() === 'my-location'){
     inputClass.val('value-hidden');
     $('#hidden-loc').val('visible');
-    $('.options').css("visibility", "hidden");
-    $('#my-loc-opt').css("visibility", "visible");
+    $('.options').parent().hide();
+    $('#my-loc-opt').parent().show();
 
   }
 
   if (method.val() === 'my-favorites') {
     inputClass.val('value-hidden');    
     $('#hidden-fav').val('visible');
-    $('.options').css("visibility", "hidden");
-    $('#my-fav-opt').css("visibility", "visible");
+    $('.options').parent().hide();
+    $('#my-fav-opt').parent().show();
+
   }
 
   if (method.val() === 'enter-coordinates') {
     inputClass.val('value-hidden');
     $('#hidden-coord').val('visible');
-    $('.options').css("visibility", "hidden");
-    $('#coordinates-opt').css("visibility", "visible");
+    $('.options').parent().hide();
+    $('#coordinates-opt').parent().show();
   }
 
   if (method.val() === 'enter-address') {
     inputClass.val('value-hidden');
     $('#hidden-address').val('visible');
-    $('.options').css("visibility", "hidden");
-    $('#address-opt').css("visibility", "visible");  
+    $('.options').parent().hide();
+    $('#address-opt').parent().show();
   }
 
 }
