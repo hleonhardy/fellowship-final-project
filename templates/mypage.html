@@ -18,13 +18,13 @@
     }
 
       .container {
-        text-align: center;
+/*        text-align: center;*/
 
       }
 
-      .row {
+/*      .row {
         text-align: center;
-      }
+      }*/
 
 
       /* Always set the map height explicitly to define the size of the div
@@ -41,12 +41,22 @@
 
       .modal-body {
         width: 100px;
-        height: 200px;
+        height: 300px;
+      }
 
+      .modal-content{
+        height: 300px;
       }
 
       #autocomplete{
         z-index: 100000;
+      }
+
+      #autocomplete.my-auto {
+        width: 100%;
+      }
+      #photo-autocomplete.my-auto{
+        width: 100%;
       }
 
       .pac-container{
@@ -75,38 +85,22 @@
 <div class='container'>
 
 
-
-<h1> Hi {{ user_obj.user_name }}! </h1>
+<div class='row'>
+<h1> Hi {{ user_obj.user_name }}! </h1><hr><br>
 
 <h3> Favorite Locations: </h3>
 
-
 {% if user_obj.favorites %}
-        {% for fav in user_obj.favorites %}
+    <ul>
+       {% for fav in user_obj.favorites %} 
         
 
-
-<!--       <form action='/prediction'>
-        <input type='hidden' name='favoritelocation' value='{{ fav.favorite_title}}'>
-            
-            {{ fav.favorite_title }}
-
-        <input type='submit'>
-      </form> -->
-
-      <a href="/prediction?favoritelocation={{fav.favorite_title}}"> {{fav.favorite_title }}</a>
+      <li> <a href="/prediction?favoritelocation={{fav.favorite_title}}"> {{fav.favorite_title }}</a></li>
       <br>
         
         {% endfor %}
+    </ul>
         <br>
-
-
-<!--         <a href="/addfavorite">Click Here</a> to add another favorite location!<br> -->
-
-
-
-
-
 
 
 {% else %}
@@ -123,40 +117,47 @@
         </button>
         <br> to add another favorite location!<br>
 
+
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Add Favorite Location</h4>
+                <h4 class="modal-title" id="myModalLabel" style="color: black;">Add Favorite Location</h4>
               </div>
               <div class="modal-body">
                 <div id="locationField">
                     <form action='/addfavorite' method='POST'>
-
-                        What would you like to name your location?:<br>
-                        Title: <input type="text" id='title' name='title'><br>
-
-                        Please Enter an address:<br>
-                        Address: <input type="text" id="autocomplete" name="address"
-                                        placeholder="Enter your address" onFocus="geolocate()"><br>
-
-
+                      <p style="color: black;">
+                        <table>
+                          <tr>
+                            <td style="color: black;">Name:</td>
+                            <td style="color: black;"><input type="text" id='title' name='title'></td>
+                          </tr>
+                          <tr>
+                            <td style="color: black;">Location:</td>
+                            <td style="color: black;"><input class='my-auto' type="text" id="autocomplete" name="address"
+                                          placeholder="Enter your address" onFocus="geolocate()"></td>
+                          </tr>
+                        </table>
+                        <br>
                         <input type="submit">
+                        </p>
                     </form>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-
-<h3> Your Photos: </h3>
+</div>
+</div>
 <br>
+<hr>
 
 
 <div class="row">
+<h3> Your Photos: </h3>
+<br>
 {% if not user_obj.user_photos %}
     You haven't uploaded any photos yet!<br>
 {% endif %}
@@ -175,30 +176,52 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Upload Photo</h4>
+            <h4 class="modal-title" id="myModalLabel" style="color: black;">Upload Photo</h4>
           </div>
           <div class="modal-body">
             <div id="locationField">
                 <div>
                 <form action='/uploadphoto' enctype="multipart/form-data" method='POST'>
 
-                    <input type='file' name='img' accept='image/*'><br>
-                    Photo Title: <input type='text' name='title'><br>
-                    Photo Description: <input type='text' name='description'><br>
-                    Date Taken: <input type='date' name='date'> <br>
-                    Where was this picture taken? 
-                    <input type="text" id="photo-autocomplete" name="location"
-                                        placeholder="Where was the photo taken?" onFocus="geolocate()"><br>
-                    Sunset Rating: <select name='rating'>
-                                        <option value='1'> 1 </option>
-                                        <option value='2'> 2 </option>
-                                        <option value='3'> 3 </option>
-                                        <option value='4'> 4 </option>
-                                        <option value='5'> 5 </option>
-                                    </select>
-                    <input type='submit'>
+                  <p style="color: black;">
 
+
+                    <input type='file' name='img' accept='image/*'><br>
+
+                    <table>
+                      <tr>
+                        <td style="color: black;">Photo Title: </td>
+                        <td style="color: black;"><input type='text' name='title'> </td>
+                      </tr>
+                      <tr>
+                        <td style="color: black;">Description: </td>
+                        <td style="color: black;"><input type='text' name='description'></td>
+                      </tr>
+                      <tr>
+                        <td style="color: black;">Date: </td>
+                        <td style="color: black;"><input type='date' name='date'></td>
+                      </tr>
+                        <td style="color: black;">Location:</td>
+                        <td style="color: black;"><input class='my-auto' type="text" id="photo-autocomplete" name="location" placeholder="Enter an Address" onFocus="geolocate()">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="color: black;">Sunset Rating: </td>
+                        <td style="color: black;"><select name='rating'>
+                              <option value='1'> 1 </option>
+                              <option value='2'> 2 </option>
+                              <option value='3'> 3 </option>
+                              <option value='4'> 4 </option>
+                              <option value='5'> 5 </option>
+                            </select>
+                        </td>
+                      </tr>
+                    </table>
+                    <br>
+                    <input type="submit">
+                  </p>
                 </form>
+
                 </div>
             </div>
           </div>

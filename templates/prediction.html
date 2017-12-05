@@ -23,6 +23,7 @@
       border-color: black;
       border-width: 3px;
       border-style: solid;
+      height: 600px;
     }
 
     .row {
@@ -97,12 +98,9 @@
         <div id="prediction-div">
           <h2> Sunset Prediction for {{ day }}: </h2><hr>
 
-          <h2> {{ description }} </h2><hr>
+          <h2> {{ description }} </h2>
         </div>
-
-
-
-
+        <hr>
         <div class="panel-group">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -111,17 +109,18 @@
               </h4>
             </div>
             <div id="collapse2" class="panel-collapse collapse">
-              <div id='time-div'>
+              <div id='time-div' style="padding-left: 5px;">
                 <br>Local Timezone: {{local_tz}}<br>
                 CURRENT TIME: {{local_time}}<br>
                 <!-- <p id='current-time-display'> </p> -->
                 SUNSET TIME ({{ day }}): {{local_sunset_time}} <br><hr>
                 <!-- <p id="sunset-time-display"> </p> -->
               </div>
-              <div id='loc-div'>
-                <p>Location of closest forecast: ({{ distance_to_closest }} km away) <br>
-                {{ airport_obj.airport_name }}<br>
-                {{ airport_obj.icao_code }}<br>
+              <div id='loc-div' style="padding-left: 5px;">
+                <p>Using forecast information from: <br> 
+                {{ airport_obj.airport_name }}, 
+                {{ airport_obj.icao_code }} 
+                ({{ distance_to_closest }} km away) 
                 </p>
               </div>
             </div>
@@ -131,9 +130,8 @@
             <h2> Recommendation: </h2><br>
             <h4>{{rec_message}}</h4>
             {% if rec_forecast != 'same' %}
-               ({{ distance_to_rec }} km away)<br>
-
-               <h3>Forecast: {{rec_desc}}</h3>
+               <h4> Distance: {{ distance_to_rec }} km </h4>
+               <h4>Forecast: {{rec_desc}}</h4>
             {% endif %}
             <hr>
         </div>
@@ -326,6 +324,7 @@ function getLatLng(evt) {
 
     console.log('this is where i will initilize the original map'); 
     initMap();
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('legend'));
     $("#collapsed-expanded").val("collapsed");
 
 
