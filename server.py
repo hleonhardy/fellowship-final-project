@@ -586,7 +586,8 @@ if __name__ == '__main__':
     connect_to_db(app)
 
     #to use the debugging toolbar:
-    DebugToolbarExtension(app)
+    #COMMENTING OUT FOR DEMO
+    # DebugToolbarExtension(app)
 
 
     #host with 0's so we can run with vagrant

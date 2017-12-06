@@ -1,5 +1,5 @@
 .nav, .navbar, .navbar-default {
-    background-color: #172233;
+    background-color: #202f46;
     border-color: black;
     z-index: 5;
     margin-bottom: 0;
@@ -37,7 +37,7 @@
 }*/
 
 body {
-    background-color: #303030;
+    background-color: #505050;
     color: white;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -55,6 +55,9 @@ a.nav-text {
     color: black;
 }
 
+/* CHANGING FOR DEMO PURPOSES */
+/* These are the original colors: */
+/* Nav Bar: #172233, Background: #303030 */
 
 
 
