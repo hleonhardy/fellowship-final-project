@@ -55,7 +55,7 @@ Aha! There is a perfect sunset prediction only 235 km away! I hope my friend has
 
 Here you can see all the locations checked by the program (represented by airplanes on the map)
 
-![Alt text](/screenshots/m3.png?raw=true "All Airports")
+![Alt text](/screenshots/m4.png?raw=true "All Airports")
 
 
 
